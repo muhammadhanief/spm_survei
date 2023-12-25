@@ -32,11 +32,9 @@ function data() {
         isNotificationsMenuOpen: false,
         toggleNotificationsMenu() {
             this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
-            console.log(this.isNotificationsMenuOpen);
         },
         closeNotificationsMenu() {
             this.isNotificationsMenuOpen = false;
-            console.log(this.isNotificationsMenuOpen);
         },
         isProfileMenuOpen: false,
         toggleProfileMenu() {

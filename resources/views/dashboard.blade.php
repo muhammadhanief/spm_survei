@@ -1,4 +1,6 @@
-<x-app-layout title="Dashboard">
+<x-app-layout>
+    {{-- <x-slot name="title">Dashboard</x-slot> --}}
+    <x-slot:title>Dashboard</x-slot:title>
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dashboard

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleLoginController;
+use App\Livewire\DimensionsList;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('modals', 'modals')->name('modals');
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
+    Route::get('/dimensi', DimensionsList::class)->name('dimensi');
 });

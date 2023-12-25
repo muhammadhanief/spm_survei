@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use App\Models\Dimension;
+use App\Models\QuestionType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,5 +29,33 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'tenaga_kependidikan']);
         Role::create(['name' => 'pengguna_lulusan']);
         Role::create(['name' => 'lulusan']);
+
+        // seeder untuk question type
+        QuestionType::create([
+            'name' => 'Tunggal',
+        ]);
+        QuestionType::create([
+            'name' => 'Harapan',
+        ]);
+        QuestionType::create([
+            'name' => 'Kenyataan',
+        ]);
+
+        // Seeder untuk dimensi
+        Dimension::create([
+            'name' => 'Keandalan',
+        ]);
+        Dimension::create([
+            'name' => 'Daya Tangkap',
+        ]);
+        Dimension::create([
+            'name' => 'Kepastian',
+        ]);
+        Dimension::create([
+            'name' => 'Empati',
+        ]);
+        Dimension::create([
+            'name' => 'Transparan',
+        ]);
     }
 }
