@@ -11,7 +11,7 @@ class Dimension extends Model
 {
     use HasFactory;
     protected $table = 'dimensions';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
     /**
      * The sections of the dimension.

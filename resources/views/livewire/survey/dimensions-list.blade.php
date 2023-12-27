@@ -5,11 +5,11 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dimensi
         </h2>
-        {{-- <div id="content" class="mx-auto" style="max-width:500px;"> --}}
-        <div class="flex flex-col md:flex-row justify-between gap-2">
-            @include('livewire.includes.create-dimension-box')
+        <div class="flex flex-col  justify-between gap-2">
+            <div class="md:w-1/2 mb-2 md:mb-0">
+                @include('livewire.includes.create-dimension-box')
+            </div>
             @include('livewire.includes.search-box')
         </div>
-        {{-- </div> --}}
     </div>
 </div>

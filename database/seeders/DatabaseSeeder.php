@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'operator']);
-        Role::create(['name' => 'dosen']);
-        Role::create(['name' => 'mahasiswa']);
-        Role::create(['name' => 'tenaga_kependidikan']);
-        Role::create(['name' => 'pengguna_lulusan']);
-        Role::create(['name' => 'lulusan']);
+        Role::create(['name' => 'ADdmin']);
+        Role::create(['name' => 'Operator']);
+        Role::create(['name' => 'Dosen']);
+        Role::create(['name' => 'Mahasiswa']);
+        Role::create(['name' => 'Tenaga kependidikan']);
+        Role::create(['name' => 'Pengguna lulusan']);
+        Role::create(['name' => 'Lulusan']);
 
         // seeder untuk question type
         QuestionType::create([
