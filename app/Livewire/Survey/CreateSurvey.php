@@ -86,9 +86,9 @@ class CreateSurvey extends Component
         $this->questions = array_values($this->questions);
     }
 
-    public function addQuestion()
+    public function addQuestion($key)
     {
-        $this->questions[$this->currentSection][] = '';
+        $this->questions[$key][] = '';
     }
 
     public function deleteQuestion($sectionIndex, $questionIndex)

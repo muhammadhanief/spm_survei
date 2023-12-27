@@ -2,6 +2,9 @@
     @foreach ($sections as $key => $section)
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             {{-- <div class="mt-2"> --}}
+            <div>
+                keynya adalah {{ $key }}
+            </div>
             <h3>Blok {{ $key + 1 }} : {{ $section->name }}</h3>
             @if (isset($questions[$key]) && is_array($questions[$key]))
                 @foreach ($questions[$key] as $qKey => $question)
