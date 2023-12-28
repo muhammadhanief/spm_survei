@@ -7,6 +7,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Livewire\Attributes\Validate;
+use App\Models\Dimension;
 
 class CreateSurvey extends Component
 {
@@ -31,11 +32,14 @@ class CreateSurvey extends Component
     #[Validate('required|not_in:')]
     public $sectionQuestionType = '';
 
+    // public $newQuestionName = '';
+    // public $newDimensionID = '';
+
 
     public $sections = [];
     public $currentSection = 0;
-    public $questions = [];
 
+    public $questions = [];
 
     public $showAddSectionForm = false;
 
@@ -111,11 +115,12 @@ class CreateSurvey extends Component
 
     public function addQuestion($key)
     {
-        // $newQuestion = (object)[
-        //     'questionName' => '',
-        //     'dimensionID' => '',
-        // ];
-        $this->questions[$key][] = '';
+        $newQuestion = [
+            'questionName' => '',
+            'sectionID' => $key,
+            'dimensionID' => '',
+        ];
+        $this->questions[$key][] = $newQuestion;
     }
 
     public function deleteQuestion($sectionIndex, $questionIndex)
@@ -151,15 +156,17 @@ class CreateSurvey extends Component
     {
         // dd($this->all());
         // dd($this->sections[0]->name);
-        // dd($this->sections[0]->sectionQuestionType);
+        // $this->section[0]->sectionQuestionType = 'test';
+        // $this->questions[0][0]->questionName
+        dd($this->all(), $this->sections[0]->sectionQuestionType);
     }
 
     #[Layout('layouts.app')]
     public function render()
     {
-        $Roles = Role::all();
         return view('livewire.survey.create-survey', [
-            'Roles' => $Roles
+            'roles' => Role::all(),
+            'dimensions' => Dimension::all(),
         ]);
     }
 }

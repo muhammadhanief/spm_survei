@@ -13,8 +13,19 @@
                         <x-button-small color="red"
                             wire:click.prevent="deleteQuestion({{ $key }}, {{ $qKey }})">Hapus
                             Pertanyaan</x-button-small>
-                        <x-input-regular wire:model="questions.{{ $key }}.{{ $qKey }}"
-                            placeholder="Question {{ $qKey + 1 }}"></x-input-regular>
+                        <x-input-regular wire:model.live='questions.{{ $key }}.{{ $qKey }}.questionName'
+                            placeholder="Pertanyaan ke"></x-input-regular>
+
+                        <select wire:model.live='questions.{{ $key }}.{{ $qKey }}.dimensionID'
+                            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                            <option value="" selected>Pilih dimensi</option>
+                            @foreach ($dimensions as $dimension)
+                                <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-error-display name="newDimensionID" />
+
+
                     </div>
                 @endforeach
             @endif
