@@ -27,7 +27,7 @@ class Section extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'survey_id'];
 
     /**
      * The questions of the section.

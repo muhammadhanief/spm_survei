@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Livewire\Attributes\Validate;
 use App\Models\Dimension;
+use App\Models\Section;
 
 class CreateSurvey extends Component
 {
@@ -154,11 +155,31 @@ class CreateSurvey extends Component
 
     public function testDD()
     {
-        // dd($this->all());
-        // dd($this->sections[0]->name);
-        // $this->section[0]->sectionQuestionType = 'test';
-        // $this->questions[0][0]->questionName
-        dd($this->all(), $this->sections[0]->sectionQuestionType);
+        $lastIDSurvey = Survey::latest()->first()->id;
+        // foreach ($this->sections as $key => $section) {
+        //     Section::create([
+        //         'name' => $section->name,
+        //         'survey_id' => $lastIDSurvey,
+        //     ]);
+        // }
+
+        // $questions = [];
+        // foreach ($this->questions as $key => $question) {
+        //     foreach ($question as $key2 => $question2) {
+        //         if ($question->sectionQuestionType == 'tunggal') {
+        //             $questions[] = [
+        //                 'content' => $question2['questionName'],
+        //                 'section_id' => $question2['sectionID'],
+        //                 'dimension_id' => $question2['dimensionID'],
+        //                 'type' => 'text',
+        //             ];
+        //         }
+        //     }
+        // }
+        $this->questions[0]['name'] = 'coba masukin nama section di dalam questions';
+        dd($this->questions, $this->sections);
+
+        // dd($this->all(), $this->sections[0]->sectionQuestionType);
     }
 
     #[Layout('layouts.app')]
