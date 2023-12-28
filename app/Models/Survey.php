@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Entry;
 use App\Models\Question;
 use App\Models\Section;
+use Spatie\Permission\Models\Role;
 
 class Survey extends Model
 {
@@ -28,7 +29,7 @@ class Survey extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at'];
+    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description'];
 
     /**
      * The attributes that should be casted.
@@ -147,5 +148,10 @@ class Survey extends Model
         return $this->questions->mapWithKeys(function ($question) {
             return [$question->key => $question->rules];
         })->all();
+    }
+
+    public function roleID()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

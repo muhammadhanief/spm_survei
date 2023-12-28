@@ -85,7 +85,7 @@ class Question extends Model
      */
     public function survey()
     {
-        return $this->belongsTo(Survey::class);
+        return $this->belongsTo(Survey::class, 'survey_id');
     }
 
     /**
@@ -95,7 +95,7 @@ class Question extends Model
      */
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class, 'section_id');
     }
 
     /**
@@ -105,7 +105,7 @@ class Question extends Model
      */
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id');
     }
 
     /**

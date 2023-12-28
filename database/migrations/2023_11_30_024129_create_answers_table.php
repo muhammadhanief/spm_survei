@@ -18,6 +18,8 @@ class CreateAnswersTable extends Migration
             $table->unsignedInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedInteger('entry_id')->nullable();
+            $table->unsignedBigInteger('question_type_id');
+            $table->foreign('question_type_id')->references('id')->on('question_types');
             $table->foreign('entry_id')->references('id')->on('entries');
             $table->string('value');
             $table->timestamps();

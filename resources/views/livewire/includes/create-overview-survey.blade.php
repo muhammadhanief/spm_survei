@@ -1,0 +1,66 @@
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <label class="block text-sm">
+        <span class="text-gray-700 dark:text-gray-400">Nama Survei</span>
+        <input wire:model.live='name' type="text" id="name"
+            class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="Nama Survei" />
+        <x-error-display name="name" />
+    </label>
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
+        <textarea wire:model.live='description' id='description'
+            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+            rows="3" placeholder="Tulis deskripsi Disini. Biasanya tentang pengantar dari survei. "></textarea>
+        <x-error-display name="description" />
+    </label>
+    <label class="block  mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">Tahun</span>
+        <input wire:model.live='year' type="text" id="year"
+            class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="Tahun" />
+        <x-error-display name="year" />
+    </label>
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Kategori Responden
+        </span>
+        <select wire:model.live='roleIdParticipant'
+            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option value="" selected>Pilih Kategori Responden</option>
+            @foreach ($Roles as $role)
+                <option value="{{ $role->id }}">{{ $role->name }}</option>
+            @endforeach
+        </select>
+        <x-error-display name="roleIdParticipant" />
+    </label>
+    <label class="block  mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">Batasan Pengisian Per Pengguna</span>
+        <input wire:model.live='limitPerParticipant' type="text"
+            class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="Batasan Pengisian Per Pengguna" />
+        <x-error-display name="limitPerParticipant" />
+    </label>
+    <div class="flex md:flex-row flex-col gap-x-4">
+        <label class="block mt-4 text-sm">
+            <span class="text-gray-700 dark:text-gray-400">
+                Waktu Mulai
+            </span>
+            <input wire:model.live='startAt'
+                class="block mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                type="datetime-local">
+            <x-error-display name="startAt" />
+        </label>
+        <label class="block mt-4 text-sm">
+            <span class="text-gray-700 dark:text-gray-400">
+                Waktu Berakhir
+            </span>
+            <input wire:model.live='endAt'
+                class="block mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                type="datetime-local">
+            <x-error-display name="endAt" />
+        </label>
+    </div>
+    @if (session('successAdd'))
+        <span class="text-green-600 dark:text-green-400 text-xs mt-3">{{ session('successAdd') }}</span>
+    @endif
+</div>

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Role::create(['name' => 'ADdmin']);
+        Role::create(['name' => 'Admin']);
         Role::create(['name' => 'Operator']);
         Role::create(['name' => 'Dosen']);
         Role::create(['name' => 'Mahasiswa']);

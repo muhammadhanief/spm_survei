@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Entry;
+use App\Models\QuestionType;
 
 class Answer extends Model
 {
@@ -28,7 +29,7 @@ class Answer extends Model
      *
      * @var array
      */
-    protected $fillable = ['value', 'question_id', 'entry_id'];
+    protected $fillable = ['value', 'question_id', 'entry_id', 'question_type_id'];
 
     /**
      * The entry the answer belongs to.
@@ -37,7 +38,7 @@ class Answer extends Model
      */
     public function entry()
     {
-        return $this->belongsTo(Entry::class);
+        return $this->belongsTo(Entry::class, 'entry_id');
     }
 
     /**
@@ -47,6 +48,11 @@ class Answer extends Model
      */
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'question_id');
+    }
+
+    public function questionType()
+    {
+        return $this->belongsTo(QuestionType::class, 'question_type_id');
     }
 }
