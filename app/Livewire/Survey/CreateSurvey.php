@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Livewire\Attributes\Validate;
 use App\Models\Dimension;
+use App\Models\Question;
 use App\Models\Section;
 
 class CreateSurvey extends Component
@@ -40,9 +41,9 @@ class CreateSurvey extends Component
     public $sections = [];
     public $currentSection = 0;
 
-    public $questions = [];
-
     public $showAddSectionForm = false;
+
+    public $surveyID;
 
     public function rules()
     {
@@ -86,7 +87,7 @@ class CreateSurvey extends Component
         // dd($this->all());
         $this->validateOnly('sectionQuestionType');
         $this->validateOnly('newSectionName');
-        $section = (object)[
+        $section = [
             'name' => $this->newSectionName,
             'sectionQuestionType' => $this->sectionQuestionType,
         ]; // Buat objek model Section
@@ -107,27 +108,29 @@ class CreateSurvey extends Component
 
     public function deleteSection($index)
     {
-        unset($this->sections[$index]);
-        unset($this->questions[$index]);
         $this->currentSection = 0;
-        $this->sections = array_values($this->sections);
-        $this->questions = array_values($this->questions);
+        array_splice($this->sections, $index, 1);
     }
 
     public function addQuestion($key)
     {
-        $newQuestion = [
+        $this->sections[$key][] = [
             'questionName' => '',
             'sectionID' => $key,
             'dimensionID' => '',
         ];
-        $this->questions[$key][] = $newQuestion;
+        // $this->questions[$key][] = $newQuestion;
     }
 
     public function deleteQuestion($sectionIndex, $questionIndex)
     {
-        array_splice($this->questions[$sectionIndex], $questionIndex, 1);
+        unset($this->sections[$sectionIndex][$questionIndex]);
+        // Mengurutkan ulang indeks kunci
+        $this->sections[$sectionIndex] = array_merge($this->sections[$sectionIndex]);
+        // $this->sections[$sectionIndex] = array_values($this->sections[$sectionIndex]);
     }
+
+
 
     public function create()
     {
@@ -139,7 +142,7 @@ class CreateSurvey extends Component
         $this->validateOnly('startAt');
         $this->validateOnly('endAt');
 
-        Survey::create([
+        $survey = Survey::create([
             'name' => $this->name,
             'description' => $this->description,
             'year' => $this->year,
@@ -148,14 +151,60 @@ class CreateSurvey extends Component
             'started_at' => $this->startAt,
             'ended_at' => $this->endAt,
         ]);
+        $this->surveyID = $survey->id;
 
-        $this->reset();
-        session()->flash('successAdd', 'Survey sukses ditambahkan.');
+        // $this->reset();
+        // session()->flash('successAdd', 'Survey sukses ditambahkan.');
     }
 
     public function testDD()
     {
-        $lastIDSurvey = Survey::latest()->first()->id;
+        $this->create();
+        // $lastIDSurvey = Survey::latest()->first()->id;
+        // Filter array to keep only numeric keys
+
+        foreach ($this->sections as $key => $section) {
+            $createdSection = Section::create([
+                'name' => $section['name'],
+                'survey_id' => $this->surveyID,
+            ]);
+            $createdSectionID = $createdSection->id;
+            foreach ($section as $key2 => $question) {
+                if (is_numeric($key2)) {
+                    // if else for diferent question type based on sectionQuestionType
+                    if ($section['sectionQuestionType'] == 'tunggal') {
+                        Question::create([
+                            'survey_id' => $this->surveyID,
+                            'section_id' => $createdSectionID,
+                            'dimension_id' => $question['dimensionID'],
+                            'question_type_id' => '1',
+                            'content' => $question['questionName'],
+                            'type' => 'text',
+                        ]);
+                    } else if ($section['sectionQuestionType'] == 'harapanDanKenyataan') {
+                        Question::create([
+                            'survey_id' => $this->surveyID,
+                            'section_id' => $createdSectionID,
+                            'dimension_id' => $question['dimensionID'],
+                            'question_type_id' => '2',
+                            'content' => $question['questionName'],
+                            'type' => 'text',
+                        ]);
+                        Question::create([
+                            'survey_id' => $this->surveyID,
+                            'section_id' => $createdSectionID,
+                            'dimension_id' => $question['dimensionID'],
+                            'question_type_id' => '3',
+                            'content' => $question['questionName'],
+                            'type' => 'text',
+                        ]);
+                    }
+                }
+            }
+        }
+        $this->reset();
+        // dd($keykey);
+
         // foreach ($this->sections as $key => $section) {
         //     Section::create([
         //         'name' => $section->name,
@@ -176,8 +225,8 @@ class CreateSurvey extends Component
         //         }
         //     }
         // }
-        $this->questions[0]['name'] = 'coba masukin nama section di dalam questions';
-        dd($this->questions, $this->sections);
+        // $this->sections[0][0]['questionName'] = 'coba masukin nama section di dalam questions';
+        // dd($this->sections);
 
         // dd($this->all(), $this->sections[0]->sectionQuestionType);
     }

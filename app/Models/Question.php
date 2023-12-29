@@ -18,7 +18,7 @@ class Question extends Model
      * @var array
      */
     protected $table = 'questions';
-    protected $fillable = ['type', 'options', 'content', 'rules', 'survey_id', 'dimension_id', 'question_type_id'];
+    protected $fillable = ['type', 'options', 'content', 'rules', 'survey_id', 'section_id', 'dimension_id', 'question_type_id'];
 
     protected $casts = [
         'rules' => 'array',

@@ -5,28 +5,31 @@
             {{-- <div>
                 keynya adalah {{ $key }}
             </div> --}}
-            <h3>Blok {{ $key + 1 }} : {{ $section->name }}</h3>
-            @if (isset($questions[$key]) && is_array($questions[$key]))
-                @foreach ($questions[$key] as $qKey => $question)
-                    <div class="mt-2">
-                        <label for="question">Pertanyaan {{ $qKey + 1 }}:</label>
-                        <x-button-small color="red"
-                            wire:click.prevent="deleteQuestion({{ $key }}, {{ $qKey }})">Hapus
-                            Pertanyaan</x-button-small>
-                        <x-input-regular wire:model.live='questions.{{ $key }}.{{ $qKey }}.questionName'
-                            placeholder="Pertanyaan ke"></x-input-regular>
+            <h3>Blok {{ $key + 1 }} : {{ $section['name'] }}</h3>
+            @if (isset($section) && is_array($section))
+                @foreach ($section as $qKey => $question)
+                    @if (isset($question) && is_array($question))
+                        <div class="mt-2">
+                            <label for="question">Pertanyaan {{ $qKey + 1 }}:</label>
+                            <x-button-small color="red"
+                                wire:click.prevent="deleteQuestion({{ $key }}, {{ $qKey }})">Hapus
+                                Pertanyaan</x-button-small>
 
-                        <select wire:model.live='questions.{{ $key }}.{{ $qKey }}.dimensionID'
-                            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                            <option value="" selected>Pilih dimensi</option>
-                            @foreach ($dimensions as $dimension)
-                                <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
-                            @endforeach
-                        </select>
-                        <x-error-display name="newDimensionID" />
+                            <x-input-regular
+                                wire:model.live='sections.{{ $key }}.{{ $qKey }}.questionName'
+                                placeholder="Pertanyaan ke"></x-input-regular>
 
+                            <select wire:model.live='sections.{{ $key }}.{{ $qKey }}.dimensionID'
+                                class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                <option value="" selected>Pilih dimensi</option>
+                                @foreach ($dimensions as $dimension)
+                                    <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-error-display name="newDimensionID" />
 
-                    </div>
+                        </div>
+                    @endif
                 @endforeach
             @endif
             <x-button-small color="blue" wire:click.prevent="addQuestion({{ $key }})">Tambah
