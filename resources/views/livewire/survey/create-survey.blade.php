@@ -1,4 +1,4 @@
-<div>
+<div class="pb-16 md:pb-32">
     <x-slot:title>Buat Survei</x-slot:title>
     <!-- resources/views/livewire/add-question.blade.php -->
     <div class="container grid px-6 mx-auto">
@@ -6,12 +6,18 @@
             Buat Survei
         </h2>
         <!-- General elements -->
-        <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        {{-- <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
             Elements
-        </h4>
+        </h4> --}}
         <form>
             @include('livewire.includes.create-overview-survey')
             @include('livewire.includes.create-sec-quest')
+            @if (session('successAdd'))
+                <span class="text-green-600 dark:text-green-400 text-xs mt-3">{{ session('successAdd') }}</span>
+            @endif
+            @if (session('failedAdd'))
+                <span class="text-red-600 dark:text-red-400 text-xs mt-3">{{ session('failedAdd') }}</span>
+            @endif
             <div>
                 <x-button-small wire:click.prevent='create' type="submit" color="green">Submit</x-button-small>
                 {{-- <button wire:click.prevent='create' type="submit"
@@ -19,8 +25,6 @@
                 Dimensi
                 +</button> --}}
             </div>
-
-            <x-button-small wire:click.prevent='testDD' type="submit" color="red">Test DD</x-button-small>
         </form>
 
     </div>

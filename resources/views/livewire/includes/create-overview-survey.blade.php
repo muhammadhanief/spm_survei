@@ -60,7 +60,5 @@
             <x-error-display name="endAt" />
         </label>
     </div>
-    @if (session('successAdd'))
-        <span class="text-green-600 dark:text-green-400 text-xs mt-3">{{ session('successAdd') }}</span>
-    @endif
+
 </div>

@@ -18,6 +18,7 @@
                             <x-input-regular
                                 wire:model.live='sections.{{ $key }}.{{ $qKey }}.questionName'
                                 placeholder="Pertanyaan ke"></x-input-regular>
+                            <x-error-display name="sections.{{ $key }}.{{ $qKey }}.questionName" />
 
                             <select wire:model.live='sections.{{ $key }}.{{ $qKey }}.dimensionID'
                                 class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -26,7 +27,7 @@
                                     <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
                                 @endforeach
                             </select>
-                            <x-error-display name="newDimensionID" />
+                            <x-error-display name="sections.{{ $key }}.{{ $qKey }}.dimensionID" />
 
                         </div>
                     @endif
