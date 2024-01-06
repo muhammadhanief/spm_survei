@@ -19,8 +19,8 @@ class CreateQuestionsTable extends Migration
             $table->foreign('survey_id')->references('id')->on('surveys');
             $table->unsignedInteger('section_id')->nullable();
             $table->foreign('section_id')->references('id')->on('sections');
-            $table->unsignedBigInteger('dimension_id')->nullable();
-            $table->foreign('dimension_id')->references('id')->on('dimensions');
+            $table->unsignedBigInteger('subdimension_id')->nullable();
+            $table->foreign('subdimension_id')->references('id')->on('subdimensions');
             $table->unsignedBigInteger('question_type_id')->nullable();
             $table->foreign('question_type_id')->references('id')->on('question_types');
             $table->string('content');

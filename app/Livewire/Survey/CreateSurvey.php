@@ -10,10 +10,13 @@ use Livewire\Attributes\Validate;
 use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Section;
+use App\Models\Subdimension;
 use Illuminate\Support\Facades\DB;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class CreateSurvey extends Component
 {
+    use LivewireAlert;
     #[Validate(['required', 'min:5'])]
     public $name = '';
     #[Validate(['required', 'min:5'])]
@@ -34,7 +37,8 @@ class CreateSurvey extends Component
     public $newSectionName = '';
     #[Validate('required|not_in:')]
     public $sectionQuestionType = '';
-
+    #[Validate('required|not_in:')]
+    public $sectionDimensionType = '';
     // public $newQuestionName = '';
     // public $newDimensionID = '';
 
@@ -107,12 +111,18 @@ class CreateSurvey extends Component
             ],
             'sectionQuestionType' => [
                 'required', 'not_in:',
-            ]
+
+            ],
+            'sectionDimensionType' => [
+                'required', 'not_in:',
+            ],
+
         ];
         $this->validate($addSectionRule);
         $section = [
             'name' => $this->newSectionName,
             'sectionQuestionType' => $this->sectionQuestionType,
+            'sectionDimensionType' => $this->sectionDimensionType,
         ]; // Buat objek model Section
         $this->sections[] = $section;
         $this->currentSection = count($this->sections) - 1;
@@ -236,6 +246,7 @@ class CreateSurvey extends Component
     public function createSectionAndQuestion()
     {
         // Validasi dan simpan Section
+        // dd($this->sections);
         foreach ($this->sections as $key => $section) {
             $createdSection = Section::create([
                 'name' => $section[$key]['questionName'],
@@ -250,7 +261,7 @@ class CreateSurvey extends Component
                         Question::create([
                             'survey_id' => $this->surveyID,
                             'section_id' => $createdSectionID,
-                            'dimension_id' => $question['dimensionID'],
+                            'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '1',
                             'content' => $question['questionName'],
                             'type' => 'text',
@@ -259,7 +270,7 @@ class CreateSurvey extends Component
                         Question::create([
                             'survey_id' => $this->surveyID,
                             'section_id' => $createdSectionID,
-                            'dimension_id' => $question['dimensionID'],
+                            'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '2',
                             'content' => $question['questionName'],
                             'type' => 'text',
@@ -267,7 +278,7 @@ class CreateSurvey extends Component
                         Question::create([
                             'survey_id' => $this->surveyID,
                             'section_id' => $createdSectionID,
-                            'dimension_id' => $question['dimensionID'],
+                            'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '3',
                             'content' => $question['questionName'],
                             'type' => 'text',
@@ -286,7 +297,13 @@ class CreateSurvey extends Component
             $this->createSurvey();
             $this->createSectionAndQuestion();
             $this->reset();
-            session()->flash('successAdd', 'Survey sukses ditambahkan.');
+            // session()->flash('successAdd', 'Survey sukses ditambahkan.');
+            $this->alert('success', 'Sukses!', [
+                'position' => 'center',
+                'timer' => 2000,
+                'toast' => true,
+                'text' => 'Survey sukses ditambahkan.',
+            ]);
         } else {
             session()->flash('failedAdd', 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang');
         }
@@ -417,12 +434,14 @@ class CreateSurvey extends Component
         // dd($this->all(), $this->sections[0]->sectionQuestionType);
     }
 
+
     #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.survey.create-survey', [
             'roles' => Role::all(),
             'dimensions' => Dimension::all(),
+            'subdimensions' => Subdimension::all(),
         ]);
     }
 }

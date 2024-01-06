@@ -29,8 +29,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hans Burger</p>
@@ -62,8 +62,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&facepad=3&fit=facearea&s=707b9c33066bf8808c934c8ab394dff6"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Jolina Angelie</p>
@@ -95,8 +95,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Sarah Curry</p>
@@ -128,8 +128,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1551006917-3b4c078c47c9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Rulia Joberts</p>
@@ -161,8 +161,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1546456073-6712f79251bb?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Wenzel Dashington</p>
@@ -194,8 +194,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1502720705749-871143f0e671?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=b8377ca9f985d80264279f277f3a67f5"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Dave Li</p>
@@ -227,8 +227,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Maria Ramovic</p>
@@ -260,8 +260,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1566411520896-01e7ca4726af?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hitney Wouston</p>
@@ -293,8 +293,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hans Burger</p>
@@ -334,8 +334,7 @@
                                 <button
                                     class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                                     aria-label="Previous">
-                                    <svg aria-hidden="true" class="w-4 h-4 fill-current"
-                                        viewBox="0 0 20 20">
+                                    <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                         <path
                                             d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                                             clip-rule="evenodd" fill-rule="evenodd"></path>
@@ -343,14 +342,12 @@
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     1
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     2
                                 </button>
                             </li>
@@ -361,8 +358,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     4
                                 </button>
                             </li>
@@ -370,14 +366,12 @@
                                 <span class="px-3 py-1">...</span>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     8
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     9
                                 </button>
                             </li>
@@ -385,8 +379,7 @@
                                 <button
                                     class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                                     aria-label="Next">
-                                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                                        viewBox="0 0 20 20">
+                                    <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                                         <path
                                             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                             clip-rule="evenodd" fill-rule="evenodd"></path>
@@ -425,8 +418,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hans Burger</p>
@@ -482,8 +475,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&facepad=3&fit=facearea&s=707b9c33066bf8808c934c8ab394dff6"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Jolina Angelie</p>
@@ -539,8 +532,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Sarah Curry</p>
@@ -596,8 +589,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1551006917-3b4c078c47c9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Rulia Joberts</p>
@@ -653,8 +646,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1546456073-6712f79251bb?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Wenzel Dashington</p>
@@ -710,8 +703,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1502720705749-871143f0e671?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=b8377ca9f985d80264279f277f3a67f5"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Dave Li</p>
@@ -767,8 +760,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Maria Ramovic</p>
@@ -824,8 +817,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/photo-1566411520896-01e7ca4726af?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hitney Wouston</p>
@@ -881,8 +874,8 @@
                                         <img class="object-cover w-full h-full rounded-full"
                                             src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                             alt="" loading="lazy" />
-                                        <div class="absolute inset-0 rounded-full shadow-inner"
-                                            aria-hidden="true"></div>
+                                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="font-semibold">Hans Burger</p>
@@ -946,8 +939,7 @@
                                 <button
                                     class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                                     aria-label="Previous">
-                                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                                        viewBox="0 0 20 20">
+                                    <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                                         <path
                                             d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                                             clip-rule="evenodd" fill-rule="evenodd"></path>
@@ -955,14 +947,12 @@
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     1
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     2
                                 </button>
                             </li>
@@ -973,8 +963,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     4
                                 </button>
                             </li>
@@ -982,14 +971,12 @@
                                 <span class="px-3 py-1">...</span>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     8
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                     9
                                 </button>
                             </li>
@@ -997,8 +984,7 @@
                                 <button
                                     class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                                     aria-label="Next">
-                                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                                        viewBox="0 0 20 20">
+                                    <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                                         <path
                                             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                             clip-rule="evenodd" fill-rule="evenodd"></path>

@@ -28,4 +28,10 @@
         </form>
 
     </div>
+    {{-- <script>
+        window.addEventListener('beforeunload', function(event) {
+            event.preventDefault();
+            event.returnValue = "Apakah Anda yakin ingin meninggalkan halaman ini?";
+        });
+    </script> --}}
 </div>

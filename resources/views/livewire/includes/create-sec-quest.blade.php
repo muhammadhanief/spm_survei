@@ -6,6 +6,10 @@
                 keynya adalah {{ $key }}
             </div> --}}
             <h3>Blok {{ $key + 1 }} : {{ $section['name'] }}</h3>
+            {{-- @foreach ($section as $key => $value)
+                <p>{{ $key }}: {{ $value }}</p>
+            @endforeach --}}
+
             @if (isset($section) && is_array($section))
                 @foreach ($section as $qKey => $question)
                     @if (isset($question) && is_array($question))
@@ -22,9 +26,13 @@
 
                             <select wire:model.live='sections.{{ $key }}.{{ $qKey }}.dimensionID'
                                 class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="" selected>Pilih dimensi</option>
-                                @foreach ($dimensions as $dimension)
-                                    <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+                                <option value="" selected>Pilih Subdimensi</option>
+                                @foreach ($subdimensions as $subdimension)
+                                    {{-- <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option> --}}
+                                    @if ($subdimension->dimension_id == $section['sectionDimensionType'])
+                                        <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option>
+                                    @endif
+                                    {{-- {{ $section['dimensionID'] }} --}}
                                 @endforeach
                             </select>
                             <x-error-display name="sections.{{ $key }}.{{ $qKey }}.dimensionID" />
@@ -62,6 +70,19 @@
                     <option value="harapanDanKenyataan">Tipe Harapan dan Kenyataan</option>
                 </select>
                 <x-error-display name="sectionQuestionType" />
+            </label>
+            <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">
+                    Tipe dimensi di blok ini
+                </span>
+                <select wire:model.live='sectionDimensionType'
+                    class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="" selected>Pilih tipe dimensi</option>
+                    @foreach ($dimensions as $dimension)
+                        <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+                    @endforeach
+                </select>
+                <x-error-display name="sectionDimensionType" />
             </label>
             <x-button-small class="mt-4" wire:click.prevent="addSection" color="purple">
                 Tambah Blok +

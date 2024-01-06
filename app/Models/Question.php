@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Answer;
 use App\Models\Section;
 use App\Models\Survey;
-use App\Models\Dimension;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\QuestionType;
+use App\Models\Subdimension;
 
 class Question extends Model
 {
@@ -18,7 +17,7 @@ class Question extends Model
      * @var array
      */
     protected $table = 'questions';
-    protected $fillable = ['type', 'options', 'content', 'rules', 'survey_id', 'section_id', 'dimension_id', 'question_type_id'];
+    protected $fillable = ['type', 'options', 'content', 'rules', 'survey_id', 'section_id', 'subdimension_id', 'question_type_id'];
 
     protected $casts = [
         'rules' => 'array',
@@ -63,10 +62,12 @@ class Question extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function dimension()
+    public function subdimension()
     {
-        return $this->belongsTo(Dimension::class, 'dimension_id');
+        return $this->belongsTo(Subdimension::class, 'subdimension_id');
     }
+
+
 
     /**
      * The survey the question type belongs to.

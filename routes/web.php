@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleLoginController;
 use App\Livewire\Survey\DimensionsList;
 use App\Livewire\Survey\CreateSurvey;
+use App\Livewire\Survey\DetailSurvey;
+use App\Livewire\Survey\OverviewSurveyAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +47,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
     Route::get('/dimensi', DimensionsList::class)->name('dimensi');
-    Route::get('/survey/create', CreateSurvey::class)->name('survey.create');
+    Route::get('/survei/buat', CreateSurvey::class)->name('survey.create');
+    Route::get('/survei', OverviewSurveyAdmin::class)->name('survey');
+    Route::get('/survei/detail/{surveyID}', DetailSurvey::class)->name('survey.detail');
 });
