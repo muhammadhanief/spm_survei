@@ -19,7 +19,9 @@
                 <span class="text-red-600 dark:text-red-400 text-xs mt-3">{{ session('failedAdd') }}</span>
             @endif
             <div>
-                <x-button-small wire:click.prevent='create' type="submit" color="green">Submit</x-button-small>
+                <x-button-small wire:click.prevent='create'
+                    wire:confirm="Apakah anda sudah yakin untuk mensubmit survei? tidakan ini tidak dapat diurungkan"
+                    type="submit" color="green">Submit</x-button-small>
                 {{-- <button wire:click.prevent='create' type="submit"
                 class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Tambah
                 Dimensi

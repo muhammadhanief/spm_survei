@@ -6,6 +6,9 @@ use App\Livewire\Survey\DimensionsList;
 use App\Livewire\Survey\CreateSurvey;
 use App\Livewire\Survey\DetailSurvey;
 use App\Livewire\Survey\OverviewSurveyAdmin;
+use App\Livewire\Survey\FillSurvey;
+use App\Livewire\Survey\FillSurveyDetail;
+use App\Livewire\Testing\TestPersis;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +53,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/survei/buat', CreateSurvey::class)->name('survey.create');
     Route::get('/survei', OverviewSurveyAdmin::class)->name('survey');
     Route::get('/survei/detail/{surveyID}', DetailSurvey::class)->name('survey.detail');
+
+
+    // untuk mengisi survei
+    Route::get('/survei/isi', FillSurvey::class)->name('survey.fill.overview');
+    Route::get('/survei/isi/{surveyID}', FillSurveyDetail::class)->name('survey.fill');
+    // {surveyID}
+    // Route::get('/testing/isi/{surveyID}', TestPersis::class)->name('survey.fill');
+    // untuk error
+    Route::get('/404', function () {
+        return view('errors.404');
+    })->name('notfound');
 });

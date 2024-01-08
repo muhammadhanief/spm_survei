@@ -25,8 +25,6 @@ class DimensionsList extends Component
     public $editingDimensionID;
     public $editingDimensionDescription;
 
-
-
     public function rules()
     {
         return [
@@ -67,14 +65,18 @@ class DimensionsList extends Component
     public function delete($dimensionID)
     {
         $dimensi = Dimension::find($dimensionID);
-        if ($dimensi->questions()->count() > 0) {
-            session()->flash('errorHapus', 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.');
-            $this->alert('error', 'Gagal!', [
-                'position' => 'center',
-                'timer' => 4000,
-                'toast' => true,
-                'text' => 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
-            ]);
+        if ($dimensi->subdimensions()->count() > 0) {
+            foreach ($dimensi->subdimensions as $subdimension) {
+                if ($subdimension->questions()->count() > 0) {
+                    session()->flash('errorHapus', 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.');
+                    $this->alert('error', 'Gagal!', [
+                        'position' => 'center',
+                        'timer' => 4000,
+                        'toast' => true,
+                        'text' => 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
+                    ]);
+                }
+            }
         } else {
             $dimensi->delete();
             // session()->flash('successHapus', 'Dimensi berhasil dihapus.');
@@ -130,11 +132,25 @@ class DimensionsList extends Component
 
     public function createSubdimension()
     {
-        $this->validate([
+        $rules = [
             'dimensionID' => 'required|not_in:',
             'subdimensionName' => 'required|min:5',
             'subdimensionDescription' => 'required|min:5'
-        ]);
+        ];
+
+        $messages = [
+            'required' => ':attribute wajib diisi.',
+            'min' => ':attribute minimal wajib :min karakter.',
+            'not_in' => ':attribute wajib memiliki nilai yang valid.',
+        ];
+
+        $attributes = [
+            'dimensionID' => 'Dimensi Induk',
+            'subdimensionName' => 'Nama Subdimensi',
+            'subdimensionDescription' => 'Deskripsi Subdimensi',
+        ];
+
+        $this->validate($rules, $messages, $attributes);
 
         Subdimension::create([
             'name' => $this->subdimensionName,
@@ -151,28 +167,36 @@ class DimensionsList extends Component
         ]);
     }
 
+    // Utuk Modal Subdimensi
+    public $showingDimensionID = '';
+    public $showingDimensionName = '';
+
+    public function showSubdimensionModal($dimensionID)
+    {
+        $this->showingDimensionID = $dimensionID;
+        $dimensi = Dimension::find($dimensionID);
+        $this->showingDimensionName = $dimensi->name;
+    }
+
+
     #[Layout('layouts.app')]
     public function render()
     {
-        // $dimensions = Dimension::latest()->where('name', 'like', "%{$this->search}%")->paginate(5);
-        // $dimensions = Dimension::withCount('questions')
-        //     ->where('name', 'like', "%{$this->search}%")
-        //     ->orderByDesc('questions_count')
-        //     ->latest()
-        //     ->paginate(5);
-        $dimensions = Dimension::latest()
+        $dimensions = Dimension::withCount('subdimensions as questions_count')
             ->where('name', 'like', "%{$this->search}%")
-            // ->orderByDesc('questions_count')
+            ->orderByDesc('questions_count')
             ->latest()
             ->paginate(5);
         if ($dimensions->isNotEmpty()) {
             return view('livewire.survey.dimensions-list', [
-                'dimensions' => $dimensions
+                'dimensions' => $dimensions,
+                'subdimensions' => Subdimension::all(),
             ]);
         } else {
             session()->flash('gagalSearch', 'Dimensi tidak dapat ditemukan');
             return view('livewire.survey.dimensions-list', [
-                'dimensions' => $dimensions
+                'dimensions' => $dimensions,
+                'subdimensions' => Subdimension::all(),
             ]);
         }
     }

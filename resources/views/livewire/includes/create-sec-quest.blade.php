@@ -18,7 +18,6 @@
                             <x-button-small color="red"
                                 wire:click.prevent="deleteQuestion({{ $key }}, {{ $qKey }})">Hapus
                                 Pertanyaan</x-button-small>
-
                             <x-input-regular
                                 wire:model.live='sections.{{ $key }}.{{ $qKey }}.questionName'
                                 placeholder="Pertanyaan ke"></x-input-regular>

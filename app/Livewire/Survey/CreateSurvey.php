@@ -27,7 +27,7 @@ class CreateSurvey extends Component
     public $limitPerParticipant = '';
     #[Validate(['required', 'numeric', 'min:1', 'not_in:'])]
     public $roleIdParticipant = '';
-    #[Validate(['required', 'after_or_equal:now'])]
+    #[Validate(['required'])]
     public $startAt = '';
     #[Validate(['required', 'after:startAt'])]
     public $endAt = '';
@@ -221,26 +221,37 @@ class CreateSurvey extends Component
     public function validateSectionAndQuestion()
     {
         $secQuesArrayRule = [];
+        $messages = [];
+        $attributes = [];
+
         foreach ($this->sections as $key => $section) {
             foreach ($section as $key2 => $question) {
                 if (is_numeric($key2)) {
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.questionName'] = 'required';
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.sectionID'] = 'required';
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.dimensionID'] = 'required';
+
+                    // Menambahkan pesan kesalahan
+                    $messages['required'] = ':Attribute wajib diisi.';
+                    $messages["sections.{$key}.{$key2}.questionName.required"] = "Pertanyaan wajib diisi.";
+
+                    // Menambahkan atribut
+                    $attributes["sections.{$key}.{$key2}.questionName"] = "Pertanyaan";
+                    $attributes["sections.{$key}.{$key2}.sectionID"] = "ID Bagian ke-{$key}";
+                    $attributes["sections.{$key}.{$key2}.dimensionID"] = "Subdimensi";
                 }
             }
         }
+
         // Cek apakah $secQuesArrayRule kosong
         if (empty($secQuesArrayRule)) {
             // Aturan validasi kosong, maka tampilkan pesan kesalahan
             return false;
         } else {
             // Validasi dengan aturan yang telah dibuat
-            $this->validate($secQuesArrayRule);
+            $this->validate($secQuesArrayRule, $messages, $attributes);
             return true;
         }
-
-        // $this->validate($secQuesArrayRule);
     }
 
     public function createSectionAndQuestion()
@@ -248,8 +259,9 @@ class CreateSurvey extends Component
         // Validasi dan simpan Section
         // dd($this->sections);
         foreach ($this->sections as $key => $section) {
+            // dd($this->sections, $section['name']);
             $createdSection = Section::create([
-                'name' => $section[$key]['questionName'],
+                'name' => $section['name'],
                 'survey_id' => $this->surveyID,
             ]);
             $createdSectionID = $createdSection->id;
@@ -289,7 +301,6 @@ class CreateSurvey extends Component
         }
     }
 
-
     public function create()
     {
         $this->validateSurvey();
@@ -305,135 +316,15 @@ class CreateSurvey extends Component
                 'text' => 'Survey sukses ditambahkan.',
             ]);
         } else {
-            session()->flash('failedAdd', 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang');
+            $this->alert('error', 'Gagal!', [
+                'position' => 'center',
+                'timer' => 2000,
+                'toast' => true,
+                'text' => 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang',
+            ]);
+            // session()->flash('failedAdd', 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang');
         }
     }
-
-    // public function testDDReal()
-    // {
-    //     $arraySection = [];
-    //     foreach ($this->sections as $key => $section) {
-    //         foreach ($section as $key2 => $question) {
-    //             if (is_numeric($key2)) {
-    //                 $arraySection['sections.' . $key . '.' . $key2 . '.questionName'] = 'required';
-    //                 $arraySection['sections.' . $key . '.' . $key2 . '.sectionID'] = 'required';
-    //                 $arraySection['sections.' . $key . '.' . $key2 . '.dimensionID'] = 'required';
-    //             }
-    //         }
-    //     }
-    //     // dd($arraySection);
-
-    //     $cobaRule = [
-    //         'name' => [
-    //             'required',
-    //             'min:5',
-    //         ],
-    //         'description' => [
-    //             'required',
-    //             'min:5',
-    //         ],
-    //         'year' => [
-    //             'required',
-    //             'numeric', 'digits:4',
-    //         ],
-    //         'limitPerParticipant' => [
-    //             'required',
-    //             'numeric',
-    //             'gt:0'
-    //         ],
-    //         'roleIdParticipant' => [
-    //             'required',
-    //             'numeric',
-    //             'min:1',
-    //             'not_in:'
-    //         ],
-    //         'startAt' => [
-    //             'required',
-    //             'after_or_equal:now',
-    //         ],
-    //         'endAt' => [
-    //             'required',
-    //             'after:startAt'
-    //         ],
-    //     ];
-    //     $mergedArray = array_merge($cobaRule, $arraySection);
-    //     dd($cobaRule, $arraySection, $mergedArray);
-    // }
-
-    public function testDD()
-    {
-        // $this->create();
-        // $lastIDSurvey = Survey::latest()->first()->id;
-        // Filter array to keep only numeric keys
-
-        // foreach ($this->sections as $key => $section) {
-        //     $createdSection = Section::create([
-        //         'name' => $section['name'],
-        //         'survey_id' => $this->surveyID,
-        //     ]);
-        //     $createdSectionID = $createdSection->id;
-        //     foreach ($section as $key2 => $question) {
-        //         if (is_numeric($key2)) {
-        //             // if else for diferent question type based on sectionQuestionType
-        //             if ($section['sectionQuestionType'] == 'tunggal') {
-        //                 Question::create([
-        //                     'survey_id' => $this->surveyID,
-        //                     'section_id' => $createdSectionID,
-        //                     'dimension_id' => $question['dimensionID'],
-        //                     'question_type_id' => '1',
-        //                     'content' => $question['questionName'],
-        //                     'type' => 'text',
-        //                 ]);
-        //             } else if ($section['sectionQuestionType'] == 'harapanDanKenyataan') {
-        //                 Question::create([
-        //                     'survey_id' => $this->surveyID,
-        //                     'section_id' => $createdSectionID,
-        //                     'dimension_id' => $question['dimensionID'],
-        //                     'question_type_id' => '2',
-        //                     'content' => $question['questionName'],
-        //                     'type' => 'text',
-        //                 ]);
-        //                 Question::create([
-        //                     'survey_id' => $this->surveyID,
-        //                     'section_id' => $createdSectionID,
-        //                     'dimension_id' => $question['dimensionID'],
-        //                     'question_type_id' => '3',
-        //                     'content' => $question['questionName'],
-        //                     'type' => 'text',
-        //                 ]);
-        //             }
-        //         }
-        //     }
-        // }
-        // $this->reset();
-        // dd($keykey);
-
-        // foreach ($this->sections as $key => $section) {
-        //     Section::create([
-        //         'name' => $section->name,
-        //         'survey_id' => $lastIDSurvey,
-        //     ]);
-        // }
-
-        // $questions = [];
-        // foreach ($this->questions as $key => $question) {
-        //     foreach ($question as $key2 => $question2) {
-        //         if ($question->sectionQuestionType == 'tunggal') {
-        //             $questions[] = [
-        //                 'content' => $question2['questionName'],
-        //                 'section_id' => $question2['sectionID'],
-        //                 'dimension_id' => $question2['dimensionID'],
-        //                 'type' => 'text',
-        //             ];
-        //         }
-        //     }
-        // }
-        // $this->sections[0][0]['questionName'] = 'coba masukin nama section di dalam questions';
-        // dd($this->sections);
-
-        // dd($this->all(), $this->sections[0]->sectionQuestionType);
-    }
-
 
     #[Layout('layouts.app')]
     public function render()

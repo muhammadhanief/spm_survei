@@ -32,4 +32,5 @@
         </div>
     </div>
     @include('livewire.includes.dimensions-table')
+    @include('livewire.includes.subdimensions-modal')
 </div>
