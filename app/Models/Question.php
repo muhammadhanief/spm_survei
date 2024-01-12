@@ -8,6 +8,7 @@ use App\Models\Section;
 use App\Models\Survey;
 use App\Models\QuestionType;
 use App\Models\Subdimension;
+use App\Models\AnswerOption;
 
 class Question extends Model
 {
@@ -17,12 +18,12 @@ class Question extends Model
      * @var array
      */
     protected $table = 'questions';
-    protected $fillable = ['type', 'options', 'content', 'rules', 'survey_id', 'section_id', 'subdimension_id', 'question_type_id'];
+    protected $fillable = ['type', 'answer_option_id', 'content', 'rules', 'survey_id', 'section_id', 'subdimension_id', 'question_type_id'];
 
-    protected $casts = [
-        'rules' => 'array',
-        'options' => 'array',
-    ];
+    // protected $casts = [
+    //     'rules' => 'array',
+    //     'options' => 'array',
+    // ];
 
     /**
      * Boot the question.
@@ -67,7 +68,10 @@ class Question extends Model
         return $this->belongsTo(Subdimension::class, 'subdimension_id');
     }
 
-
+    public function answeroption()
+    {
+        return $this->belongsTo(AnswerOption::class, 'answer_option_id');
+    }
 
     /**
      * The survey the question type belongs to.
@@ -115,12 +119,12 @@ class Question extends Model
      * @param $value
      * @return array|mixed
      */
-    public function getRulesAttribute($value)
-    {
-        $value = $this->castAttribute('rules', $value);
+    // public function getRulesAttribute($value)
+    // {
+    //     $value = $this->castAttribute('rules', $value);
 
-        return $value !== null ? $value : [];
-    }
+    //     return $value !== null ? $value : [];
+    // }
 
     /**
      * The unique key representing the question.

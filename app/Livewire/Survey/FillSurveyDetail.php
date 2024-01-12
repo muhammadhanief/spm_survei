@@ -7,6 +7,7 @@ use App\Models\Survey;
 use Livewire\Component;
 use App\Models\Question;
 use App\Models\Answer;
+use Livewire\Attributes\Validate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class FillSurveyDetail extends Component
@@ -49,17 +50,13 @@ class FillSurveyDetail extends Component
             'answers' => 'required|array',
             'answers.*.value' => 'required',
         ];
-
         $messages = [
             'required' => 'Pertanyaan wajib diisi.',
             'answers.required' => 'The :attribute are missing.',
         ];
-
         $attributes = [
             'answers.*.value' => 'answer',
         ];
-
-        // dd($answerArrayRule);
 
         // Cek apakah $secQuesArrayRule kosong
         if (empty($answerArrayRule)) {
@@ -85,7 +82,6 @@ class FillSurveyDetail extends Component
 
     public function create()
     {
-        // dd($this->all());
         $this->setQuestionTypeID();
         if ($this->validateAnswer()) {
             $this->save();
@@ -110,12 +106,50 @@ class FillSurveyDetail extends Component
         }
     }
 
+    // untuk section yang dipisah
+    public $currentSectionIndex = -1;
+    public $survey;
+
+    public function nextSection()
+    {
+        // Validasi sebelum pindah ke bagian berikutnya
+        // $rules = [
+        //     'answers' => 'required|array',
+        // ];
+        if ($this->currentSectionIndex != -1) {
+            $validationRules = [];
+            $messages = [];
+            // // Tambahkan aturan validasi untuk setiap pertanyaan pada bagian saat ini
+            foreach ($this->survey->sections[$this->currentSectionIndex]->questions as $question) {
+                $validationRules['answers.' . $question->id . '.value'] = 'required';
+                // $rules['answers.' . $question->id . '.value'] = "required";
+                // $messages['required'] = 'Pertanyaan wajib diisi.';
+                $messages['answers.' . $question->id . '.value.required'] = 'Pertanyaan wajib diisi.';
+            }
+
+            // dd($rules, $this->answers);
+            $this->validate($validationRules, $messages);
+        }
+        // Pindah ke bagian berikutnya jika validasi berhasil
+        if ($this->currentSectionIndex < count($this->survey->sections) - 1) {
+            $this->currentSectionIndex++;
+        }
+    }
+
+    public function previousSection()
+    {
+        if ($this->currentSectionIndex > -1) {
+            $this->currentSectionIndex--;
+        }
+    }
+
     #[Layout('layouts.app')]
     public function render()
     {
         // $surveyID = request()->route('surveyID');
         $surveyID = $this->surveyID;
         $survey = Survey::find($surveyID);
+        $this->survey = $survey;
         if ($survey) {
             // Redirect or provide a proper response for non-existing surveyID
             return view('livewire.survey.fill-survey-detail', ['survey' => $survey]);

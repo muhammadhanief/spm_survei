@@ -24,13 +24,15 @@
         <span class="text-gray-700 dark:text-gray-400">
             Kategori Responden
         </span>
-        <select wire:model.live='roleIdParticipant'
-            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option value="" selected>Pilih Kategori Responden</option>
-            @foreach ($roles as $role)
-                <option value="{{ $role->id }}">{{ $role->name }}</option>
-            @endforeach
-        </select>
+        @foreach ($roles as $role)
+            <div>
+                <Label check>
+                    <input wire:model='roleIdParticipant.{{ $role->id }}' type="checkbox"
+                        class="text-purple-600 form-checkbox focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray focus:border-purple-400 dark:border-gray-600 focus:shadow-outline-purple dark:focus:border-gray-600 dark:focus:shadow-outline-gray dark:bg-gray-700">
+                    <span className="ml-2">{{ $role->name }}</span>
+                </Label>
+            </div>
+        @endforeach
         <x-error-display name="roleIdParticipant" />
     </label>
     <label class="block  mt-4 text-sm">

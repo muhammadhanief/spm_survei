@@ -8,7 +8,7 @@ use App\Livewire\Survey\DetailSurvey;
 use App\Livewire\Survey\OverviewSurveyAdmin;
 use App\Livewire\Survey\FillSurvey;
 use App\Livewire\Survey\FillSurveyDetail;
-use App\Livewire\Testing\TestPersis;
+use App\Livewire\Option\CreateAnswerOptionPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +64,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/404', function () {
         return view('errors.404');
     })->name('notfound');
+
+    // untuk nambah option
+    Route::get('/tambah-opsi-jawaban', CreateAnswerOptionPage::class)->name('add.option');
 });

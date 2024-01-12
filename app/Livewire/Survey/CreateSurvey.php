@@ -25,8 +25,8 @@ class CreateSurvey extends Component
     public $year = '';
     #[Validate(['required', 'numeric', 'gt:0'])]
     public $limitPerParticipant = '';
-    #[Validate(['required', 'numeric', 'min:1', 'not_in:'])]
-    public $roleIdParticipant = '';
+    #[Validate(['required'])]
+    public $roleIdParticipant = [];
     #[Validate(['required'])]
     public $startAt = '';
     #[Validate(['required', 'after:startAt'])]
@@ -91,7 +91,6 @@ class CreateSurvey extends Component
             ],
             'startAt' => [
                 'required',
-                'after_or_equal:now',
             ],
             'endAt' => [
                 'required',
@@ -180,9 +179,6 @@ class CreateSurvey extends Component
             ],
             'roleIdParticipant' => [
                 'required',
-                'numeric',
-                'min:1',
-                'not_in:'
             ],
             'limitPerParticipant' => [
                 'required',
@@ -191,7 +187,6 @@ class CreateSurvey extends Component
             ],
             'startAt' => [
                 'required',
-                'after_or_equal:now',
             ],
             'endAt' => [
                 'required',
@@ -209,7 +204,7 @@ class CreateSurvey extends Component
             'name' => $this->name,
             'description' => $this->description,
             'year' => $this->year,
-            'role_id' => $this->roleIdParticipant,
+            'role_id' => json_encode(array_keys($this->roleIdParticipant)),
             'settings' => ['limit-per-participant' => $this->limitPerParticipant],
             'started_at' => $this->startAt,
             'ended_at' => $this->endAt,
@@ -276,7 +271,7 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '1',
                             'content' => $question['questionName'],
-                            'type' => 'text',
+                            'answer_option_id' => '1',
                         ]);
                     } elseif ($this->sections[$key]['sectionQuestionType'] == 'harapanDanKenyataan') {
                         Question::create([
@@ -285,7 +280,7 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '2',
                             'content' => $question['questionName'],
-                            'type' => 'text',
+                            'answer_option_id' => '1',
                         ]);
                         Question::create([
                             'survey_id' => $this->surveyID,
@@ -293,7 +288,7 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '3',
                             'content' => $question['questionName'],
-                            'type' => 'text',
+                            'answer_option_id' => '1',
                         ]);
                     }
                 }

@@ -66,7 +66,14 @@
                                     {{ $survey->year }}
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    {{ $survey->roleID->name }}
+                                    {{-- {{ $survey->roleID }} --}}
+                                    {{-- {{ $survey->role_id }} --}}
+                                    @php
+                                        $decodedArray = json_decode($survey->role_id, true);
+                                    @endphp
+                                    @foreach ($decodedArray as $role)
+                                        {{ $role }}
+                                    @endforeach
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     @php

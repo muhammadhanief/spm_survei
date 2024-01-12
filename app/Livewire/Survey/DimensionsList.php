@@ -66,25 +66,60 @@ class DimensionsList extends Component
     {
         $dimensi = Dimension::find($dimensionID);
         if ($dimensi->subdimensions()->count() > 0) {
+            $canDelete = true;
             foreach ($dimensi->subdimensions as $subdimension) {
                 if ($subdimension->questions()->count() > 0) {
-                    session()->flash('errorHapus', 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.');
-                    $this->alert('error', 'Gagal!', [
-                        'position' => 'center',
-                        'timer' => 4000,
-                        'toast' => true,
-                        'text' => 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
-                    ]);
+                    $canDelete = false;
                 }
+            }
+            if ($canDelete) {
+                foreach ($dimensi->subdimensions as $subdimension) {
+                    $subdimension->delete();
+                }
+                $dimensi->delete();
+                $this->alert('success', 'Sukses!', [
+                    'position' => 'center',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => 'Akar Dimensi dan Subdimensi Berhasil Dihapus',
+                ]);
+            } else {
+                $this->alert('error', 'Gagal!', [
+                    'position' => 'center',
+                    'timer' => 4000,
+                    'toast' => true,
+                    'text' => 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
+                ]);
             }
         } else {
             $dimensi->delete();
-            // session()->flash('successHapus', 'Dimensi berhasil dihapus.');
             $this->alert('success', 'Sukses!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => true,
                 'text' => 'Dimensi Berhasil Dihapus',
+            ]);
+        }
+    }
+
+    public function deleteSubdimension($subdimensionID)
+    {
+        $subdimensi = Subdimension::find($subdimensionID);
+        if ($subdimensi->questions()->count() > 0) {
+            // session()->flash('errorHapus', 'Subdimensi tidak dapat dihapus karena telah digunakan di pertanyaan.');
+            $this->alert('error', 'Gagal!', [
+                'position' => 'center',
+                'timer' => 3500,
+                'toast' => true,
+                'text' => 'Subdimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
+            ]);
+        } else {
+            $subdimensi->delete();
+            $this->alert('success', 'Sukses!', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => true,
+                'text' => 'Subdimensi Berhasil Dihapus',
             ]);
         }
     }
