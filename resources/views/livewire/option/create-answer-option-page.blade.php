@@ -7,5 +7,9 @@
         <div>
             <livewire:option.create-answer-option />
         </div>
+        <div>
+            <livewire:option.search-answer-option />
+        </div>
     </div>
+
 </div>

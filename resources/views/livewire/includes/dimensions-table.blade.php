@@ -7,7 +7,7 @@
                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3">Nama Akar Dimensi</th>
                         <th class="px-4 py-3">Deskripsi Akar Dimensi</th>
-                        <th class="px-4 py-3">Dibuat Tanggal</th>
+                        {{-- <th class="px-4 py-3">Dibuat Tanggal</th> --}}
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3">Aksi</th>
                     </tr>
@@ -52,10 +52,9 @@
                                         {{ session('successUpdate')['message'] }}</div>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{-- {{ $dimension->created_at }} --}}
+                            {{-- <td class="px-4 py-3 text-sm">
                                 {{ \Carbon\Carbon::parse($dimension->created_at)->translatedFormat('d F Y H:i') }}
-                            </td>
+                            </td> --}}
                             <td class="px-4 py-3 text-xs">
 
                                 {{-- @if ($dimension->questions()->count() > 0)
@@ -130,7 +129,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="p-2">
+            <div class="p-2 flex justify-start">
                 {{ $dimensions->links() }}
             </div>
         </div>

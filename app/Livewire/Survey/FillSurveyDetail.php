@@ -41,11 +41,6 @@ class FillSurveyDetail extends Component
 
     public function validateAnswer()
     {
-        // $answerArrayRule = [];
-        // foreach ($this->answers as $key => $answers) {
-        //     $answerArrayRule['answers.' . $key .  '.value'] = 'required';
-        // }
-
         $answerArrayRule = [
             'answers' => 'required|array',
             'answers.*.value' => 'required',
@@ -112,22 +107,14 @@ class FillSurveyDetail extends Component
 
     public function nextSection()
     {
-        // Validasi sebelum pindah ke bagian berikutnya
-        // $rules = [
-        //     'answers' => 'required|array',
-        // ];
         if ($this->currentSectionIndex != -1) {
             $validationRules = [];
             $messages = [];
             // // Tambahkan aturan validasi untuk setiap pertanyaan pada bagian saat ini
             foreach ($this->survey->sections[$this->currentSectionIndex]->questions as $question) {
                 $validationRules['answers.' . $question->id . '.value'] = 'required';
-                // $rules['answers.' . $question->id . '.value'] = "required";
-                // $messages['required'] = 'Pertanyaan wajib diisi.';
                 $messages['answers.' . $question->id . '.value.required'] = 'Pertanyaan wajib diisi.';
             }
-
-            // dd($rules, $this->answers);
             $this->validate($validationRules, $messages);
         }
         // Pindah ke bagian berikutnya jika validasi berhasil
@@ -143,10 +130,16 @@ class FillSurveyDetail extends Component
         }
     }
 
+    public function dd()
+    {
+        dd($this->all());
+    }
+
+
+
     #[Layout('layouts.app')]
     public function render()
     {
-        // $surveyID = request()->route('surveyID');
         $surveyID = $this->surveyID;
         $survey = Survey::find($surveyID);
         $this->survey = $survey;

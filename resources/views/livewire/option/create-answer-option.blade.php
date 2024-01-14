@@ -15,9 +15,11 @@
             <select wire:model.live='type'
                 class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                 <option value="" selected>Pilih Tipe Jawaban</option>
-                <option value="Radio">Radio Button</option>
-                <option value="CheckBox">Check Box</option>
-                <option value="Dropdown">Dropdown</option>
+                <option value="text">Teks</option>
+                <option value="number">Angka</option>
+                <option value="radio">Radio Button</option>
+                <option value="checkBox">Check Box</option>
+                <option value="dropdown">Dropdown</option>
             </select>
             <x-error-display name="type" />
         </label>
@@ -41,8 +43,6 @@
                 </div>
             @endif
         @endforeach
-
-
         <x-button-small color="blue" wire:click.prevent="addOption">Tambah Opsi Jawaban</x-button-small>
     </div>
     <x-button-small color="green" wire:click.prevent='create'>Submit</x-button-small>

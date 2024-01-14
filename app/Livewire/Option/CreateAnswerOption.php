@@ -16,7 +16,7 @@ class CreateAnswerOption extends Component
     public $name = '';
     #[Validate('required|not_in:')]
     public $type = '';
-    #[Validate('required|array')]
+    // #[Validate('required|array')]
     public $options = [];
 
     public function validateOption()
@@ -25,7 +25,7 @@ class CreateAnswerOption extends Component
             'name' => 'required|min:3',
             'type' => 'required|not_in:',
             'options.*' => 'required|min:3',
-            'options' => 'required|array',
+            // 'options' => 'required|array',
         ];
 
         $messages = [
@@ -68,6 +68,7 @@ class CreateAnswerOption extends Component
                 'value' => $key + 1,
             ]);
         }
+        $this->dispatch('optionCreated');
         $this->reset();
         $this->alert('success', 'Sukses!', [
             'position' => 'center',

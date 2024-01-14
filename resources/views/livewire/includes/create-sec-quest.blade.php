@@ -5,7 +5,9 @@
             {{-- <div>
                 keynya adalah {{ $key }}
             </div> --}}
-            <h3>Blok {{ $key + 1 }} : {{ $section['name'] }}</h3>
+            <h3>Blok {{ $key + 1 }} : {{ $section['name'] }} <span>Dimensi:
+                    {{ $section['sectionQuestionType'] }}</span></h3>
+
             {{-- @foreach ($section as $key => $value)
                 <p>{{ $key }}: {{ $value }}</p>
             @endforeach --}}
@@ -22,7 +24,6 @@
                                 wire:model.live='sections.{{ $key }}.{{ $qKey }}.questionName'
                                 placeholder="Pertanyaan ke"></x-input-regular>
                             <x-error-display name="sections.{{ $key }}.{{ $qKey }}.questionName" />
-
                             <select wire:model.live='sections.{{ $key }}.{{ $qKey }}.dimensionID'
                                 class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="" selected>Pilih Subdimensi</option>
@@ -35,7 +36,18 @@
                                 @endforeach
                             </select>
                             <x-error-display name="sections.{{ $key }}.{{ $qKey }}.dimensionID" />
-
+                            @if ($section['sectionQuestionType'] == 'tunggal')
+                                <select
+                                    wire:model.live='sections.{{ $key }}.{{ $qKey }}.answerOptionID'
+                                    class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                    <option value="" selected>Pilih tipe pertanyaan</option>
+                                    @foreach ($answerOptions as $answerOption)
+                                        <option value="{{ $answerOption->id }}">{{ $answerOption->name }} :
+                                            {{ implode(', ', $answerOption->answeroptionvalues->pluck('name')->all()) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @endif
                         </div>
                     @endif
                 @endforeach
@@ -65,11 +77,37 @@
                 <select wire:model.live='sectionQuestionType'
                     class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="" selected>Pilih tipe pertanyaan</option>
-                    <option value="tunggal">Tipe Tunggal</option>
+                    <option value="tunggal">Tipe Umum</option>
                     <option value="harapanDanKenyataan">Tipe Harapan dan Kenyataan</option>
                 </select>
                 <x-error-display name="sectionQuestionType" />
             </label>
+            @if ($sectionQuestionType == 'harapanDanKenyataan')
+                <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                        Paket Opsi Jawaban
+                    </span>
+                    <select wire:model.live='sectionAnswerOption'
+                        class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <option value="" selected>Pilih tipe pertanyaan</option>
+                        @foreach ($answerOptions as $answerOption)
+                            <option value="{{ $answerOption->id }}">{{ $answerOption->name }} :
+                                {{ implode(', ', $answerOption->answeroptionvalues->pluck('name')->all()) }}</option>
+                        @endforeach
+                        {{-- <option value="" selected>Pilih tipe pertanyaan</option>
+                    <option value="tunggal">Tipe Umum</option>
+                    <option value="harapanDanKenyataan">Tipe Harapan dan Kenyataan</option> --}}
+                    </select>
+                    <x-error-display name="sectionAnswerOption" />
+                </label>
+                @php
+                    $sectionAnswerOptionVisible = true;
+                @endphp
+            @else
+                @php
+                    $sectionAnswerOptionVisible = false;
+                @endphp
+            @endif
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">
                     Tipe dimensi di blok ini

@@ -13,6 +13,8 @@ use App\Models\Section;
 use App\Models\Subdimension;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use App\Models\AnswerOption;
+use App\Models\AnswerOptionValue;
 
 class CreateSurvey extends Component
 {
@@ -37,6 +39,8 @@ class CreateSurvey extends Component
     public $newSectionName = '';
     #[Validate('required|not_in:')]
     public $sectionQuestionType = '';
+    #[Validate('required|not_in:')]
+    public $sectionAnswerOption = '';
     #[Validate('required|not_in:')]
     public $sectionDimensionType = '';
     // public $newQuestionName = '';
@@ -97,7 +101,6 @@ class CreateSurvey extends Component
                 'after:startAt'
             ],
         ];
-        $mergedArray = array_merge($cobaRule, $arraySection);
         return $cobaRule;
         // dd($cobaRule, $arraySection, $mergedArray);
     }
@@ -115,19 +118,24 @@ class CreateSurvey extends Component
             'sectionDimensionType' => [
                 'required', 'not_in:',
             ],
-
         ];
+        if ($this->sectionQuestionType == 'harapanDanKenyataan') {
+            $addSectionRule['sectionAnswerOption'] = [
+                'required', 'not_in:',
+            ];
+        }
         $this->validate($addSectionRule);
         $section = [
             'name' => $this->newSectionName,
             'sectionQuestionType' => $this->sectionQuestionType,
             'sectionDimensionType' => $this->sectionDimensionType,
+            'sectionAnswerOption' => $this->sectionAnswerOption,
         ]; // Buat objek model Section
         $this->sections[] = $section;
         $this->currentSection = count($this->sections) - 1;
         // $this->newSectionName = ''; // Reset nama bagian setelah menambahkan
         $this->showAddSectionForm = false; // Sembunyikan form setelah menambahkan bagian baru
-        $this->reset('sectionQuestionType', 'newSectionName');
+        $this->reset('sectionQuestionType', 'newSectionName', 'sectionDimensionType', 'sectionAnswerOption');
         session()->flash('successAddSection', 'Blok sukses ditambahkan.');
     }
 
@@ -193,7 +201,6 @@ class CreateSurvey extends Component
                 'after:startAt'
             ],
         ];
-
         $this->validate($surveyArrayRule);
     }
 
@@ -212,9 +219,22 @@ class CreateSurvey extends Component
         $this->surveyID = $survey->id;
     }
 
+    public function addAnswerOptionIDToHarapanDanKenyataan()
+    {
+        foreach ($this->sections as $key => $section) {
+            if ($section['sectionQuestionType'] == 'harapanDanKenyataan') {
+                foreach ($section as $key2 => $question) {
+                    if (is_numeric($key2)) {
+                        $this->sections[$key][$key2]['answerOptionID'] = $section['sectionAnswerOption'];
+                    }
+                }
+            }
+        }
+    }
 
     public function validateSectionAndQuestion()
     {
+        $this->addAnswerOptionIDToHarapanDanKenyataan();
         $secQuesArrayRule = [];
         $messages = [];
         $attributes = [];
@@ -225,6 +245,7 @@ class CreateSurvey extends Component
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.questionName'] = 'required';
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.sectionID'] = 'required';
                     $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.dimensionID'] = 'required';
+                    $secQuesArrayRule['sections.' . $key . '.' . $key2 . '.answerOptionID'] = 'required';
 
                     // Menambahkan pesan kesalahan
                     $messages['required'] = ':Attribute wajib diisi.';
@@ -271,7 +292,8 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '1',
                             'content' => $question['questionName'],
-                            'answer_option_id' => '1',
+                            'type' => 'udin',
+                            'answer_option_id' => $question['answerOptionID'],
                         ]);
                     } elseif ($this->sections[$key]['sectionQuestionType'] == 'harapanDanKenyataan') {
                         Question::create([
@@ -280,7 +302,8 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '2',
                             'content' => $question['questionName'],
-                            'answer_option_id' => '1',
+                            'type' => 'udin',
+                            'answer_option_id' => $question['answerOptionID'],
                         ]);
                         Question::create([
                             'survey_id' => $this->surveyID,
@@ -288,7 +311,8 @@ class CreateSurvey extends Component
                             'subdimension_id' => $question['dimensionID'],
                             'question_type_id' => '3',
                             'content' => $question['questionName'],
-                            'answer_option_id' => '1',
+                            'type' => 'udin',
+                            'answer_option_id' => $question['answerOptionID'],
                         ]);
                     }
                 }
@@ -321,6 +345,12 @@ class CreateSurvey extends Component
         }
     }
 
+    public function dd()
+    {
+        $this->addAnswerOptionIDToHarapanDanKenyataan();
+        dd($this->all());
+    }
+
     #[Layout('layouts.app')]
     public function render()
     {
@@ -328,6 +358,8 @@ class CreateSurvey extends Component
             'roles' => Role::all(),
             'dimensions' => Dimension::all(),
             'subdimensions' => Subdimension::all(),
+            'answerOptions' => AnswerOption::all(),
+            'answerOptionValues' => AnswerOptionValue::all(),
         ]);
     }
 }

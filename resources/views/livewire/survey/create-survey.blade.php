@@ -27,6 +27,8 @@
                 Dimensi
                 +</button> --}}
             </div>
+            <x-button-small wire:click.prevent='dd' {{-- wire:confirm="Apakah anda sudah yakin untuk mensubmit survei? tidakan ini tidak dapat diurungkan" --}} type="submit"
+                color="red">dd</x-button-small>
         </form>
 
     </div>

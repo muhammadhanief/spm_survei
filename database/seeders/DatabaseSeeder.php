@@ -7,6 +7,9 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use App\Models\Dimension;
 use App\Models\QuestionType;
+use App\Models\Subdimension;
+use App\Models\AnswerOption;
+use App\Models\AnswerOptionValue;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         // seeder untuk question type
         QuestionType::create([
-            'name' => 'Tunggal',
+            'name' => 'Umum',
         ]);
         QuestionType::create([
             'name' => 'Harapan',
@@ -42,20 +45,103 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seeder untuk dimensi
+        // Dimension::create([
+        //     'name' => 'Keandalan',
+        // ]);
+        // Dimension::create([
+        //     'name' => 'Daya Tangkap',
+        // ]);
+        // Dimension::create([
+        //     'name' => 'Kepastian',
+        // ]);
+        // Dimension::create([
+        //     'name' => 'Empati',
+        // ]);
+        // Dimension::create([
+        //     'name' => 'Transparan',
+        // ]);
+
         Dimension::create([
+            'name' => 'Kualitas Layanan',
+        ]);
+        Subdimension::create([
             'name' => 'Keandalan',
+            'dimension_id' => 1,
+
         ]);
-        Dimension::create([
+        Subdimension::create([
             'name' => 'Daya Tangkap',
+            'dimension_id' => 1,
+
         ]);
-        Dimension::create([
+        Subdimension::create([
             'name' => 'Kepastian',
+            'dimension_id' => 1,
+
         ]);
-        Dimension::create([
+        Subdimension::create([
             'name' => 'Empati',
+            'dimension_id' => 1,
+
         ]);
-        Dimension::create([
-            'name' => 'Transparan',
+
+        AnswerOption::create([
+            'name' => 'Jenis Kelamin',
+            'type' => 'radio',
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Laki-laki',
+            'answer_option_id' => 1,
+            'value' => 1,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Perempuan',
+            'answer_option_id' => 1,
+            'value' => 2,
+        ]);
+
+        AnswerOption::create([
+            'name' => 'Pendidikan',
+            'type' => 'radio',
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'SMA',
+            'answer_option_id' => 2,
+            'value' => 1,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'D3',
+            'answer_option_id' => 2,
+            'value' => 2,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'S1',
+            'answer_option_id' => 2,
+            'value' => 3,
+        ]);
+        AnswerOption::create([
+            'name' => 'Penliaian 4 Opsi',
+            'type' => 'radio'
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Sangat Baik',
+            'answer_option_id' => 3,
+            'value' => 1,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Baik',
+            'answer_option_id' => 3,
+            'value' => 2,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Cukup',
+            'answer_option_id' => 3,
+            'value' => 3,
+        ]);
+        AnswerOptionValue::create([
+            'name' => 'Kurang',
+            'answer_option_id' => 3,
+            'value' => 4,
         ]);
     }
 }

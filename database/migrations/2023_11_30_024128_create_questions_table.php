@@ -25,7 +25,9 @@ class CreateQuestionsTable extends Migration
             $table->foreign('question_type_id')->references('id')->on('question_types');
             $table->string('content');
             $table->string('type')->default('text');
-            $table->string('answer_option_id')->nullable();
+            $table->unsignedBigInteger('answer_option_id')->nullable();
+            $table->foreign('answer_option_id')->references('id')->on('answer_options');
+            // $table->string('answer_option_id')->nullable();
             $table->json('rules')->nullable();
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
     <div class="container grid px-6 mx-auto">
         <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             {{-- Isi Survei --}}
+            <x-button-small wire:click.prevent='dd' color='red'>DD</x-button-small>
         </h2>
         <div>
             <div wire:key="{{ $currentSectionIndex }}">
