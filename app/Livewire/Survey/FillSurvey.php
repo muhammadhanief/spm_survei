@@ -15,6 +15,8 @@ class FillSurvey extends Component
     use WithPagination;
     use LivewireAlert;
 
+    public $search = '';
+
     public function fillSurvey($surveyID)
     {
         $survey = Survey::find($surveyID);
@@ -42,11 +44,23 @@ class FillSurvey extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $surveys = Survey::paginate(5);
-        return view('livewire.survey.fill-survey', [
-            'surveys' => $surveys,
-            'dimensions' => Dimension::all(),
-            'subdimensions' => Subdimension::all(),
-        ]);
+        $surveys = Survey::where('name', 'like', "%{$this->search}%")
+            ->orderBy('started_at', 'asc')
+            ->latest()
+            ->paginate(5);
+        if ($surveys->isNotEmpty()) {
+            return view('livewire.survey.fill-survey', [
+                'surveys' => $surveys,
+                'dimensions' => Dimension::all(),
+                'subdimensions' => Subdimension::all(),
+            ]);
+        } else {
+            session()->flash('gagalSearch', 'Survei tidak dapat ditemukan');
+            return view('livewire.survey.fill-survey', [
+                'surveys' => $surveys,
+                'dimensions' => Dimension::all(),
+                'subdimensions' => Subdimension::all(),
+            ]);
+        }
     }
 }

@@ -1,6 +1,6 @@
-<!-- With actions -->
-<h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-    Overview Survei
+<!-- Cari, Hapus, Edit Dimensi -->
+<h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+    Cari, Hapus, Target Responden
 </h4>
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800  ">
     <div id="search-box" class="flex flex-col items-start px-2 my-4 justify-center">
@@ -17,7 +17,7 @@
                 </div>
                 <input
                     class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                    wire:model.live="search" type="text" placeholder="Cari Survei" />
+                    wire:model.live.debounce.500ms="search" type="text" placeholder="Cari Akar Dimensi.." />
             </div>
         </div>
         <div>
@@ -38,87 +38,46 @@
                     <thead>
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3">Nama Survei</th>
-                            <th class="px-4 py-3">Tahun</th>
-                            <th class="px-4 py-3">Tipe Responden</th>
-                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Nama</th>
+                            <th class="px-4 py-3">Email</th>
+                            <th class="px-4 py-3">Grup</th>
                             <th class="px-4 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        @foreach ($surveys as $survey)
-                            <tr class="text-gray-700 dark:text-gray-400">
+                        @foreach ($targetRespondens as $targetResponden)
+                            <tr wire:key='{{ $targetResponden->id }}' class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
                                         <div>
-                                            <p class="font-semibold" title="{{ $survey->name }}">
-                                                {{ Str::limit($survey->name, 25) }}
+                                            <p class="font-semibold">{{ $targetResponden->name }}</p>
+                                            <p class="text-xs text-gray-600 dark:text-gray-400">
                                             </p>
-                                            @if (strlen($survey->name) > 25)
-                                                <p class="font-semibold" style="white-space: pre-line;">
-                                                    {{ substr($survey->name, 25) }}
-                                                </p>
-                                            @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    {{ $survey->year }}
-                                </td>
-                                <td class="px-4 py-3 text-xs">
-                                    @php
-                                        $decodedArray = json_decode($survey->role_id, true);
-                                        $roleNames = [];
-                                        foreach ($decodedArray as $role_id) {
-                                            $role = Spatie\Permission\Models\Role::find($role_id);
-                                            if ($role) {
-                                                $roleNames[] = $role->name;
-                                            }
-                                        }
-                                        $rolesString = implode(', ', $roleNames);
-                                    @endphp
-                                    {{ $rolesString }}
+                                    {{ $targetResponden->email }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    @php
-                                        $started_at = \Carbon\Carbon::parse($survey->started_at);
-                                        $ended_at = \Carbon\Carbon::parse($survey->ended_at);
-                                    @endphp
-                                    @if (!$started_at->isPast())
-                                        <span
-                                            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                                            Belum Dimulai
-                                        </span>
-                                    @else
-                                        @if (!$ended_at->isPast())
-                                            <span
-                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                Sedang Berjalan
-                                            </span>
-                                        @else
-                                            <span
-                                                class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
-                                                Selesai
-                                            </span>
-                                        @endif
-                                    @endif
+                                    {{ $targetResponden->role->name }}
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center space-x-4 text-sm">
-                                        <button
+                                        {{-- <button wire:click='edit({{ $dimension->id }})'
                                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Edit" wire:click='detail({{ $survey->id }})'>
+                                            aria-label="Edit">
                                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                                 viewBox="0 0 20 20">
                                                 <path
                                                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </button> --}}
                                         <button
                                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Delete" wire:click='delete({{ $survey->id }})'
-                                            wire:confirm="Apakah kamu yakin akan menghapus survei ini?">
+                                            aria-label="Delete" wire:click='delete({{ $targetResponden->id }})'
+                                            {{-- wire:confirm.prompt='Apakah Anda yakin ingin menghapus dimensi "{{ $dimension->name }}"?\n\nKetik DELETE untuk konfirmasi|DELETE' --}}>
                                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                                 viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
@@ -126,6 +85,13 @@
                                                     clip-rule="evenodd"></path>
                                             </svg>
                                         </button>
+                                        {{-- <div>
+                                            <button @click="openModal('modal')"
+                                                wire:click='showSubdimensionModal({{ $dimension->id }})'
+                                                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                                Lihat Subdimensi
+                                            </button>
+                                        </div> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -133,9 +99,10 @@
                     </tbody>
                 </table>
                 <div class="p-2 flex justify-start">
-                    {{ $surveys->links() }}
+                    {{ $targetRespondens->links() }}
                 </div>
             </div>
         </div>
     </div>
+    {{-- @include('livewire.includes.subdimensions-modal') --}}
 </div>

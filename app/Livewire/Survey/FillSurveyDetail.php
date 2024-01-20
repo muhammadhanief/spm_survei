@@ -15,6 +15,7 @@ class FillSurveyDetail extends Component
     use LivewireAlert;
     public $surveyID;
     public $answers = [];
+    public $tester = [];
 
     // Fungsi mount digunakan untuk menginisialisasi komponen dengan parameter rute.
     public function mount($surveyID)
@@ -24,7 +25,7 @@ class FillSurveyDetail extends Component
         foreach ($questions as $question) {
             $this->answers[$question->id] = [
                 'question_id' => $question->id,
-                'value' => '',
+                'value' => [],
                 'question_type_id' => '',
             ];
         }
@@ -67,6 +68,10 @@ class FillSurveyDetail extends Component
     public function save()
     {
         foreach ($this->answers as $key => $answer) {
+            if (is_array($answer['value'])) {
+                $arrayValue = array_keys($answer['value']);
+                $answer['value'] = json_encode($arrayValue);
+            }
             Answer::create([
                 'question_id' => $answer['question_id'],
                 'value' => $answer['value'],

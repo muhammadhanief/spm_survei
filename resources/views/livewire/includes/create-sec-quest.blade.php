@@ -44,6 +44,8 @@
                                     @foreach ($answerOptions as $answerOption)
                                         <option value="{{ $answerOption->id }}">{{ $answerOption->name }} :
                                             {{ implode(', ', $answerOption->answeroptionvalues->pluck('name')->all()) }}
+                                            :
+                                            {{ $answerOption->type }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -60,7 +62,6 @@
         </div>
     @endforeach
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-
         @if ($showAddSectionForm)
             <div class="mt-2">
                 <label for="newSectionName" class="block text-sm">
@@ -91,8 +92,11 @@
                         class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                         <option value="" selected>Pilih tipe pertanyaan</option>
                         @foreach ($answerOptions as $answerOption)
-                            <option value="{{ $answerOption->id }}">{{ $answerOption->name }} :
-                                {{ implode(', ', $answerOption->answeroptionvalues->pluck('name')->all()) }}</option>
+                            @if ($answerOption->type == 'radio')
+                                <option value="{{ $answerOption->id }}">{{ $answerOption->name }} :
+                                    {{ implode(', ', $answerOption->answeroptionvalues->pluck('name')->all()) }}:
+                                    {{ $answerOption->type }}</option>
+                            @endif
                         @endforeach
                         {{-- <option value="" selected>Pilih tipe pertanyaan</option>
                     <option value="tunggal">Tipe Umum</option>

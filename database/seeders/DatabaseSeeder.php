@@ -37,12 +37,15 @@ class DatabaseSeeder extends Seeder
         QuestionType::create([
             'name' => 'Umum',
         ]);
+
         QuestionType::create([
             'name' => 'Harapan',
         ]);
         QuestionType::create([
             'name' => 'Kenyataan',
         ]);
+
+
 
         // Seeder untuk dimensi
         // Dimension::create([
@@ -61,14 +64,17 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Transparan',
         // ]);
 
-        Dimension::create([
+        $a = Dimension::create([
             'name' => 'Kualitas Layanan',
         ]);
-        Subdimension::create([
+        $a->assignRole('Admin');
+
+        $b = Subdimension::create([
             'name' => 'Keandalan',
             'dimension_id' => 1,
 
         ]);
+        $b->assignRole('Admin');
         Subdimension::create([
             'name' => 'Daya Tangkap',
             'dimension_id' => 1,
@@ -104,6 +110,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Pendidikan',
             'type' => 'radio',
         ]);
+
         AnswerOptionValue::create([
             'name' => 'SMA',
             'answer_option_id' => 2,

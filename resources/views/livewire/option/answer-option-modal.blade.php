@@ -28,7 +28,7 @@
         <div class="mt-4 mb-6">
             <!-- Modal title -->
             <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Subdimensi yang ada di dimensi "{{ $showingAnswerOptionName }}"
+                Opsi jawaban yang ada di paket opsi "{{ $showingAnswerOptionName }}"
             </p>
             <!-- Modal description -->
             <div class="container grid mx-auto">
@@ -38,8 +38,8 @@
                             <thead>
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                    <th class="px-4 py-3">Nama Subdimensi</th>
-                                    <th class="px-4 py-3">Aksi</th>
+                                    <th class="px-4 py-3">Nama Jawaban</th>
+                                    {{-- <th class="px-4 py-3">Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -59,13 +59,13 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="px-4 py-3">
+                                            {{-- <td class="px-4 py-3">
                                                 <div class="flex items-center space-x-4 text-sm">
                                                     <button
                                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                         aria-label="Delete"
                                                         wire:click='deleteAnswerOptionValue({{ $answerOptionValue->id }})'
-                                                        {{-- wire:confirm.prompt='Apakah Anda yakin ingin menghapus dimensi "{{ $dimension->name }}"?\n\nKetik DELETE untuk konfirmasi|DELETE' --}}>
+                                                        wire:confirm.prompt='Apakah Anda yakin ingin menghapus opsi jawaban "{{ $answerOptionValue->name }}"?\n\nKetik DELETE untuk konfirmasi|DELETE'>
                                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                                             viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd"
@@ -74,7 +74,7 @@
                                                         </svg>
                                                     </button>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endif
                                 @endforeach

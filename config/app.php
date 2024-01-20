@@ -176,6 +176,8 @@ return [
 
         // spatie be role
         Spatie\Permission\PermissionServiceProvider::class,
+        // laravel excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -192,5 +194,5 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 ];

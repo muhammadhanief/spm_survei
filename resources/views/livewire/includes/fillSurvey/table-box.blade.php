@@ -93,7 +93,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="p-2">
+            <div class="p-2 flex justify-start">
                 {{ $surveys->links() }}
             </div>
         </div>

@@ -9,6 +9,7 @@ use App\Livewire\Survey\OverviewSurveyAdmin;
 use App\Livewire\Survey\FillSurvey;
 use App\Livewire\Survey\FillSurveyDetail;
 use App\Livewire\Option\CreateAnswerOptionPage;
+use App\Livewire\TargetResponden\TargetRespondenPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,4 +68,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     // untuk nambah option
     Route::get('/tambah-opsi-jawaban', CreateAnswerOptionPage::class)->name('add.option');
+    Route::get('/target-responden', TargetRespondenPage::class)->name('target.responden');
 });

@@ -26,4 +26,8 @@ class AnswerOption extends Model
     {
         return $this->hasMany(AnswerOptionValue::class);
     }
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

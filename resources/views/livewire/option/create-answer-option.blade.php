@@ -18,7 +18,7 @@
                 <option value="text">Teks</option>
                 <option value="number">Angka</option>
                 <option value="radio">Radio Button</option>
-                <option value="checkBox">Check Box</option>
+                <option value="checkbox">Check Box</option>
                 <option value="dropdown">Dropdown</option>
             </select>
             <x-error-display name="type" />
@@ -43,7 +43,8 @@
                 </div>
             @endif
         @endforeach
-        <x-button-small color="blue" wire:click.prevent="addOption">Tambah Opsi Jawaban</x-button-small>
+        <x-button-small color="blue" wire:click.prevent="addOption" type="button">Tambah Opsi
+            Jawaban</x-button-small>
     </div>
     <x-button-small color="green" wire:click.prevent='create'>Submit</x-button-small>
 

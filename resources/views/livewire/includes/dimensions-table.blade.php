@@ -7,7 +7,6 @@
                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3">Nama Akar Dimensi</th>
                         <th class="px-4 py-3">Deskripsi Akar Dimensi</th>
-                        {{-- <th class="px-4 py-3">Dibuat Tanggal</th> --}}
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3">Aksi</th>
                     </tr>
@@ -52,22 +51,7 @@
                                         {{ session('successUpdate')['message'] }}</div>
                                 @endif
                             </td>
-                            {{-- <td class="px-4 py-3 text-sm">
-                                {{ \Carbon\Carbon::parse($dimension->created_at)->translatedFormat('d F Y H:i') }}
-                            </td> --}}
                             <td class="px-4 py-3 text-xs">
-
-                                {{-- @if ($dimension->questions()->count() > 0)
-                                    <span
-                                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                        Digunakan
-                                    </span>
-                                @else
-                                    <span
-                                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                                        Tidak Digunakan
-                                    </span>
-                                @endif --}}
                                 @if ($dimension->subdimensions()->count() > 0)
                                     @php $isUsed = 0; @endphp
                                     @foreach ($dimension->subdimensions as $subdimension)
@@ -92,8 +76,6 @@
                                         Tidak Digunakan
                                     </span>
                                 @endif
-
-
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
