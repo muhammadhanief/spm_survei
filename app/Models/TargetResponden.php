@@ -11,7 +11,7 @@ class TargetResponden extends Model
     use HasFactory;
     protected $guard_name = 'web';
     protected $table = 'target_respondens';
-    protected $fillable = ['name', 'email', 'role_id'];
+    protected $fillable = ['name', 'email', 'role_id', 'user_id', 'unique_code', 'type'];
 
     public function role()
     {

@@ -16,6 +16,11 @@ class OverviewSurveyAdmin extends Component
 
     public $search = '';
 
+    public function monitoring($surveyID)
+    {
+        $this->redirectRoute('survey.monitoring', ['surveyID' => $surveyID]);
+    }
+
     public function detail($surveyID)
     {
         // return redirect()->route('survey.detail', $surveyID);

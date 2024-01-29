@@ -29,6 +29,7 @@ function data() {
         closeSideMenu() {
             this.isSideMenuOpen = false;
         },
+
         isNotificationsMenuOpen: false,
         toggleNotificationsMenu() {
             this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
@@ -36,6 +37,18 @@ function data() {
         closeNotificationsMenu() {
             this.isNotificationsMenuOpen = false;
         },
+
+        isDropdownFilterOpen: false,
+        toggleDropdownMenu() {
+            this.isDropdownFilterOpen = !this.isDropdownFilterOpen;
+        },
+        closeDropdownMenu() {
+            this.isDropdownFilterOpen = false;
+        },
+        stopClickPropagation(event) {
+            event.stopPropagation();
+        },
+
         isProfileMenuOpen: false,
         toggleProfileMenu() {
             this.isProfileMenuOpen = !this.isProfileMenuOpen;

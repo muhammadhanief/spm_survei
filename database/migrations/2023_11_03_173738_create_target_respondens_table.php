@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('unique_code')->unique()->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('type')->default('individual');
-            $table->string('unique_code')->unique()->nullable();
             $table->timestamps();
         });
     }

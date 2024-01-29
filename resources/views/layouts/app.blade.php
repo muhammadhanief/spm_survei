@@ -9,30 +9,30 @@
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
     <title>{{ $title ?? config('app.name') }}</title>
 
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
     <!-- Styles -->
+    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
+    @vite('resources/js/app.js')
+
+    {{-- alpine js --}}
     {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
     <script src="{{ asset('js/init-alpine.js') }}" defer></script>
 
+    {{-- chart js --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('js/charts-lines.js') }}" defer></script>
     <script src="{{ asset('js/charts-pie.js') }}" defer></script>
     <script src="{{ asset('js/charts-bars.js') }}" defer></script>
 
     <!-- Styles -->
-
     @livewireStyles
+
 </head>
 
 <body class="font-sans antialiased">

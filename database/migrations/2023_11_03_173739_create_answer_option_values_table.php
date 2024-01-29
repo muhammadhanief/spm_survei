@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('answer_option_values', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->unsignedBigInteger('answer_option_id')->nullable();
             $table->foreign('answer_option_id')->references('id')->on('answer_options');
+            $table->string('name');
             $table->string('value');
             $table->timestamps();
         });

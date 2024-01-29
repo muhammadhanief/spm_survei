@@ -11,7 +11,7 @@ use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Section;
 use App\Models\Subdimension;
-use Illuminate\Support\Facades\DB;
+use App\Models\Entry;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\AnswerOption;
 use App\Models\AnswerOptionValue;

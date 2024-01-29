@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('subdimensions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('description')->nullable();
             $table->unsignedBigInteger('dimension_id')->nullable();
             $table->foreign('dimension_id')->references('id')->on('dimensions');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

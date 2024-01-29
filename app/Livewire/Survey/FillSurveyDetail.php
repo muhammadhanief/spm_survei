@@ -7,20 +7,26 @@ use App\Models\Survey;
 use Livewire\Component;
 use App\Models\Question;
 use App\Models\Answer;
-use Livewire\Attributes\Validate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use App\Models\TargetResponden;
+use App\Models\Entry;
 
 class FillSurveyDetail extends Component
 {
     use LivewireAlert;
     public $surveyID;
+    public $uniqueCode;
+    public $entryID;
+    public $isKuota = false;
     public $answers = [];
     public $tester = [];
 
+
     // Fungsi mount digunakan untuk menginisialisasi komponen dengan parameter rute.
-    public function mount($surveyID)
+    public function mount($surveyID, $uniqueCode)
     {
         $this->surveyID = $surveyID;
+        $this->uniqueCode = $uniqueCode;
         $questions = Question::where('survey_id', $this->surveyID)->get();
         foreach ($questions as $question) {
             $this->answers[$question->id] = [
@@ -29,6 +35,19 @@ class FillSurveyDetail extends Component
                 'question_type_id' => '',
             ];
         }
+
+        $targetResponden = TargetResponden::where('unique_code', $uniqueCode)->first();
+        // dd($targetResponden);
+        $targetRespondenID = $targetResponden->id;
+        if ($targetResponden->type == 'group') {
+            $this->isKuota = true;
+        } else {
+            $entry = Entry::where('survey_id', $surveyID)->where('target_responden_id', $targetRespondenID)->first();
+            if ($entry == null) {
+                $this->isKuota = true;
+            }
+        }
+        // dd($this->isKuota);
     }
 
     public function setQuestionTypeID()
@@ -76,20 +95,36 @@ class FillSurveyDetail extends Component
                 'question_id' => $answer['question_id'],
                 'value' => $answer['value'],
                 'question_type_id' => $answer['question_type_id'],
+                'entry_id' => $this->entryID,
             ]);
         }
+    }
+
+    public function addEntry()
+    {
+        $targetResponden = TargetResponden::where('unique_code', $this->uniqueCode)->first();
+        $targetRespondenID = $targetResponden->id;
+        // dd($targetRespondenRoleID);
+        $entry = Entry::create([
+            'survey_id' => $this->surveyID,
+            'target_responden_id' => $targetRespondenID,
+        ]);
+        $this->entryID = $entry->id;
     }
 
     public function create()
     {
         $this->setQuestionTypeID();
         if ($this->validateAnswer()) {
+            $this->addEntry();
             $this->save();
             $tempSurveyID = $this->surveyID;
             $tempAnswers = $this->answers;
+            $tempUniqueCode = $this->uniqueCode;
             $this->reset();
             $this->surveyID = $tempSurveyID;
-            $this->mount($this->surveyID);
+            $this->uniqueCode = $tempUniqueCode;
+            $this->mount($this->surveyID, $this->uniqueCode);
             $this->alert('success', 'Sukses!', [
                 'position' => 'center',
                 'timer' => 2000,
@@ -145,12 +180,36 @@ class FillSurveyDetail extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        // mengambil data survey
         $surveyID = $this->surveyID;
         $survey = Survey::find($surveyID);
         $this->survey = $survey;
-        if ($survey) {
+        $arrayOfRoleSurvey = json_decode($survey->role_id);
+
+        // mengambil data target responden
+        $targetResponden = TargetResponden::where('unique_code', $this->uniqueCode)->first();
+        if ($targetResponden == null) {
+            return view('errors.404');
+        } else {
+            $targetRespondenRoleID = $targetResponden->role_id;
+        }
+
+        $isMatched = false;
+        foreach ($arrayOfRoleSurvey as $role_id) {
+            if ($role_id == $targetRespondenRoleID) {
+                $isMatched = true;
+                break;
+            }
+        }
+
+        if ($survey != null && $isMatched && $this->isKuota) {
             // Redirect or provide a proper response for non-existing surveyID
-            return view('livewire.survey.fill-survey-detail', ['survey' => $survey]);
+            return view('livewire.survey.fill-survey-detail', [
+                'survey' => $survey,
+                'targetResponden' => $targetResponden,
+            ]);
+        } elseif ($this->isKuota == false) {
+            return view('errors.404-limit');
         } else {
             return view('errors.404');
         }

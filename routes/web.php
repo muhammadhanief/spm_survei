@@ -10,6 +10,7 @@ use App\Livewire\Survey\FillSurvey;
 use App\Livewire\Survey\FillSurveyDetail;
 use App\Livewire\Option\CreateAnswerOptionPage;
 use App\Livewire\TargetResponden\TargetRespondenPage;
+use App\Livewire\Survey\Monitoring;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,11 +55,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/survei/buat', CreateSurvey::class)->name('survey.create');
     Route::get('/survei', OverviewSurveyAdmin::class)->name('survey');
     Route::get('/survei/detail/{surveyID}', DetailSurvey::class)->name('survey.detail');
+    Route::get('/survei/monitoring/{surveyID}', Monitoring::class)->name('survey.monitoring');
 
 
     // untuk mengisi survei
     Route::get('/survei/isi', FillSurvey::class)->name('survey.fill.overview');
-    Route::get('/survei/isi/{surveyID}', FillSurveyDetail::class)->name('survey.fill');
+    Route::get('/survei/isi/{surveyID}/{uniqueCode}', FillSurveyDetail::class)->name('survey.fill');
     // {surveyID}
     // Route::get('/testing/isi/{surveyID}', TestPersis::class)->name('survey.fill');
     // untuk error

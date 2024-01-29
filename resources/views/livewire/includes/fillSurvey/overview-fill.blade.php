@@ -5,4 +5,7 @@
     <p class="mb-4 text-black dark:text-gray-400">
         {!! nl2br(e($survey->description)) !!}
     </p>
+    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+        Anda mengisi survei sebagai : {{ $targetResponden->name }}
+    </div>
 </div>

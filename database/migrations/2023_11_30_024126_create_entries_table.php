@@ -17,8 +17,8 @@ class CreateEntriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('survey_id');
             $table->foreign('survey_id')->references('id')->on('surveys');
-            $table->unsignedBigInteger('participant_id')->nullable();
-            $table->foreign('participant_id')->references('id')->on('users');
+            $table->unsignedBigInteger('target_responden_id')->nullable();
+            $table->foreign('target_responden_id')->references('id')->on('target_respondens');
             $table->timestamps();
         });
     }

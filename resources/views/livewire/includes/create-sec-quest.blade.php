@@ -5,7 +5,8 @@
             {{-- <div>
                 keynya adalah {{ $key }}
             </div> --}}
-            <h3>Blok {{ $key + 1 }} : {{ $section['name'] }} <span>Dimensi:
+            <h3 class="text-sm text-gray-700 dark:text-gray-400">Blok {{ $key + 1 }} : {{ $section['name'] }}
+                <span>Dimensi:
                     {{ $section['sectionQuestionType'] }}</span></h3>
 
             {{-- @foreach ($section as $key => $value)
@@ -16,7 +17,8 @@
                 @foreach ($section as $qKey => $question)
                     @if (isset($question) && is_array($question))
                         <div class="mt-2">
-                            <label for="question">Pertanyaan {{ $qKey + 1 }}:</label>
+                            <label class="text-sm text-gray-700 dark:text-gray-400" for="question">Pertanyaan
+                                {{ $qKey + 1 }}:</label>
                             <x-button-small color="red"
                                 wire:click.prevent="deleteQuestion({{ $key }}, {{ $qKey }})">Hapus
                                 Pertanyaan</x-button-small>

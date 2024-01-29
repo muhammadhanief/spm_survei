@@ -10,6 +10,7 @@ use App\Models\QuestionType;
 use App\Models\Subdimension;
 use App\Models\AnswerOption;
 use App\Models\AnswerOptionValue;
+use App\Models\TargetResponden;
 
 class DatabaseSeeder extends Seeder
 {
@@ -149,6 +150,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Kurang',
             'answer_option_id' => 3,
             'value' => 4,
+        ]);
+
+        TargetResponden::create([
+            'role_id' => 1,
+            'unique_code' => 'haniefm19D27',
+            'name' => 'Muhammad Hanief',
+            'email' => 'haniefm19@gmail.com',
+            'type' => 'individual'
+        ]);
+        TargetResponden::create([
+            'role_id' => 1,
+            'unique_code' => 'ladisaD27',
+            'name' => 'Ladisa Busaina',
+            'email' => 'ladisa@gmail.com',
+            'type' => 'group'
         ]);
     }
 }
