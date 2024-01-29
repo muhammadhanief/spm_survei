@@ -32,6 +32,7 @@ class Monitoring extends Component
         ];
 
         $this->dispatch('chartUpdated', $this->dataChartIndividual);
+        // mau commit ini takut abis amend
     }
 
     public function mount($surveyID)
