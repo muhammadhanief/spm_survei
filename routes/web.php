@@ -11,6 +11,9 @@ use App\Livewire\Survey\FillSurveyDetail;
 use App\Livewire\Option\CreateAnswerOptionPage;
 use App\Livewire\TargetResponden\TargetRespondenPage;
 use App\Livewire\Survey\Monitoring;
+use App\Mail\RespondenSurveyAnnounceFirst;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,4 +74,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // untuk nambah option
     Route::get('/tambah-opsi-jawaban', CreateAnswerOptionPage::class)->name('add.option');
     Route::get('/target-responden', TargetRespondenPage::class)->name('target.responden');
+
+    Route::get('/mailable', function () {
+        // $invoice = App\Models\Invoice::find(1);
+        $data = [
+            'name' => 'Jantinnerezo',
+            'email' => 'haniefm19@mgial.com',
+            'unqiue_code' => '123456',
+            'survey_id' => 1,
+        ];
+        return new RespondenSurveyAnnounceFirst($data);
+    });
 });

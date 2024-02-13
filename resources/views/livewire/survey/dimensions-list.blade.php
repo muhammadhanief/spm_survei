@@ -5,6 +5,8 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dimensi
         </h2>
+
+        <div><x-button-small color='red' wire:click='dd'>dd</x-button-small></div>
         <div class="flex flex-col  justify-between md:gap-2">
             <div class="flex flex-col md:flex-row gap-2">
                 <div class="md:w-1/2 mb-2 md:mb-0">

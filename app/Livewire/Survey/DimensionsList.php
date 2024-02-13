@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RespondenSurveyAnnounceFirst;
 use Livewire\WithPagination;
 
 class DimensionsList extends Component
@@ -211,6 +213,19 @@ class DimensionsList extends Component
         $this->showingDimensionID = $dimensionID;
         $dimensi = Dimension::find($dimensionID);
         $this->showingDimensionName = $dimensi->name;
+    }
+
+    public function dd()
+    {
+        $data = [
+            'url' => 'https://google.com',
+            'name' => 'Jantinnerezo',
+        ];
+        try {
+            Mail::to("haniefm19@gmail.com")->send(new RespondenSurveyAnnounceFirst($data));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
 

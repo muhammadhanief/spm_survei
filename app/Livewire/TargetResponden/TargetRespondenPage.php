@@ -187,7 +187,7 @@ class TargetRespondenPage extends Component
         $targetRespondens = TargetResponden::where('name', 'like', "%{$this->search}%")
             ->whereIn('role_id', array_keys(array_filter($this->selectedRoleId)))
             ->orderByDesc('role_id')
-            ->paginate(20);
+            ->paginate(10);
 
         if ($targetRespondens->isNotEmpty()) {
             return view('livewire.target-responden.target-responden-page', [

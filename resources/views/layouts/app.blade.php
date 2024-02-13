@@ -26,9 +26,9 @@
     {{-- chart js --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ asset('js/charts-lines.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/charts-lines.js') }}" defer></script>
     <script src="{{ asset('js/charts-pie.js') }}" defer></script>
-    <script src="{{ asset('js/charts-bars.js') }}" defer></script>
+    <script src="{{ asset('js/charts-bars.js') }}" defer></script> --}}
 
     <!-- Styles -->
     @livewireStyles
