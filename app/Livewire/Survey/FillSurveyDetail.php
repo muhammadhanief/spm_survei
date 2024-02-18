@@ -86,7 +86,7 @@ class FillSurveyDetail extends Component
 
     public function save()
     {
-        dd($this->answers);
+        // dd($this->answers);
         foreach ($this->answers as $key => $answer) {
             if (is_array($answer['value'])) {
                 $arrayValue = array_keys($answer['value']);

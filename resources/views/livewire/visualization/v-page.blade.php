@@ -1,7 +1,8 @@
 <div class="pb-16 md:pb-32">
     <x-slot:title>Visualisasi</x-slot:title>
     @include('livewire.includes.offline-alert')
-    <x-button-small-0 color='red' wire:click='test'>DD</x-button-small-0>
+    <x-button-small-0 color='red' wire:click='dd'>DD</x-button-small-0>
+
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Visualisasi
@@ -14,7 +15,6 @@
                 <span class="text-gray-700 dark:text-gray-400">
                     Pilih Survei
                 </span>
-                <x-button-small-0 color='red' wire:click='test'>DD</x-button-small-0>
                 <div class="py-2" wire:ignore>
                     <select wire:model.live='surveyID' id="surveyID"
                         class="select2 block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -25,6 +25,7 @@
                     </select>
                 </div>
                 <x-error-display name="surveyID" />
+                <x-button-small-0 color='green' wire:click='generateChart'>Generate</x-button-small-0>
             </label>
         </div>
     </div>
@@ -94,6 +95,15 @@
                             }
                         },
 
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 4,
+                        }
                     }
                 }
 
@@ -112,8 +122,10 @@
 
             // realtime update
             $wire.on('chartUpdated', (dataRadar) => {
-                console.log("dataRadar");
-
+                dataObject = dataRadar[0];
+                const datanya = dataObject;
+                monitoringChart.data = datanya;
+                monitoringChart.update();
             });
         </script>
         {{-- @push('js') --}}

@@ -60,7 +60,7 @@
                                                 <input wire:model='answers.{{ $question->id }}.value' type="radio"
                                                     class="cursor-pointer w-4 h-4 text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                                     name="accountType{{ $question->id }}"
-                                                    value="{{ $answeroptionvalue->name }}" />
+                                                    value="{{ $answeroptionvalue->value }}" />
                                             </label>
                                         </div>
                                     @endforeach
@@ -84,7 +84,7 @@
                                                         type="radio"
                                                         class="cursor-pointer w-4 h-4 text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                                         name="accountType{{ $section->questions[$qkey + 1]->id }}"
-                                                        value="{{ $answeroptionvalue->name }}" />
+                                                        value="{{ $answeroptionvalue->value }}" />
                                                 </label>
                                             </div>
                                         @endforeach

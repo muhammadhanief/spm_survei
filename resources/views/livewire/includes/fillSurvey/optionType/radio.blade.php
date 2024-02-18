@@ -18,7 +18,7 @@
                     class="cursor-pointer w-10 h-10 bg-transparent hover:bg-white dark:hover:bg-gray-600 rounded-full flex items-center justify-center">
                     <input wire:model='answers.{{ $question->id }}.value' type="radio"
                         class="cursor-pointer w-4 h-4 text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                        name="accountType{{ $question->id }}" value="{{ $answeroptionvalue->name }}" />
+                        name="accountType{{ $question->id }}" value="{{ $answeroptionvalue->value }}" />
                 </label>
             </div>
         @endforeach
