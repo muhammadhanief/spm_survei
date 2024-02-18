@@ -6,17 +6,31 @@
     <div class="px-4 py-3  bg-white rounded-lg shadow-md dark:bg-gray-800">
         <form>
             <div class="mb-6">
+
                 <label class="block  text-sm">
                     <span class="text-gray-700 dark:text-gray-400">
                         Pilih Dimensi Induk
                     </span>
-                    <select wire:model.live='dimensionID'
-                        class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                        <option value="" selected>Pilih Dimensi Induk</option>
-                        @foreach ($dimensions as $dimension)
-                            <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="py-2" wire:ignore>
+                        <select wire:model.live='dimensionID' id="dimensionID"
+                            class="select2 block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                            <option value="" selected>Pilih Dimensi Induk</option>
+                            @foreach ($dimensions as $dimension)
+                                <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @script
+                        <script>
+                            $(document).ready(function() {
+                                $('#dimensionID').select2();
+                                $('#dimensionID').on('change', function() {
+                                    var data = $('#dimensionID').select2("val");
+                                    $wire.set('dimensionID', data);
+                                });
+                            });
+                        </script>
+                    @endscript
                     <x-error-display name="dimensionID" />
                 </label>
                 <label class="block text-sm mt-2">

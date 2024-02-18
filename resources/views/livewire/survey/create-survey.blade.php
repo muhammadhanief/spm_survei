@@ -1,10 +1,20 @@
 <div class="pb-16 md:pb-32">
-    <x-slot:title>Buat Survei</x-slot:title>
+    <x-slot:title>Buat Survei - Manual</x-slot:title>
+
     <!-- resources/views/livewire/add-question.blade.php -->
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Buat Survei
+            Buat Survei - Manual
         </h2>
+
+        @if ($isEditing)
+            <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                role="alert">
+                <span class="font-medium">Tips!</span> Jika survei ingin sama persis dengan tahun sebelumnya, cukup ganti
+                tahun saja dan lakukan submit di paling bawah. Namun jika ingin mengedit pertanyaan juga bisa.
+            </div>
+        @endif
+
         <!-- General elements -->
         {{-- <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
             Elements

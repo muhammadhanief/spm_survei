@@ -78,7 +78,6 @@
                                                     @php
                                                         $truncatedDescription = Str::limit($subdimension->description, 15);
                                                     @endphp
-
                                                     <p class="font-semibold" title="{{ $subdimension->description }}">
                                                         {{ $truncatedDescription }}</p>
                                                 @endif
@@ -87,21 +86,6 @@
                                                         {{ session('successUpdate')['message'] }}</div>
                                                 @endif
                                             </td>
-                                            {{-- <td class="px-4 py-3 text-xs"> --}}
-
-                                            {{-- @if ($dimension->questions()->count() > 0)
-                                                <span
-                                                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                    Digunakan
-                                                </span>
-                                            @else
-                                                <span
-                                                    class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                                                    Tidak Digunakan
-                                                </span>
-                                            @endif --}}
-
-                                            {{-- </td> --}}
                                             <td class="px-4 py-3">
                                                 <div class="flex items-center space-x-4 text-sm">
                                                     <button
@@ -116,22 +100,6 @@
                                                                 clip-rule="evenodd"></path>
                                                         </svg>
                                                     </button>
-                                                    {{-- <div>
-                                                        <button @click="openModal('modal')"
-                                                            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                            Open Modal
-                                                        </button>
-                                                    </div> --}}
-                                                    {{-- <button wire:click='edit({{ $subdimension->id }})'
-                                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                                        aria-label="Edit">
-                                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                            viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                                                            </path>
-                                                        </svg>
-                                                    </button> --}}
                                                 </div>
                                             </td>
                                         </tr>
@@ -145,18 +113,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        {{-- <footer
-            class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal"
-                class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                Cancel
-            </button>
-            <button
-                class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Accept
-            </button>
-        </footer> --}}
     </div>
 </div>

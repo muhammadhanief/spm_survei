@@ -12,8 +12,11 @@ use App\Livewire\Option\CreateAnswerOptionPage;
 use App\Livewire\TargetResponden\TargetRespondenPage;
 use App\Livewire\Survey\Monitoring;
 use App\Mail\RespondenSurveyAnnounceFirst;
-
-
+use App\Livewire\Survey\CopySurvey;
+use App\Livewire\Survey\PageCreateSurvey;
+use App\Livewire\Survey\CopySurvey\PageCopySurvey;
+use App\Livewire\Survey\CopySurvey\EditingCopySurvey;
+use App\Livewire\Visualization\VPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +58,18 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
     Route::get('/dimensi', DimensionsList::class)->name('dimensi');
-    Route::get('/survei/buat', CreateSurvey::class)->name('survey.create');
+
+    // untuk pembuatan survey
+    Route::get('/survei/buat', PageCreateSurvey::class)->name('page.survey.create');
+    Route::get('/survei/buat/manual/{oldSurveyID?}', CreateSurvey::class)->name('survey.create');
+    Route::get('/survei/buat/salin', PageCopySurvey::class)->name('survey.copy');
+    Route::get('/survei/buat/salin/{oldSurveyID}', EditingCopySurvey::class)->name('survey.copy.detail');
+    // end
+
+    // untuk visualisasi survei
+    Route::get('survei/visualisasi', VPage::class)->name('survey.visualize');
+    // end
+
     Route::get('/survei', OverviewSurveyAdmin::class)->name('survey');
     Route::get('/survei/detail/{surveyID}', DetailSurvey::class)->name('survey.detail');
     Route::get('/survei/monitoring/{surveyID}', Monitoring::class)->name('survey.monitoring');

@@ -27,7 +27,7 @@ class CreateSurvey extends Component
     public $year = '';
     #[Validate(['required', 'numeric', 'gt:0'])]
     public $limitPerParticipant = '';
-    #[Validate(['required'])]
+    #[Validate(['required'], ['array'])]
     public $roleIdParticipant = [];
     #[Validate(['required'])]
     public $startAt = '';
@@ -43,9 +43,6 @@ class CreateSurvey extends Component
     public $sectionAnswerOption = '';
     #[Validate('required|not_in:')]
     public $sectionDimensionType = '';
-    // public $newQuestionName = '';
-    // public $newDimensionID = '';
-
 
     public $sections = [];
     public $currentSection = 0;
@@ -53,6 +50,8 @@ class CreateSurvey extends Component
     public $showAddSectionForm = false;
 
     public $surveyID;
+
+    public $isEditing = false;
 
 
     public function rules()
@@ -315,6 +314,28 @@ class CreateSurvey extends Component
                             'answer_option_id' => $question['answerOptionID'],
                         ]);
                     }
+                    // untuk oldsurvey karena dia sudah dalam bentuk harapan dan kenyataan
+                    // elseif ($this->sections[$key]['sectionQuestionType'] == 'Harapan') {
+                    //     Question::create([
+                    //         'survey_id' => $this->surveyID,
+                    //         'section_id' => $createdSectionID,
+                    //         'subdimension_id' => $question['dimensionID'],
+                    //         'question_type_id' => $question['questionTypeID'],
+                    //         'content' => $question['questionName'],
+                    //         'type' => 'udin',
+                    //         'answer_option_id' => $question['answerOptionID'],
+                    //     ]);
+                    // } elseif ($this->sections[$key]['sectionQuestionType'] == 'Umum') {
+                    //     Question::create([
+                    //         'survey_id' => $this->surveyID,
+                    //         'section_id' => $createdSectionID,
+                    //         'subdimension_id' => $question['dimensionID'],
+                    //         'question_type_id' => $question['questionTypeID'],
+                    //         'content' => $question['questionName'],
+                    //         'type' => 'udin',
+                    //         'answer_option_id' => $question['answerOptionID'],
+                    //     ]);
+                    // }
                 }
             }
         }
@@ -347,8 +368,56 @@ class CreateSurvey extends Component
 
     public function dd()
     {
-        $this->addAnswerOptionIDToHarapanDanKenyataan();
         dd($this->all());
+    }
+
+    public function mount($oldSurveyID = null)
+    {
+        if ($oldSurveyID) {
+            $this->isEditing = true;
+            $oldSurvey = Survey::find($oldSurveyID);
+            $this->name = $oldSurvey->name;
+            $this->description = $oldSurvey->description;
+            $this->year = $oldSurvey->year;
+            $this->limitPerParticipant = $oldSurvey->settings['limit-per-participant'];
+            $roleIds = json_decode($oldSurvey->role_id, true);
+            $this->roleIdParticipant = array_combine($roleIds, array_fill(0, count($roleIds), true));
+            $this->startAt = $oldSurvey->started_at;
+            $this->endAt = $oldSurvey->ended_at;
+            $this->surveyID = $oldSurveyID;
+
+            $oldSections = Section::where('survey_id', $oldSurveyID)->get();
+            foreach ($oldSections as $key => $oldSection) {
+                $oldQuestions = Question::where('section_id', $oldSection->id)->get();
+                // dd($oldQuestions[0]->subdimension->dimension->id);
+                $section = [
+                    'name' => $oldSection->name,
+                    'sectionQuestionType' => $oldQuestions[0]->questionType->name,
+                    // 'sectionDimensionType' => $oldQuestions[0]->subdimension->dimension->name,
+                    'sectionDimensionType' => $oldQuestions[0]->subdimension->dimension->id,
+                    'sectionAnswerOption' => $oldQuestions[0]->answerOption->id,
+                ];
+                $this->sections[] = $section;
+                foreach ($oldQuestions as $oldQuestion) {
+                    if ($oldQuestion->questionType->name == 'Kenyataan') {
+                    } else {
+                        $this->sections[count($this->sections) - 1][] = [
+                            'questionName' => $oldQuestion->content,
+                            'sectionID' => $key,
+                            'dimensionID' => $oldQuestion->subdimension_id,
+                            'answerOptionID' => $oldQuestion->answer_option_id,
+                            // 'questionTypeID' => $oldQuestion->question_type_id,
+                        ];
+                        if ($oldQuestion->questionType->name == 'Harapan') {
+                            $this->sections[count($this->sections) - 1]['sectionQuestionType'] = 'harapanDanKenyataan';
+                        } elseif ($oldQuestion->questionType->name == 'Umum') {
+                            $this->sections[count($this->sections) - 1]['sectionQuestionType'] = 'tunggal';
+                        }
+                    }
+                }
+            }
+            // dd($this->sections);
+        }
     }
 
     #[Layout('layouts.app')]

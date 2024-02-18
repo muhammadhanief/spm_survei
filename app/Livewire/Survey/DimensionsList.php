@@ -217,15 +217,7 @@ class DimensionsList extends Component
 
     public function dd()
     {
-        $data = [
-            'url' => 'https://google.com',
-            'name' => 'Jantinnerezo',
-        ];
-        try {
-            Mail::to("haniefm19@gmail.com")->send(new RespondenSurveyAnnounceFirst($data));
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        dd($this->dimensionID);
     }
 
 
@@ -246,6 +238,7 @@ class DimensionsList extends Component
             session()->flash('gagalSearch', 'Dimensi tidak dapat ditemukan');
             return view('livewire.survey.dimensions-list', [
                 'dimensions' => $dimensions,
+
                 'subdimensions' => Subdimension::all(),
             ]);
         }

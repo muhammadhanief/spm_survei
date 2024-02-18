@@ -1,18 +1,10 @@
 <div class="mb-4">
     @foreach ($sections as $key => $section)
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            {{-- <div class="mt-2"> --}}
-            {{-- <div>
-                keynya adalah {{ $key }}
-            </div> --}}
-            <h3 class="text-sm text-gray-700 dark:text-gray-400">Blok {{ $key + 1 }} : {{ $section['name'] }}
-                <span>Dimensi:
-                    {{ $section['sectionQuestionType'] }}</span></h3>
-
-            {{-- @foreach ($section as $key => $value)
-                <p>{{ $key }}: {{ $value }}</p>
-            @endforeach --}}
-
+            <h3 class="text-sm text-gray-700 dark:text-gray-400 whitespace-pre-line">
+                Blok {{ $key + 1 }} : {{ $section['name'] }}
+                Dimensi : {{ \App\Models\Dimension::find($section['sectionDimensionType'])->name }}
+            </h3>
             @if (isset($section) && is_array($section))
                 @foreach ($section as $qKey => $question)
                     @if (isset($question) && is_array($question))
@@ -60,7 +52,6 @@
                 Pertanyaan di Blok ini</x-button-small>
             <x-button-small color="red" wire:click.prevent="deleteSection({{ $key }})">Hapus
                 Blok</x-button-small>
-            {{-- </div> --}}
         </div>
     @endforeach
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -100,9 +91,6 @@
                                     {{ $answerOption->type }}</option>
                             @endif
                         @endforeach
-                        {{-- <option value="" selected>Pilih tipe pertanyaan</option>
-                    <option value="tunggal">Tipe Umum</option>
-                    <option value="harapanDanKenyataan">Tipe Harapan dan Kenyataan</option> --}}
                     </select>
                     <x-error-display name="sectionAnswerOption" />
                 </label>

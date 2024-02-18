@@ -23,6 +23,5 @@
             </div>
         @endforeach
     </div>
-    <x-error-display name='answers.{{ $question->id }}.value' />
 </div>
-<x-error-display name='answers.{{ $question->id }}.value' />
+<x-error-display class='coba_ini' name='answers.{{ $question->id }}.value' />

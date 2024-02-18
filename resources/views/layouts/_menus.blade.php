@@ -58,12 +58,12 @@
             </a>
         </li>
         <li class="relative px-6 py-3">
-            {!! request()->routeIs('survey.create')
+            {!! request()->routeIs('page.survey.create')
                 ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
                 : '' !!}
             <a data-turbolinks-action="replace"
                 class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                href="{{ route('survey.create') }}">
+                href="{{ route('page.survey.create') }}">
                 <svg class="w-5 h-5" ari a-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -95,26 +95,49 @@
             {!! request()->routeIs('add.option')
                 ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
                 : '' !!}
-            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 text-black hover:text-gray-800 dark:hover:text-gray-200"
+            <a data-turbolinks-action="replace"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                 href="{{ route('add.option') }}">
                 <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                 </svg>
-                <span class="ml-4">Tambah Opsi</span>
+                </path>
+                </svg>
+                <span class="ml-4">{{ __('Tambah Opsi') }}</span>
             </a>
         </li>
         <li class="relative px-6 py-3">
             {!! request()->routeIs('target.responden')
                 ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
                 : '' !!}
-            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 text-black hover:text-gray-800 dark:hover:text-gray-200"
+            <a data-turbolinks-action="replace"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                 href="{{ route('target.responden') }}">
                 <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                 </svg>
-                <span class="ml-4">Target Responden</span>
+                </path>
+                </svg>
+                <span class="ml-4">{{ __('Target Responden') }}</span>
+            </a>
+        </li>
+        <li class="relative px-6 py-3">
+            {!! request()->routeIs('survey.visualize')
+                ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
+                : '' !!}
+            <a data-turbolinks-action="replace"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                href="{{ route('survey.visualize') }}">
+                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                    <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                </svg>
+                </path>
+                </svg>
+                <span class="ml-4">{{ __('Visualisasi') }}</span>
             </a>
         </li>
         <li class="relative px-6 py-3">
@@ -148,6 +171,7 @@
                 <span class="ml-4">Cards</span>
             </a>
         </li>
+
         <li class="relative px-6 py-3">
             {!! request()->routeIs('charts')
                 ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'

@@ -15,98 +15,76 @@
                     Progres Pengisian
                 </h4>
                 {{-- <div class="chart-container"> --}}
-                <div class="udin" style="position: relative; height:400px; width:400px">
-                    <canvas id="monitoringChart"></canvas>
+                <div class="chart-container">
+                    <canvas wire:ignore id="monitoringChart"></canvas>
                 </div>
-                {{-- @script --}}
-                <script>
-                    const data = {
-                        labels: @json(array_keys($dataChartIndividual)),
-                        datasets: [{
-                            data: @json(array_values($dataChartIndividual)),
-                            // backgroundColor: ["#0694a2", "#1c64f2", "#7e3af2"],
-                            label: "Dataset 1",
-                            borderWidth: 1,
-                        }]
 
-                    }
+                @script
+                    {{-- @push('js') --}}
+                    <script>
+                        const data = {
+                            labels: @json(array_keys($dataChartIndividual)),
+                            datasets: [{
+                                data: @json(array_values($dataChartIndividual)),
+                                // backgroundColor: ["#0694a2", "#1c64f2", "#7e3af2"],
+                                label: "Dataset 1",
+                                borderWidth: 1,
+                            }]
 
-                    const doughnutLabel = {
-                        id: 'doughnutLabel',
-                        beforeDatasetsDraw(chart, args, pluginOptions) {
-                            const {
-                                ctx,
-                                data
-                            } = chart;
-                            ctx.save();
-
-                            const totalPeople = data.datasets[0].data.reduce((acc, curr) => acc + curr);
-                            const submitted = data.datasets[0].data[0];
-                            const percentage = Math.round((submitted / totalPeople) * 100);
-
-                            const xCoor = chart.getDatasetMeta(0).data[0].x;
-                            const yCoor = chart.getDatasetMeta(0).data[0].y;
-
-                            ctx.font = 'bold 20px sans-serif';
-                            ctx.fillStyle = 'rgba(54, 162, 235, 1)';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(`${percentage}% Mengisi`, xCoor, yCoor);
                         }
-                    }
+                        // config
+                        const config = {
+                            type: 'doughnut',
+                            data,
+                            // plugins: [doughnutLabel],
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: `${Math.round((data.datasets[0].data[0] / data.datasets[0].data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`,
+                                        font: {
+                                            size: 20,
+                                        }
+                                    },
 
-                    // config
-                    const config = {
-                        type: 'doughnut',
-                        data,
-                        // plugins: [doughnutLabel],
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom'
-                                },
-                                title: {
-                                    display: true,
-                                    text: `${Math.round((data.datasets[0].data[0] / data.datasets[0].data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`,
-                                    font: {
-                                        size: 20,
-                                    }
                                 }
                             }
+
                         }
 
-                    }
+                        // render init block
+                        var ctx = document.getElementById('monitoringChart'); // node
+                        var ctx = document.getElementById('monitoringChart').getContext('2d'); // 2d context
+                        // ctx.canvas.width = 700; // Sesuaikan dengan lebar yang diinginkan
+                        // ctx.canvas.height = 400; // Sesuaikan dengan tinggi yang diinginkan
+                        var monitoringChart = new Chart(
+                            ctx, config
+                        );
 
-                    // render init block
-                    var ctx = document.getElementById('monitoringChart');
-                    var ctx = document.getElementById('monitoringChart').getContext('2d');
+                        var canvas = monitoringChart.canvas;
 
-                    // Set ukuran kontainer saat inisialisasi
-                    ctx.canvas.parentNode.style.height = '400px';
-                    ctx.canvas.parentNode.style.width = '400px';
+                        // realtime update
+                        $wire.on('chartUpdated', (dataChartIndividual) => {
+                            // Ambil label dan data dari objek
+                            console.log(dataChartIndividual);
+                            const dataObject = dataChartIndividual[0];
+                            const labels = Object.keys(dataObject);
+                            const data = Object.values(dataObject);
 
-                    var monitoringChart = new Chart(
-                        ctx, config
-                    );
-
-                    $wire.on('chartUpdated', (dataChartIndividual) => {
-                        // Ambil label dan data dari objek
-                        // const dataObject = dataChartIndividual[0];
-                        // const labels = Object.keys(dataObject);
-                        // const data = Object.values(dataObject);
-
-                        // monitoringChart.data.labels = labels;
-                        // monitoringChart.data.datasets[0].data = data;
-                        // monitoringChart.options.plugins.title.text =
-                        //     `${Math.round((data[0] / data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`;
-
-                        // monitoringChart.update();
-                        console.log("masuk ke sini")
-                    });
-                </script>
-                {{-- @endscript --}}
+                            monitoringChart.data.labels = labels;
+                            monitoringChart.data.datasets[0].data = data;
+                            monitoringChart.options.plugins.title.text =
+                                `${Math.round((data[0] / data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`;
+                            monitoringChart.update();
+                        });
+                    </script>
+                    {{-- @endpush --}}
+                @endscript
             </div>
             <div class="max-w-md p-4 bg-white  rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">

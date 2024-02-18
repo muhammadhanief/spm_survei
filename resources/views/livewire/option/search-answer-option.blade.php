@@ -86,7 +86,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="p-2 flex justify-start">
+                    <div class="p-2 ">
                         {{ $answerOptions->links() }}
                     </div>
                 </div>
