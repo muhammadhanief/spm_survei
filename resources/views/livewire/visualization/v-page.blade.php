@@ -28,13 +28,22 @@
                 <x-button-small-0 color='green' wire:click='generateChart'>Generate</x-button-small-0>
             </label>
         </div>
+
+        <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div class="flex flex-col md:flex-row justify-around ">
+                <div class="chart-container w-2/5">
+                    <canvas wire:ignore id="monitoringChart"></canvas>
+                </div>
+                <div class="w-2/5" wire:ignore id="chartContainer">
+                    <canvas id="chart3"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="chart-container">
-        <canvas wire:ignore id="monitoringChart"></canvas>
-    </div>
+
     @script
-        {{-- untuk select2 --}}
         <script>
+            {{-- untuk select2 --}}
             $(document).ready(function() {
                 $('#surveyID').select2();
                 $('#surveyID').on('change', function() {
@@ -43,53 +52,28 @@
                 });
             });
 
+            // BEGINNING radar chart
             const data = {
-                labels: [
-                    'Eating',
-                    'Drinking',
-                    'Sleeping',
-                    'Designing',
-                    'Coding',
-                    'Cycling',
-                    'Running'
-                ],
+                labels: [],
                 datasets: [{
                     label: 'My First Dataset',
-                    data: [65, 59, 90, 81, 56, 55, 40],
-                    fill: true,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(255, 99, 132)'
                 }, {
                     label: 'My Second Dataset',
-                    data: [28, 48, 40, 19, 96, 27, 100],
-                    fill: true,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgb(54, 162, 235)',
-                    pointBackgroundColor: 'rgb(54, 162, 235)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(54, 162, 235)'
                 }]
             };
-            // config
             const config = {
                 type: 'radar',
                 data: data,
-                // plugins: [doughnutLabel],
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    // maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             position: 'bottom'
                         },
                         title: {
                             display: true,
-                            // text: `${Math.round((data.datasets[0].data[0] / data.datasets[0].data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`,
+                            text: 'Radar Chart',
                             font: {
                                 size: 20,
                             }
@@ -108,28 +92,80 @@
                 }
 
             }
-
-            // render init block
             var ctx = document.getElementById('monitoringChart'); // node
             var ctx = document.getElementById('monitoringChart').getContext('2d'); // 2d context
             // ctx.canvas.width = 700; // Sesuaikan dengan lebar yang diinginkan
-            // ctx.canvas.height = 400; // Sesuaikan dengan tinggi yang diinginkan
-            var monitoringChart = new Chart(
+            // ctx.canvas.height = 700; // Sesuaikan dengan tinggi yang diinginkan
+            var radarChart = new Chart(
                 ctx, config
             );
+            var canvas = radarChart.canvas;
+            // END of radar chart
 
-            var canvas = monitoringChart.canvas;
 
-            // realtime update
-            $wire.on('chartUpdated', (dataRadar) => {
-                dataObject = dataRadar[0];
+            // BEGINING  stacKed bar chart
+            const labels2 = ["Kenyataan", "Harapan"];
+            const data2 = {
+                labels: labels2,
+                datasets: [{
+                        label: 'Nilai',
+                    },
+                    {
+                        label: 'Gap',
+                    },
+                ]
+            };
+            const config2 = {
+                type: 'bar',
+                data: data2,
+                options: {
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            font: {
+                                size: 20,
+                            },
+                            text: 'Stacked Bar Chart'
+                        },
+                    },
+                    responsive: true,
+                    // maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            min: 0,
+                            max: 4,
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    }
+                }
+            };
+            var ctx3 = document.getElementById('chart3').getContext('2d');
+            var stackedGapChart = new Chart(ctx3, config2);
+            // END of stacked bar chart
+
+            // FOR LIVEWIRE UPDATE
+            $wire.on('chartUpdated', (dataGap) => {
+                dataObject = dataGap[0]['radar'];
                 const datanya = dataObject;
-                monitoringChart.data = datanya;
-                monitoringChart.update();
+                radarChart.data = datanya;
+                radarChart.update();
+
+                dataStackedObject = dataGap[0]['stackedBarGap'];
+                const datanyaStacked = dataStackedObject;
+                stackedGapChart.data.datasets[0].data = datanyaStacked[0]; // ini untuk data asli
+                stackedGapChart.data.datasets[1].data = datanyaStacked[1]; // ini untuk data gap
+                xScalesAxisMax = datanyaStacked[0][1] + datanyaStacked[1][1];
+                stackedGapChart.options.scales.x.max = xScalesAxisMax;
+                stackedGapChart.update();
             });
         </script>
-        {{-- @push('js') --}}
-
-        {{-- @endpush --}}
     @endscript
+
 </div>

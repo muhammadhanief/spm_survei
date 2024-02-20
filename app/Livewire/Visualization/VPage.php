@@ -18,7 +18,7 @@ class VPage extends Component
 
     public $lastUpdatedTime;
     public $surveyID;
-    public $dataRadar = [];
+    public $dataGap = [];
 
     public function getDataChart()
     {
@@ -41,68 +41,53 @@ class VPage extends Component
 
         $questionKenyataan = Question::where('survey_id', $this->surveyID)->where('question_type_id', 3)->get();
         $answersKenyataan = Answer::whereIn('question_id', $questionKenyataan->pluck('id'))->get();
-
         $answersKenyataan = $answersKenyataan->map(function ($answer) use ($questionKenyataan) {
             $subdimensionId = $questionKenyataan->where('id', $answer->question_id)->pluck('subdimension_id')->first();
             $answer->subdimension_id = $subdimensionId;
             return $answer;
         });
-
         $rekapitulasiKenyataan = $answersKenyataan->groupBy('subdimension_id')->map(function ($answers) {
             $totalValue = $answers->sum('value');
             $averageValue = $totalValue / $answers->count();
             return $averageValue;
         })->values()->toArray();
 
-        // dd($rekapitulasiHarapan);
-        $this->dataRadar = [
+        $this->dataGap['radar'] = [
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'My First Dataset',
+                    'label' => 'Harapan',
                     'data' => $rekapitulasiHarapan,
-                    'fill' => true,
-                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'pointBackgroundColor' => 'rgb(255, 99, 132)',
-                    'pointBorderColor' => '#fff',
-                    'pointHoverBackgroundColor' => '#fff',
-                    'pointHoverBorderColor' => 'rgb(255, 99, 132)',
                 ],
                 [
-                    'label' => 'My Second Dataset',
+                    'label' => 'Kenyataan',
                     'data' => $rekapitulasiKenyataan,
-                    'fill' => true,
-                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
-                    'borderColor' => 'rgb(54, 162, 235)',
-                    'pointBackgroundColor' => 'rgb(54, 162, 235)',
-                    'pointBorderColor' => '#fff',
-                    'pointHoverBackgroundColor' => '#fff',
-                    'pointHoverBorderColor' => 'rgb(54, 162, 235)',
                 ],
             ],
         ];
-        // dd($this->dataRadar);
-    }
 
-    // public function updatedsurveyID()
-    // {
-    //     $this->getDataChart();
-    //     $this->dispatch('chartUpdated', $this->dataRadar);
-    // }
+        $noDimensiRekapitulasiKenyataan = $answersKenyataan->avg('value');
+        $noDimensiRekapitulasiHarapan = $answersHarapan->avg('value');
+        $gapTemp = $noDimensiRekapitulasiKenyataan - $noDimensiRekapitulasiHarapan;
+        if ($gapTemp < 0) {
+            $gapKenyataan = $gapTemp * -1;
+            $gapHarapan = 0;
+        } else {
+            $gapKenyataan = 0;
+            $gapHarapan = $gapTemp;
+        }
+
+        $this->dataGap['stackedBarGap'] = [
+            $nilai = [$noDimensiRekapitulasiKenyataan, $noDimensiRekapitulasiHarapan],
+            $gap = [$gapKenyataan, $gapHarapan],
+        ];
+    }
 
     public function generateChart()
     {
         $this->getDataChart();
-        $this->dispatch('chartUpdated', $this->dataRadar);
+        $this->dispatch('chartUpdated', $this->dataGap);
     }
-
-    // public function updated($property)
-    // {
-    //     if ($property == 'surveyID') {
-    //         $this->getDataChart();
-    //     }
-    // }
 
     public function dd()
     {
