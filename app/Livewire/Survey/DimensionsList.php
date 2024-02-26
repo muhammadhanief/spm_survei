@@ -32,12 +32,10 @@ class DimensionsList extends Component
         return [
             'name' => [
                 'required',
-                // 'min:5',
                 Rule::unique('dimensions')
             ],
             'description' => [
                 'required',
-                'min:5',
             ],
         ];
     }
@@ -46,8 +44,8 @@ class DimensionsList extends Component
     {
         // $this->validate();
         $this->validate([
-            'name' => 'required|min:5|unique:dimensions',
-            'description' => 'required|min:5'
+            'name' => 'required|unique:dimensions',
+            'description' => 'required'
         ]);
         // Dimension::create($this->all());
         Dimension::create([
@@ -140,7 +138,7 @@ class DimensionsList extends Component
     public function update($dimensionID)
     {
         $this->validate([
-            'editingDimensionDescription' => 'required|min:5'
+            'editingDimensionDescription' => 'required'
         ]);
 
         Dimension::find($dimensionID)->update([
@@ -162,17 +160,17 @@ class DimensionsList extends Component
     // FOR SUBDIMENSION
     #[Validate('required|not_in:')]
     public $dimensionID;
-    #[Validate('required|min:5')]
+    #[Validate('required')]
     public $subdimensionName = '';
-    #[Validate('required|min:5')]
+    #[Validate('required')]
     public $subdimensionDescription = '';
 
     public function createSubdimension()
     {
         $rules = [
             'dimensionID' => 'required|not_in:',
-            'subdimensionName' => 'required|min:5',
-            'subdimensionDescription' => 'required|min:5'
+            'subdimensionName' => 'required',
+            'subdimensionDescription' => 'required'
         ];
 
         $messages = [
@@ -195,6 +193,7 @@ class DimensionsList extends Component
             'dimension_id' => $this->dimensionID
         ]);
         $this->reset('subdimensionName', 'subdimensionDescription', 'dimensionID');
+        $this->dispatch('resetDimensionID');
         // session()->flash('success', 'Subdimensi sukses ditambahkan.');
         $this->alert('success', 'Sukses!', [
             'position' => 'center',

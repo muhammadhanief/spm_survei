@@ -20,18 +20,27 @@
                             @endforeach
                         </select>
                     </div>
+                    <x-error-display name="dimensionID" />
                     @script
                         <script>
                             $(document).ready(function() {
-                                $('#dimensionID').select2();
-                                $('#dimensionID').on('change', function() {
+                                var selectElement = $('#dimensionID');
+                                selectElement.select2();
+                                // Fungsi untuk mereset Select2 ke keadaan default
+                                function resetSelect2() {
+                                    selectElement.val(null).trigger('change');
+                                }
+                                // Mendengarkan Livewire untuk mereset dimensionID
+                                $wire.on('resetDimensionID', function() {
+                                    resetSelect2();
+                                });
+                                selectElement.on('change', function() {
                                     var data = $('#dimensionID').select2("val");
                                     $wire.set('dimensionID', data);
                                 });
                             });
                         </script>
                     @endscript
-                    <x-error-display name="dimensionID" />
                 </label>
                 <label class="block text-sm mt-2">
                     <span class="text-gray-700 dark:text-gray-400">Nama Subdimensi</span>

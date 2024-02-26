@@ -29,7 +29,7 @@ class Survey extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description'];
+    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description', 'expectedRespondents'];
 
     /**
      * The attributes that should be casted.

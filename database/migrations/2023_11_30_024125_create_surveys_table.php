@@ -18,6 +18,7 @@ class CreateSurveysTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('year')->nullable();
+            $table->integer('expectedRespondents')->nullable();
             $table->string('role_id');
             // $table->unsignedBigInteger('role_id')->nullable();
             // $table->foreign('role_id')->references('id')->on('roles');

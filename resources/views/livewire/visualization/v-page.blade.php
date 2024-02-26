@@ -8,37 +8,78 @@
             Visualisasi
         </h2>
         <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-            Elements
+            Analisis Gap antara Harapan dengan Kinerja
         </h4>
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <label class="block  text-sm">
                 <span class="text-gray-700 dark:text-gray-400">
                     Pilih Survei
+
+
                 </span>
-                <div class="py-2" wire:ignore>
-                    <select wire:model.live='surveyID' id="surveyID"
-                        class="select2 block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                        <option value="" selected>Pilih Dimensi Induk</option>
-                        @foreach ($surveys as $survey)
-                            <option value="{{ $survey->id }}">{{ $survey->name }}</option>
-                        @endforeach
-                    </select>
+                <div>
+                    <div class="py-2" wire:ignore>
+                        <select wire:model.live='surveyID' id="surveyID"
+                            class="select2 block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                            <option value="" selected>Pilih Survei</option>
+                            @foreach ($surveys as $survey)
+                                <option value="{{ $survey->id }}">{{ $survey->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <x-error-display name="surveyID" />
+                    <x-button-small-0 color='green' wire:click='generateChart'>Generate</x-button-small-0>
                 </div>
-                <x-error-display name="surveyID" />
-                <x-button-small-0 color='green' wire:click='generateChart'>Generate</x-button-small-0>
+
+
+                <div class="my-2 py-2 flex flex-col md:flex-row justify-around">
+                    <div class="chart-container md:w-2/5">
+                        <canvas wire:ignore id="monitoringChart"></canvas>
+                    </div>
+                    <div class="md:w-2/5" wire:ignore id="chartContainer">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                </div>
+
+                @if ($dataDeskripsi != null)
+                    <div class="flex justify-center text-md">
+                        <div class="min-w-0 xl:w-2/3 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+                                Deskripsi
+                            </h4>
+
+                            <p class="indent-8 text-justify text-gray-600 dark:text-gray-400">
+                                Survei {{ $dataDeskripsi['surveyName'] }} dilakukan pada tahun
+                                {{ $dataDeskripsi['surveyYear'] }} dengan jumlah
+                                responden
+                                {{ $dataDeskripsi['respondenCount'] }} orang dan target jumlah responden
+                                {{ $dataDeskripsi['expectedRespondents'] }} orang. Berikut
+                                adalah hasil analisis gap antara harapan dengan kinerja.
+                            </p>
+                            <p class="indent-8 text-justify text-gray-600 dark:text-gray-400">
+                                @foreach ($dataDeskripsi['dimensionData']['labels'] as $key => $labels)
+                                    Untuk dimensi {{ $labels }} memiliki nilai harapan sebesar
+                                    {{ $dataDeskripsi['dimensionData']['datasets'][0]['data'][$key] }}
+                                    sedangkan kenyataan sebesar
+                                    {{ $dataDeskripsi['dimensionData']['datasets'][1]['data'][$key] }}.
+                                @endforeach
+                            </p>
+                            <p class="indent-8 text-justify text-gray-600 dark:text-gray-400">
+                                Gap tertinggi terdapat pada dimensi {{ $dataDeskripsi['maxGap']['label'] }} dengan nilai
+                                {{ $dataDeskripsi['maxGap']['value'] }}. Sedangkan gap terendah terdapat pada dimensi
+                                {{ $dataDeskripsi['minGap']['label'] }} dengan nilai
+                                {{ $dataDeskripsi['minGap']['value'] }}. Gap rata-rata sebesar
+                                {{ $dataDeskripsi['gapKeseluruhan'] }}.
+                            </p>
+
+
+                        </div>
+                    </div>
+                @endif
             </label>
         </div>
 
-        <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <div class="flex flex-col md:flex-row justify-around ">
-                <div class="chart-container w-2/5">
-                    <canvas wire:ignore id="monitoringChart"></canvas>
-                </div>
-                <div class="w-2/5" wire:ignore id="chartContainer">
-                    <canvas id="chart3"></canvas>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     @script
@@ -104,7 +145,7 @@
 
 
             // BEGINING  stacKed bar chart
-            const labels2 = ["Kenyataan", "Harapan"];
+            const labels2 = ["Harapan", "Kenyataan"];
             const data2 = {
                 labels: labels2,
                 datasets: [{

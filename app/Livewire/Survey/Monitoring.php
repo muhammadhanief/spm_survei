@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 use App\Mail\RespondenSurveyAnnounceFirst;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\Validate;
 
 class Monitoring extends Component
 {
@@ -22,18 +23,29 @@ class Monitoring extends Component
     public $dataChartIndividual = [];
     public $search = '';
     public $lastUpdatedTime;
+    #[Validate]
+    public $expectedRespondents;
+
+    public function rules()
+    {
+        return [
+            'expectedRespondents' => 'required|numeric',
+        ];
+    }
 
     public function getDataChart()
     {
         $submittedIndividual = Entry::where('survey_id', $this->surveyID)
-            ->whereHas('targetResponden', function ($query) {
-                $query->where('type', 'individual');
-            })
+            // ->whereHas('targetResponden', function ($query) {
+            //     $query->where('type', 'individual');
+            // })
             ->count();
         $survey = Survey::find($this->surveyID);
-        $totalRespondenIndividual = TargetResponden::whereIn('role_id', json_decode($survey->role_id))
-            ->where('type', 'individual')
-            ->count();
+        // $totalRespondenIndividual = TargetResponden::whereIn('role_id', json_decode($survey->role_id))
+        //     ->where('type', 'individual')
+        //     ->count();
+        $totalRespondenIndividual = $this->expectedRespondents;
+
         $this->dataChartIndividual = [
             'Telah Mengisi' => $submittedIndividual,
             'Belum Mengisi' => $totalRespondenIndividual - $submittedIndividual,
@@ -67,6 +79,25 @@ class Monitoring extends Component
     public $errorMessage = '';
 
     // ...
+
+    public function updateExpectedResponden()
+    {
+        $this->validate([
+            'expectedRespondents' => 'required|numeric',
+        ]);
+        $survey = Survey::find($this->surveyID);
+        $survey->expectedRespondents = $this->expectedRespondents;
+        $this->getDataChart();
+        $this->dispatch('chartUpdated', $this->dataChartIndividual);
+        $survey->save();
+
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Jumlah target responden berhasil diupdate.',
+        ]);
+    }
 
     public function sendEmailReminder()
     {
@@ -133,8 +164,26 @@ class Monitoring extends Component
     public function mount($surveyID)
     {
         $this->surveyID = $surveyID;
+        $expectedRespondentsTemp = Survey::find($surveyID)->expectedRespondents;
+        if ($expectedRespondentsTemp == null) {
+            $this->expectedRespondents = 0;
+        } else {
+            $this->expectedRespondents = $expectedRespondentsTemp;
+        }
         $this->getDataChart();
         $this->lastUpdatedTime = now()->format('H:i:s');
+    }
+
+
+    public function copyLink()
+    {
+        $this->dispatch('copyLink', 'google.com');
+        $this->alert('success', 'Link berhasil disalin!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            // 'text' => 'Link berhasil disalin.',
+        ]);
     }
 
     #[Layout('layouts.app')]
@@ -159,6 +208,8 @@ class Monitoring extends Component
             'surveyID' => $surveyID,
             'targetRespondens' => $targetRespondens,
             'lastUpdatedTime' => $this->lastUpdatedTime,
+            'expectedRespondents' => $this->expectedRespondents,
+            'survey' => Survey::find($surveyID),
         ]);
     }
 }

@@ -10,6 +10,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\Subdimension;
+use App\Models\Entry;
 
 class VPage extends Component
 {
@@ -19,6 +20,7 @@ class VPage extends Component
     public $lastUpdatedTime;
     public $surveyID;
     public $dataGap = [];
+    public $dataDeskripsi = [];
 
     public function getDataChart()
     {
@@ -34,7 +36,7 @@ class VPage extends Component
         $rekapitulasiHarapan = $answersHarapan->groupBy('subdimension_id')->map(function ($answers) {
             $totalValue = $answers->sum('value');
             $averageValue = $totalValue / $answers->count();
-            return $averageValue;
+            return round($averageValue, 2);
         })->values()->toArray();
 
         $labels = Subdimension::whereIn('id', $questionHarapan->pluck('subdimension_id'))->orderBy('id')->pluck('name')->toArray();
@@ -49,7 +51,7 @@ class VPage extends Component
         $rekapitulasiKenyataan = $answersKenyataan->groupBy('subdimension_id')->map(function ($answers) {
             $totalValue = $answers->sum('value');
             $averageValue = $totalValue / $answers->count();
-            return $averageValue;
+            return round($averageValue, 2);
         })->values()->toArray();
 
         $this->dataGap['radar'] = [
@@ -66,9 +68,9 @@ class VPage extends Component
             ],
         ];
 
-        $noDimensiRekapitulasiKenyataan = $answersKenyataan->avg('value');
-        $noDimensiRekapitulasiHarapan = $answersHarapan->avg('value');
-        $gapTemp = $noDimensiRekapitulasiKenyataan - $noDimensiRekapitulasiHarapan;
+        $noDimensiRekapitulasiKenyataan = round($answersKenyataan->avg('value'), 2);
+        $noDimensiRekapitulasiHarapan = round($answersHarapan->avg('value'), 2);
+        $gapTemp = round($noDimensiRekapitulasiKenyataan - $noDimensiRekapitulasiHarapan, 2);
         if ($gapTemp < 0) {
             $gapKenyataan = $gapTemp * -1;
             $gapHarapan = 0;
@@ -78,9 +80,44 @@ class VPage extends Component
         }
 
         $this->dataGap['stackedBarGap'] = [
-            $nilai = [$noDimensiRekapitulasiKenyataan, $noDimensiRekapitulasiHarapan],
-            $gap = [$gapKenyataan, $gapHarapan],
+            $nilai = [$noDimensiRekapitulasiHarapan, $noDimensiRekapitulasiKenyataan,],
+            $gap = [$gapHarapan, $gapKenyataan,],
         ];
+
+        $gapPerDimensi = [];
+
+        foreach ($this->dataGap['radar']['labels'] as $key => $label) {
+            $gap = abs($this->dataGap['radar']['datasets'][1]['data'][$key] - $this->dataGap['radar']['datasets'][0]['data'][$key]);
+            $gapPerDimensi[$label] = $gap;
+        }
+
+        // getDataDeskripsi
+        $survey = Survey::find($this->surveyID);
+        $this->dataDeskripsi = [
+            'submitted' => Entry::where('survey_id', $this->surveyID)->count(),
+            'expectedRespondents' => $survey->expected_respondents,
+            'surveyName' => $survey->name,
+            'surveyYear' => $survey->year,
+            'respondenCount' => Entry::where('survey_id', $this->surveyID)->count(),
+            'expectedRespondents' => $survey->expectedRespondents,
+            'dimensionData' => [
+                'labels' => $labels,
+                'datasets' => [
+                    [
+                        'label' => 'Harapan',
+                        'data' => $rekapitulasiHarapan,
+                    ],
+                    [
+                        'label' => 'Kenyataan',
+                        'data' => $rekapitulasiKenyataan,
+                    ],
+                ],
+            ],
+            'maxGap' => ['label' => array_keys($gapPerDimensi, max($gapPerDimensi))[0], 'value' => max($gapPerDimensi)],
+            'minGap' => ['label' => array_keys($gapPerDimensi, min($gapPerDimensi))[0], 'value' => min($gapPerDimensi)],
+            'gapKeseluruhan' => $gapTemp,
+        ];
+        // dd($this->dataDeskripsi);
     }
 
     public function generateChart()
@@ -89,10 +126,15 @@ class VPage extends Component
         $this->dispatch('chartUpdated', $this->dataGap);
     }
 
+
     public function dd()
     {
         // dd($this->all());
         $this->dispatch('chartUpdated', 8);
+    }
+
+    public function mount()
+    {
     }
 
     #[Layout('layouts.app')]

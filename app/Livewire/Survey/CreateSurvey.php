@@ -15,6 +15,7 @@ use App\Models\Entry;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\AnswerOption;
 use App\Models\AnswerOptionValue;
+use Livewire\Attributes\On;
 
 class CreateSurvey extends Component
 {
@@ -23,8 +24,12 @@ class CreateSurvey extends Component
     public $name = '';
     #[Validate(['required', 'min:5'])]
     public $description = '';
+    #[Validate('required|not_in:')]
+    public $DimensionType = '';
     #[Validate(['required', 'numeric', 'digits:4'])]
     public $year = '';
+    #[Validate(['required', 'numeric'])]
+    public $expectedRespondents = '';
     #[Validate(['required', 'numeric', 'gt:0'])]
     public $limitPerParticipant = '';
     #[Validate(['required'], ['array'])]
@@ -34,6 +39,7 @@ class CreateSurvey extends Component
     #[Validate(['required', 'after:startAt'])]
     public $endAt = '';
 
+
     // Temporary variables for section and question
     #[Validate('required|min:3')]
     public $newSectionName = '';
@@ -42,7 +48,10 @@ class CreateSurvey extends Component
     #[Validate('required|not_in:')]
     public $sectionAnswerOption = '';
     #[Validate('required|not_in:')]
-    public $sectionDimensionType = '';
+    public $sectionSubDimensionType = '';
+
+    // #[Validate('required|not_in:')]
+    // public $rootDimension;
 
     public $sections = [];
     public $currentSection = 0;
@@ -52,7 +61,6 @@ class CreateSurvey extends Component
     public $surveyID;
 
     public $isEditing = false;
-
 
     public function rules()
     {
@@ -80,6 +88,10 @@ class CreateSurvey extends Component
             'year' => [
                 'required',
                 'numeric', 'digits:4',
+            ],
+            'expectedRespondents' => [
+                'required',
+                'numeric',
             ],
             'limitPerParticipant' => [
                 'required',
@@ -114,7 +126,7 @@ class CreateSurvey extends Component
                 'required', 'not_in:',
 
             ],
-            'sectionDimensionType' => [
+            'sectionSubDimensionType' => [
                 'required', 'not_in:',
             ],
         ];
@@ -127,14 +139,14 @@ class CreateSurvey extends Component
         $section = [
             'name' => $this->newSectionName,
             'sectionQuestionType' => $this->sectionQuestionType,
-            'sectionDimensionType' => $this->sectionDimensionType,
+            'sectionSubDimensionType' => $this->sectionSubDimensionType,
             'sectionAnswerOption' => $this->sectionAnswerOption,
         ]; // Buat objek model Section
         $this->sections[] = $section;
         $this->currentSection = count($this->sections) - 1;
         // $this->newSectionName = ''; // Reset nama bagian setelah menambahkan
         $this->showAddSectionForm = false; // Sembunyikan form setelah menambahkan bagian baru
-        $this->reset('sectionQuestionType', 'newSectionName', 'sectionDimensionType', 'sectionAnswerOption');
+        $this->reset('sectionQuestionType', 'newSectionName',  'sectionAnswerOption');
         session()->flash('successAddSection', 'Blok sukses ditambahkan.');
     }
 
@@ -156,7 +168,6 @@ class CreateSurvey extends Component
         $this->sections[$key][] = [
             'questionName' => '',
             'sectionID' => $key,
-            'dimensionID' => '',
         ];
         // $this->questions[$key][] = $newQuestion;
     }
@@ -180,9 +191,17 @@ class CreateSurvey extends Component
                 'required',
                 'min:5',
             ],
+            'DimensionType' => [
+                'required',
+                'not_in:'
+            ],
             'year' => [
                 'required',
                 'numeric', 'digits:4',
+            ],
+            'expectedRespondents' => [
+                'required',
+                'numeric',
             ],
             'roleIdParticipant' => [
                 'required',
@@ -199,6 +218,7 @@ class CreateSurvey extends Component
                 'required',
                 'after:startAt'
             ],
+
         ];
         $this->validate($surveyArrayRule);
     }
@@ -210,6 +230,7 @@ class CreateSurvey extends Component
             'name' => $this->name,
             'description' => $this->description,
             'year' => $this->year,
+            'expectedRespondents' => $this->expectedRespondents,
             'role_id' => json_encode(array_keys($this->roleIdParticipant)),
             'settings' => ['limit-per-participant' => $this->limitPerParticipant],
             'started_at' => $this->startAt,
@@ -225,6 +246,17 @@ class CreateSurvey extends Component
                 foreach ($section as $key2 => $question) {
                     if (is_numeric($key2)) {
                         $this->sections[$key][$key2]['answerOptionID'] = $section['sectionAnswerOption'];
+                        if (!isset($this->sections[$key][$key2]['dimensionID'])) {
+                            $this->sections[$key][$key2]['dimensionID'] = $section['sectionSubDimensionType'];
+                        }
+                    }
+                }
+            } else {
+                foreach ($section as $key2 => $question) {
+                    if (is_numeric($key2)) {
+                        if (!isset($this->sections[$key][$key2]['answerOptionID'])) {
+                            $this->sections[$key][$key2]['dimensionID'] = $section['sectionSubDimensionType'];
+                        }
                     }
                 }
             }
@@ -234,6 +266,7 @@ class CreateSurvey extends Component
     public function validateSectionAndQuestion()
     {
         $this->addAnswerOptionIDToHarapanDanKenyataan();
+        // dd($this->sections);
         $secQuesArrayRule = [];
         $messages = [];
         $attributes = [];
@@ -314,28 +347,6 @@ class CreateSurvey extends Component
                             'answer_option_id' => $question['answerOptionID'],
                         ]);
                     }
-                    // untuk oldsurvey karena dia sudah dalam bentuk harapan dan kenyataan
-                    // elseif ($this->sections[$key]['sectionQuestionType'] == 'Harapan') {
-                    //     Question::create([
-                    //         'survey_id' => $this->surveyID,
-                    //         'section_id' => $createdSectionID,
-                    //         'subdimension_id' => $question['dimensionID'],
-                    //         'question_type_id' => $question['questionTypeID'],
-                    //         'content' => $question['questionName'],
-                    //         'type' => 'udin',
-                    //         'answer_option_id' => $question['answerOptionID'],
-                    //     ]);
-                    // } elseif ($this->sections[$key]['sectionQuestionType'] == 'Umum') {
-                    //     Question::create([
-                    //         'survey_id' => $this->surveyID,
-                    //         'section_id' => $createdSectionID,
-                    //         'subdimension_id' => $question['dimensionID'],
-                    //         'question_type_id' => $question['questionTypeID'],
-                    //         'content' => $question['questionName'],
-                    //         'type' => 'udin',
-                    //         'answer_option_id' => $question['answerOptionID'],
-                    //     ]);
-                    // }
                 }
             }
         }
@@ -379,7 +390,14 @@ class CreateSurvey extends Component
             $this->name = $oldSurvey->name;
             $this->description = $oldSurvey->description;
             $this->year = $oldSurvey->year;
+            $this->expectedRespondents = $oldSurvey->expectedRespondents;
             $this->limitPerParticipant = $oldSurvey->settings['limit-per-participant'];
+            // untuk dimensi di awal
+            $oldSectiionFirst = Section::where('survey_id', $oldSurveyID)->first();
+            $oldSubdimensionFirst = $oldSectiionFirst->questions[0]->subdimension;
+            $oldDimension = $oldSubdimensionFirst->dimension()->first()->id;
+            $this->DimensionType = $oldDimension;
+
             $roleIds = json_decode($oldSurvey->role_id, true);
             $this->roleIdParticipant = array_combine($roleIds, array_fill(0, count($roleIds), true));
             $this->startAt = $oldSurvey->started_at;
@@ -393,8 +411,7 @@ class CreateSurvey extends Component
                 $section = [
                     'name' => $oldSection->name,
                     'sectionQuestionType' => $oldQuestions[0]->questionType->name,
-                    // 'sectionDimensionType' => $oldQuestions[0]->subdimension->dimension->name,
-                    'sectionDimensionType' => $oldQuestions[0]->subdimension->dimension->id,
+                    // 'DimensionType' => $oldQuestions[0]->subdimension->dimension->id,
                     'sectionAnswerOption' => $oldQuestions[0]->answerOption->id,
                 ];
                 $this->sections[] = $section;
@@ -406,7 +423,6 @@ class CreateSurvey extends Component
                             'sectionID' => $key,
                             'dimensionID' => $oldQuestion->subdimension_id,
                             'answerOptionID' => $oldQuestion->answer_option_id,
-                            // 'questionTypeID' => $oldQuestion->question_type_id,
                         ];
                         if ($oldQuestion->questionType->name == 'Harapan') {
                             $this->sections[count($this->sections) - 1]['sectionQuestionType'] = 'harapanDanKenyataan';

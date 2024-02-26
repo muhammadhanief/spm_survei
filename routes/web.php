@@ -77,7 +77,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     // untuk mengisi survei
     Route::get('/survei/isi', FillSurvey::class)->name('survey.fill.overview');
-    Route::get('/survei/isi/{surveyID}/{uniqueCode}', FillSurveyDetail::class)->name('survey.fill');
+    // Route::get('/survei/isi/{surveyID}/{uniqueCode}', FillSurveyDetail::class)->name('survey.fill');
+    Route::get('/survei/isi/{surveyID}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
     // {surveyID}
     // Route::get('/testing/isi/{surveyID}', TestPersis::class)->name('survey.fill');
     // untuk error

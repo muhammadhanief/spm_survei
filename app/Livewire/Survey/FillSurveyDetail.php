@@ -23,7 +23,7 @@ class FillSurveyDetail extends Component
 
 
     // Fungsi mount digunakan untuk menginisialisasi komponen dengan parameter rute.
-    public function mount($surveyID, $uniqueCode)
+    public function mount($surveyID, $uniqueCode = null)
     {
         $this->surveyID = $surveyID;
         $this->uniqueCode = $uniqueCode;
@@ -38,15 +38,20 @@ class FillSurveyDetail extends Component
 
         $targetResponden = TargetResponden::where('unique_code', $uniqueCode)->first();
         // dd($targetResponden);
-        $targetRespondenID = $targetResponden->id;
-        if ($targetResponden->type == 'group') {
-            $this->isKuota = true;
-        } else {
-            $entry = Entry::where('survey_id', $surveyID)->where('target_responden_id', $targetRespondenID)->first();
-            if ($entry == null) {
+        if ($targetResponden != null) {
+            $targetRespondenID = $targetResponden->id;
+            if ($targetResponden->type == 'group') {
                 $this->isKuota = true;
+            } else {
+                $entry = Entry::where('survey_id', $surveyID)->where('target_responden_id', $targetRespondenID)->first();
+                if ($entry == null) {
+                    $this->isKuota = true;
+                }
             }
+        } else {
+            $this->isKuota = true;
         }
+
         // dd($this->isKuota);
     }
 
@@ -185,12 +190,16 @@ class FillSurveyDetail extends Component
         $surveyID = $this->surveyID;
         $survey = Survey::find($surveyID);
         $this->survey = $survey;
+        if ($survey == null) {
+            return view('errors.404');
+        }
         $arrayOfRoleSurvey = json_decode($survey->role_id);
 
         // mengambil data target responden
         $targetResponden = TargetResponden::where('unique_code', $this->uniqueCode)->first();
         if ($targetResponden == null) {
-            return view('errors.404');
+            // return view('errors.404');
+            $targetRespondenRoleID = null;
         } else {
             $targetRespondenRoleID = $targetResponden->role_id;
         }
@@ -203,15 +212,19 @@ class FillSurveyDetail extends Component
             }
         }
 
-        if ($survey != null && $isMatched && $this->isKuota) {
+        // if ($survey != null && $isMatched && $this->isKuota) {
+        // gajadi make ismatched karena tidak jadi pake unique code
+        if ($survey != null) {
             // Redirect or provide a proper response for non-existing surveyID
             return view('livewire.survey.fill-survey-detail', [
                 'survey' => $survey,
                 'targetResponden' => $targetResponden,
             ]);
-        } elseif ($this->isKuota == false) {
-            return view('errors.404-limit');
-        } else {
+        }
+        // elseif ($this->isKuota == false) {
+        //     return view('errors.404-limit');
+        // } 
+        else {
             return view('errors.404');
         }
     }

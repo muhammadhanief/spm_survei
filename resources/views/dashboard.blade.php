@@ -19,11 +19,19 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Total clients
+                        Total clientsTotal clientsTotal clientsTotal clientsTotal clients$ 46,760.89$ 46,760.89$
+                        46,760.89$ 46,760.89
                     </p>
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        6389
+                    <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        TotalclientsTotalclientsTotalclientsTotalclientsTotalclients$ 46,760.89$ 46,760.89$
+                        46,760.89$ 46,760.89
                     </p>
+                    {{-- <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        6389clientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotal
+                    </p> --}}
+                    {{-- <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-200">
+                        6389clientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotal
+                    </p> --}}
                 </div>
             </div>
             <!-- Card -->
@@ -40,7 +48,7 @@
                         Account balance
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        $ 46,760.89
+                        $46,760.89$46,760.8946,760.8946,760.89,760.89,760.89
                     </p>
                 </div>
             </div>

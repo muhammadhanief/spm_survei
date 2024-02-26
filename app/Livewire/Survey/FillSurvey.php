@@ -48,7 +48,9 @@ class FillSurvey extends Component
                 'text' => 'Survey tidak dapat diisi karena belum dimulai/telah selesai',
             ]);
         } else {
-            $this->redirectRoute('survey.fill', ['surveyID' => $surveyID, 'uniqueCode' => $this->matchedTargetRespondenInfo->unique_code]);
+            // $this->redirectRoute('survey.fill', ['surveyID' => $surveyID, 'uniqueCode' => $this->matchedTargetRespondenInfo->unique_code]);
+            // gajadi pake unique code
+            $this->redirectRoute('survey.fill', ['surveyID' => $surveyID]);
         }
     }
     public $test = '';

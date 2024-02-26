@@ -13,12 +13,32 @@
             rows="3" placeholder="Tulis deskripsi Disini. Biasanya tentang pengantar dari survei. "></textarea>
         <x-error-display name="description" />
     </label>
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Tipe dimensi di survei ini
+        </span>
+        <select wire:model.live='DimensionType'
+            class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option value="" selected>Pilih tipe dimensi</option>
+            @foreach ($dimensions as $dimension)
+                <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
+            @endforeach
+        </select>
+        <x-error-display name="DimensionType" />
+    </label>
     <label class="block  mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">Tahun</span>
         <input wire:model.live='year' type="text" id="year"
             class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="Tahun" />
         <x-error-display name="year" />
+    </label>
+    <label class="block  mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">Jumlah Expected Responden</span>
+        <input wire:model.live='expectedRespondents' type="text" id="expectedRespondents"
+            class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="Expected Responden" />
+        <x-error-display name="expectedRespondents" />
     </label>
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
