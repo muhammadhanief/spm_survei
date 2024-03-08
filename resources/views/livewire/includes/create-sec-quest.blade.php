@@ -1,7 +1,7 @@
 <div class="mb-4">
     @foreach ($sections as $key => $section)
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <h3 class="text-sm text-gray-700 dark:text-gray-400 whitespace-pre-line">
+            <h3 class="text-sm text-gray-700 whitespace-pre-line dark:text-gray-400">
                 Blok {{ $key + 1 }} : {{ $section['name'] }}
                 {{-- Dimensi : {{ \App\Models\Dimension::find($section['DimensionType'])->name }} --}}
             </h3>
@@ -122,7 +122,7 @@
                 Buat Blok Baru
             </x-button-small>
             @if (session('successAddSection'))
-                <span class="text-green-600 dark:text-green-400 text-xs mt-3">{{ session('successAddSection') }}</span>
+                <span class="mt-3 text-xs text-green-600 dark:text-green-400">{{ session('successAddSection') }}</span>
             @endif
         @endif
     </div>

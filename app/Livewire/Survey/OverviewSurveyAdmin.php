@@ -69,7 +69,7 @@ class OverviewSurveyAdmin extends Component
     public function render()
     {
         $surveys = Survey::where('name', 'like', "%{$this->search}%")
-            ->orderBy('started_at', 'asc')
+            // ->orderBy('started_at', 'asc')
             ->latest()
             ->paginate(5);
         if ($surveys->isNotEmpty()) {

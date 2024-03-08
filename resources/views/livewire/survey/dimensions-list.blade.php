@@ -1,21 +1,21 @@
 <div>
     <x-slot:title>Dimensi</x-slot:title>
     @include('livewire.includes.offline-alert')
-    <x-button-small color='red' wire:click='dd'>
+    {{-- <x-button-small color='red' wire:click='dd'>
         dd
-    </x-button-small>
+    </x-button-small> --}}
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dimensi
         </h2>
 
         {{-- <div><x-button-small color='red' wire:click='dd'>dd</x-button-small></div> --}}
-        <div class="flex flex-col  justify-between md:gap-2">
-            <div class="flex flex-col md:flex-row gap-2">
-                <div class="md:w-1/2 mb-2 md:mb-0">
+        <div class="flex flex-col justify-between md:gap-2">
+            <div class="flex flex-col gap-2 md:flex-row">
+                <div class="mb-2 md:w-1/2 md:mb-0">
                     @include('livewire.includes.create-dimension-box')
                 </div>
-                <div class="md:w-1/2 mb-2 md:mb-0">
+                <div class="mb-2 md:w-1/2 md:mb-0">
                     @include('livewire.includes.create-subdimension-box')
                 </div>
             </div>

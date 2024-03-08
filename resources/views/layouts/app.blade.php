@@ -28,10 +28,10 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" /> --}}
     {{-- for select2 --}}
-    <link rel="stylesheet" href="{{ asset('css/select2manual.css') }}" />
-
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/select2manual.css') }}" /> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     @vite('resources/js/app.js')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     {{-- alpine js --}}
     {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}

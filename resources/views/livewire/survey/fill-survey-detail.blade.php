@@ -2,10 +2,10 @@
     <x-slot:title>Isi Survei</x-slot:title>
     <div class="container grid px-6 mx-auto">
 
-        <div class="max-w-3xl mx-auto w-full" wire:key="{{ $currentSectionIndex }}">
-            <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <div class="w-full max-w-3xl mx-auto" wire:key="{{ $currentSectionIndex }}">
+            {{-- <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 <x-button-small wire:click.prevent='dd' color='red'>DD</x-button-small>
-            </h2>
+            </h2> --}}
             @if ($currentSectionIndex == -1)
                 @include('livewire.includes.fillSurvey.overview-fill')
             @else
@@ -29,7 +29,7 @@
                 </div>
                 @if ($currentSectionIndex == count($survey->sections) - 1)
                     <div wire:click.prevent='create' type='submit' style="cursor: pointer;"
-                        class="px-6 py-2 text-white rounded-lg shadow-md dark:text-gray-800 bg-purple-900 dark:bg-purple-500 hover:bg-purple-600 dark:hover:bg-purple-700">
+                        class="px-6 py-2 text-white bg-purple-900 rounded-lg shadow-md dark:text-gray-800 dark:bg-purple-500 hover:bg-purple-600 dark:hover:bg-purple-700">
                         <button>
                             Submit
                         </button>

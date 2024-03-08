@@ -19,12 +19,10 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Total clientsTotal clientsTotal clientsTotal clientsTotal clients$ 46,760.89$ 46,760.89$
-                        46,760.89$ 46,760.89
+                        Total survei
                     </p>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        TotalclientsTotalclientsTotalclientsTotalclientsTotalclients$ 46,760.89$ 46,760.89$
-                        46,760.89$ 46,760.89
+                        {{ $countSurvey }}
                     </p>
                     {{-- <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                         6389clientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotalclientsTotal
@@ -91,7 +89,7 @@
         </div>
 
         <!-- New Table -->
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        {{-- <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
                     <thead>
@@ -473,13 +471,13 @@
                     </nav>
                 </span>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Charts -->
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        {{-- <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Charts
-        </h2>
-        <div class="grid gap-6 mb-8 md:grid-cols-2">
+        </h2> --}}
+        {{-- <div class="grid gap-6 mb-8 md:grid-cols-2">
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
                     Revenue
@@ -518,7 +516,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     {{-- <div class="py-12">

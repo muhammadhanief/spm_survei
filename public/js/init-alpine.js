@@ -64,14 +64,6 @@ function data() {
         isModalOpen: false,
         currentModal: null,
         trapCleanup: null,
-        // openModal() {
-        //     this.isModalOpen = true;
-        //     this.trapCleanup = focusTrap(document.querySelector("#modal"));
-        // },
-        // closeModal() {
-        //     this.isModalOpen = false;
-        //     this.trapCleanup();
-        // },
 
         openModal(modalId) {
             this.isModalOpen = true;

@@ -3,7 +3,6 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Tables
         </h2>
-
         <!-- With avatar -->
         <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
             Table with avatars
@@ -100,7 +99,7 @@
                                     </div>
                                     <div>
                                         <p class="font-semibold">Sarah Curry</p>
-                                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 ">
                                             Designer
                                         </p>
                                     </div>

@@ -5,12 +5,12 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Monitoring Survei
         </h2>
-        <div class="flex flex-row py-2 gap-2 items-center">
+        <div class="flex flex-row items-center gap-2 py-2">
             <x-button-small-0 color='blue' wire:click='updateAll'>Klik untuk update</x-button-small-0>
             <p class="text-sm text-gray-700 dark:text-gray-400">Terakhir diupdate {{ $lastUpdatedTime }}</p>
         </div>
-        <div class="gap-6 mb-8 flex flex-col md:flex-row">
-            <div class=" p-4 bg-white  rounded-lg shadow-xs dark:bg-gray-800">
+        <div class="flex flex-col gap-6 mb-8 md:flex-row">
+            <div class="p-4 bg-white rounded-lg shadow-xs  dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
                     Progres Pengisian
                 </h4>
@@ -21,7 +21,7 @@
             </div>
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
                 <!-- Card -->
-                <div class="flex items-center p-4 h-full w-full bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="flex items-center w-full h-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div
                         class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                         <svg fill="currentColor" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <!-- Card -->
-                <div class="flex items-center p-4 h-full w-full bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="flex items-center w-full h-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div class="p-3 mr-4 text-red-500 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-500">
                         <svg fill="currentColor" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <!-- Card -->
-                <div class="flex items-center p-4 h-full w-full bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="flex items-center w-full h-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div
                         class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <!-- Card -->
-                <div class="flex items-center p-4 h-full w-full bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="flex items-center w-full h-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <svg fill="currentColor" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@
                             <span class="text-gray-700 dark:text-gray-400">Nama Akar Dimensi</span>
                             <input disabled value="{{ route('survey.fill', ['surveyID' => $surveyID]) }}" type="text"
                                 id="linkSurvey"
-                                class=" w-full pr-20 my-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
+                                class="w-full pr-20 my-1 text-sm text-black  dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
                         <div class="flex flex-col gap-2">

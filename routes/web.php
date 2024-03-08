@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleLoginController;
+use App\Livewire\DashBoard;
 use App\Livewire\Survey\DimensionsList;
 use App\Livewire\Survey\CreateSurvey;
 use App\Livewire\Survey\DetailSurvey;
@@ -38,9 +39,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
 });
 
 // GoogleLoginController redirect and callback urls
@@ -58,6 +59,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
     Route::get('/dimensi', DimensionsList::class)->name('dimensi');
+
+
+    // dashboard
+    Route::get('/dashboard', DashBoard::class)->name('dashboard');
 
     // untuk pembuatan survey
     Route::get('/survei/buat', PageCreateSurvey::class)->name('page.survey.create');

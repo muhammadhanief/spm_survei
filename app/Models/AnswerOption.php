@@ -17,6 +17,7 @@ class AnswerOption extends Model
      */
     protected $fillable = ['name', 'type'];
 
+
     /**
      * The survey sections.
      *
