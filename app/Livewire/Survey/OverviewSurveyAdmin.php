@@ -43,26 +43,30 @@ class OverviewSurveyAdmin extends Component
     {
         $survey = Survey::find($surveyID);
         $started_at_parsed = \Carbon\Carbon::parse($survey->started_at);
-        if ($started_at_parsed->isPast()) {
-            // session()->flash('errorHapus', 'survey tidak dapat dihapus karena sudah dimulai');
-            $this->alert('error', 'Gagal!', [
-                'position' => 'center',
-                'timer' => 2000,
-                'toast' => true,
-                'text' => 'Survey tidak dapat dihapus karena sudah dimulai/selesai',
-            ]);
-        } else {
-            $survey->questions()->delete();
-            $survey->sections()->delete();
-            $survey->delete();
-            // session()->flash('successHapus', 'survey berhasil dihapus.');
-            $this->alert('success', 'Sukses!', [
-                'position' => 'center',
-                'timer' => 2000,
-                'toast' => true,
-                'text' => 'Survey sukses dihapus.',
-            ]);
+        // if ($started_at_parsed->isPast()) {
+        //     // session()->flash('errorHapus', 'survey tidak dapat dihapus karena sudah dimulai');
+        //     $this->alert('error', 'Gagal!', [
+        //         'position' => 'center',
+        //         'timer' => 2000,
+        //         'toast' => true,
+        //         'text' => 'Survey tidak dapat dihapus karena sudah dimulai/selesai',
+        //     ]);
+        // } else {
+        foreach ($survey->questions as $question) {
+            $question->answers()->delete();
         }
+        $survey->questions()->delete();
+        $survey->sections()->delete();
+        $survey->entries()->delete();
+        $survey->delete();
+        // session()->flash('successHapus', 'survey berhasil dihapus.');
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Survey sukses dihapus.',
+        ]);
+        // }
     }
 
     #[Layout('layouts.app')]

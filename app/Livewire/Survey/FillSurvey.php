@@ -24,14 +24,14 @@ class FillSurvey extends Component
 
     public function mount()
     {
-        $userInfo = Auth::user();
-        $this->userInfo = $userInfo;
-        $userEmail = $userInfo->email;
-        $this->matchedTargetRespondenInfo = TargetResponden::where('email', $userEmail)->first();
-        if ($this->matchedTargetRespondenInfo) {
-            // Jika data ditemukan, update kolom user_id
-            $this->matchedTargetRespondenInfo->update(['user_id' => $userInfo->id]);
-        }
+        // $userInfo = Auth::user();
+        // $this->userInfo = $userInfo;
+        // $userEmail = $userInfo->email;
+        // $this->matchedTargetRespondenInfo = TargetResponden::where('email', $userEmail)->first();
+        // if ($this->matchedTargetRespondenInfo) {
+        //     // Jika data ditemukan, update kolom user_id
+        //     $this->matchedTargetRespondenInfo->update(['user_id' => $userInfo->id]);
+        // }
     }
 
     public function fillSurvey($surveyID)
@@ -48,8 +48,6 @@ class FillSurvey extends Component
                 'text' => 'Survey tidak dapat diisi karena belum dimulai/telah selesai',
             ]);
         } else {
-            // $this->redirectRoute('survey.fill', ['surveyID' => $surveyID, 'uniqueCode' => $this->matchedTargetRespondenInfo->unique_code]);
-            // gajadi pake unique code
             $this->redirectRoute('survey.fill', ['surveyID' => $surveyID]);
         }
     }
@@ -63,21 +61,12 @@ class FillSurvey extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        if ($this->matchedTargetRespondenInfo != null) {
-            $surveys = Survey::where('name', 'like', "%{$this->search}%")
-                ->whereJsonContains('role_id', $this->matchedTargetRespondenInfo->role_id)
-                ->orderBy('started_at', 'asc')
-                ->latest()
-                ->paginate(5);
-        } else {
-            $surveys = Survey::where('name', 'like', "%{$this->search}%")
-                ->whereJsonContains('role_id', null)
-                ->orderBy('started_at', 'asc')
-                ->latest()
-                ->paginate(5);
-        }
-
-
+        // if ($this->matchedTargetRespondenInfo != null) {
+        $surveys = Survey::where('name', 'like', "%{$this->search}%")
+            // ->whereJsonContains('role_id', $this->matchedTargetRespondenInfo->role_id)
+            ->orderBy('started_at', 'asc')
+            ->latest()
+            ->paginate(5);
         if ($surveys->isNotEmpty()) {
             return view('livewire.survey.fill-survey', [
                 'surveys' => $surveys,

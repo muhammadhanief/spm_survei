@@ -3,6 +3,7 @@
 namespace App\Livewire\Visualization;
 
 use App\Models\Answer;
+use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Survey;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\Subdimension;
 use App\Models\Entry;
+use Livewire\Attributes\Validate;
 
 class VPage extends Component
 {
@@ -18,9 +20,17 @@ class VPage extends Component
     use LivewireAlert;
 
     public $lastUpdatedTime;
+    #[Validate('required|not_in:')]
     public $surveyID;
     public $dataGap = [];
     public $dataDeskripsi = [];
+
+    // untuk pie chart
+    public $dimensionofSurvei;
+    #[Validate('required|not_in:')]
+    public $subDimension;
+    public $dataChartPieDimension = [];
+    public $judulsubDimension;
 
     public function getDataChart()
     {
@@ -67,6 +77,7 @@ class VPage extends Component
                 ],
             ],
         ];
+
 
         $noDimensiRekapitulasiKenyataan = round($answersKenyataan->avg('value'), 2);
         $noDimensiRekapitulasiHarapan = round($answersHarapan->avg('value'), 2);
@@ -117,20 +128,110 @@ class VPage extends Component
             'minGap' => ['label' => array_keys($gapPerDimensi, min($gapPerDimensi))[0], 'value' => min($gapPerDimensi)],
             'gapKeseluruhan' => $gapTemp,
         ];
-        // dd($this->dataDeskripsi);
+
+        // get Pie Chart
+        $questions = Question::where('survey_id', $this->surveyID)->get();
+        // ngambil 1 nilai subdimensi aja
+        $subdimensionofSurveiID = $questions->pluck('subdimension_id')->unique()->first();
+        $subdimensionofSurvei = Subdimension::find($subdimensionofSurveiID);
+        $dimensionofSurvei = $subdimensionofSurvei->dimension;
+        $this->dimensionofSurvei = $dimensionofSurvei;
     }
 
     public function generateChart()
     {
+        $rules = [
+            'surveyID' => 'required|not_in:',
+        ];
+        $messages = [
+            'required' => ':attribute wajib diisi.',
+            'min' => ':attribute minimal wajib :min karakter.',
+            'not_in' => ':attribute wajib memiliki nilai yang valid.',
+        ];
+        $attributes = [
+            'surveyID' => 'Survei',
+        ];
+        $this->validate($rules, $messages, $attributes);
+
         $this->getDataChart();
         $this->dispatch('chartUpdated', $this->dataGap);
+    }
+
+    public function getDataPieChartDimension()
+    {
+        $questions = Question::where('survey_id', $this->surveyID)->get();
+    }
+
+
+    public function generatePieChartDimension()
+    {
+        $rules = [
+            'subDimension' => 'required|not_in:',
+        ];
+        $messages = [
+            'required' => ':attribute wajib diisi.',
+            'min' => ':attribute minimal wajib :min karakter.',
+            'not_in' => ':attribute wajib memiliki nilai yang valid.',
+        ];
+        $attributes = [
+            'subDimension' => 'Dimensi',
+        ];
+        $this->validate($rules, $messages, $attributes);
+
+        // Mengambil semua pertanyaan yang terkait dengan survei yang dipilih
+        $questionsHarapan = Question::where('survey_id', $this->surveyID)->where('subdimension_id', $this->subDimension)->where('question_type_id', 2)->pluck('id');
+        $questionsKenyataan = Question::where('survey_id', $this->surveyID)->where('subdimension_id', $this->subDimension)->where('question_type_id', 3)->pluck('id');
+
+        // Mengambil semua jawaban yang memiliki pertanyaan yang terkait dengan survei yang dipilih
+        $answersHarapan = Answer::whereIn('question_id', $questionsHarapan)->orderBy('value', 'asc')->get();
+        $answersKenyataan = Answer::whereIn('question_id', $questionsKenyataan)->orderBy('value', 'asc')->get();
+
+        // Mengelompokkan jawaban berdasarkan nilai
+        $answersGroupedHarapan = $answersHarapan->groupBy('value')->map(function ($answers) {
+            return $answers->count();
+        });
+        $answersGroupedKenyataan = $answersKenyataan->groupBy('value')->map(function ($answers) {
+            return $answers->count();
+        });
+
+        $QuestionPertama = Question::where('survey_id', $this->surveyID)->where('question_type_id', 2)->first();
+
+        $AnswerOptionValues = $QuestionPertama->answeroption->answeroptionvalues;
+        // dd($AnswerOptionValues);
+        $names = $AnswerOptionValues->map(function ($AnswerOptionValues) {
+            return $AnswerOptionValues->name;
+        })->values()->all(); // Menghapus kembali kunci indeks, lalu memulai kembali dari 0
+        // dd($names);
+
+        $chartHarapan = [];
+        foreach ($names as $key => $value) {
+            foreach ($answersGroupedHarapan as $key2 => $value2) {
+                if ($key + 1 == $key2) {
+                    $this->dataChartPieDimension['Harapan'][$value] = $value2;
+                    $chartHarapan[] = $value2;
+                }
+            }
+        }
+
+        // $chartKenyataan = [];
+        foreach ($names as $key => $value) {
+            foreach ($answersGroupedKenyataan as $key2 => $value2) {
+                if ($key + 1 == $key2) {
+                    $this->dataChartPieDimension['Kenyataan'][$value] = $value2;
+                }
+            }
+        }
+
+
+        $this->judulsubDimension = Subdimension::find($this->subDimension)->name;
+        $this->dispatch('chartPieUpdated', $this->dataChartPieDimension);
     }
 
 
     public function dd()
     {
-        // dd($this->all());
-        $this->dispatch('chartUpdated', 8);
+        dd($this->all());
+        // $this->dispatch('chartUpdated', 8);
     }
 
     public function mount()
@@ -140,9 +241,12 @@ class VPage extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        // $surveysWithEntries = Survey::has('entries')->get();
         return view('livewire.visualization.v-page', [
+            // 'surveys' => $surveysWithEntries,
             'surveys' => Survey::all(),
             'lastUpdatedTime' => $this->lastUpdatedTime,
+            'subdimensions' => Subdimension::all(),
         ]);
     }
 }

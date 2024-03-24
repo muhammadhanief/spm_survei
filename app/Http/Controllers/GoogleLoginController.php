@@ -33,34 +33,44 @@ class GoogleLoginController extends Controller
             $emailUsername = $emailParts[0]; // Get username, which is before @
             $emailDomain = $emailParts[1]; // Get domain, which is after @
 
-            // sementara dimatikan karena ingin mencoba fillsurvey
-            if ($emailDomain == 'stis.ac.id') {
-                // Mengecek apakah sebelum @ terdiri dari 9 digit dan angka
-                if (preg_match('/^\d{9}$/', $emailUsername)) {
-                    $newUser->save(); // Log in the new user.
-                    $newUser->assignRole('mahasiswa');
-                }
-                // Mengecek apakah sebelum @ dimulai dengan "ukm"
-                elseif (strpos($emailUsername, 'ukm') === 0) {
-                    return redirect()->route('login')->withErrors(['email' => 'Email UKM tidak diperbolehkan untuk login.']);
-                }
-                // Jika tidak memenuhi kondisi di atas, dianggap sebagai dosen
-                else {
-                    $newUser->save(); // Log in the new user.
-                    $newUser->assignRole('dosen');
-                }
-                auth()->login($newUser, true);
-            } else if ($emailDomain == 'bps.go.id') {
-                $patternEmailBPS = '/^bps\d{4}@bps\.go\.id$/';
-                if (preg_match($patternEmailBPS, $email)) {
-                    $newUser->save(); // Log in the new user.
-                    $newUser->assignRole('pengguna_lulusan');
-                } else {
-                    return redirect()->route('login')->withErrors(['email' => 'Masih belum bisa dipastikan apakah mereka alumni atau hanya pegawai biasa bps']);
-                }
+            if ($newUser->email == '222011686@stis.ac.id') {
+                $newUser->save(); // Log in the new user.
+                $newUser->assignRole('Admin');
                 auth()->login($newUser, true);
             } else {
-                return redirect()->route('login')->withErrors(['email' => 'Gunakan Email dengan domain stis.ac.id atau bps.go.id atau email instansi Anda']);
+                // sementara dimatikan karena ingin mencoba fillsurvey
+                $newUser->save(); // Log in the new user.
+                $newUser->assignRole('User');
+                auth()->login($newUser, true);
+
+                // if ($emailDomain == 'stis.ac.id') {
+                //     // Mengecek apakah sebelum @ terdiri dari 9 digit dan angka
+                //     if (preg_match('/^\d{9}$/', $emailUsername)) {
+                //         $newUser->save(); // Log in the new user.
+                //         $newUser->assignRole('mahasiswa');
+                //     }
+                //     // Mengecek apakah sebelum @ dimulai dengan "ukm"
+                //     elseif (strpos($emailUsername, 'ukm') === 0) {
+                //         return redirect()->route('login')->withErrors(['email' => 'Email UKM tidak diperbolehkan untuk login.']);
+                //     }
+                //     // Jika tidak memenuhi kondisi di atas, dianggap sebagai dosen
+                //     else {
+                //         $newUser->save(); // Log in the new user.
+                //         $newUser->assignRole('dosen');
+                //     }
+                //     auth()->login($newUser, true);
+                // } else if ($emailDomain == 'bps.go.id') {
+                //     $patternEmailBPS = '/^bps\d{4}@bps\.go\.id$/';
+                //     if (preg_match($patternEmailBPS, $email)) {
+                //         $newUser->save(); // Log in the new user.
+                //         $newUser->assignRole('pengguna_lulusan');
+                //     } else {
+                //         return redirect()->route('login')->withErrors(['email' => 'Masih belum bisa dipastikan apakah mereka alumni atau hanya pegawai biasa bps']);
+                //     }
+                //     auth()->login($newUser, true);
+                // } else {
+                //     return redirect()->route('login')->withErrors(['email' => 'Gunakan Email dengan domain stis.ac.id atau bps.go.id atau email instansi Anda']);
+                // }
             }
 
 

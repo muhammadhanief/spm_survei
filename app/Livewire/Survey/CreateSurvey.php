@@ -40,6 +40,8 @@ class CreateSurvey extends Component
     public $endAt = '';
 
 
+    // ...refreshPaths,
+
     // Temporary variables for section and question
     #[Validate('required|min:3')]
     public $newSectionName = '';
@@ -254,7 +256,8 @@ class CreateSurvey extends Component
             } else {
                 foreach ($section as $key2 => $question) {
                     if (is_numeric($key2)) {
-                        if (!isset($this->sections[$key][$key2]['answerOptionID'])) {
+                        // if (!isset($this->sections[$key][$key2]['answerOptionID'])) {
+                        if (!isset($this->sections[$key][$key2]['dimensionID'])) {
                             $this->sections[$key][$key2]['dimensionID'] = $section['sectionSubDimensionType'];
                         }
                     }
@@ -266,7 +269,7 @@ class CreateSurvey extends Component
     public function validateSectionAndQuestion()
     {
         $this->addAnswerOptionIDToHarapanDanKenyataan();
-        // dd($this->sections);
+
         $secQuesArrayRule = [];
         $messages = [];
         $attributes = [];
@@ -355,7 +358,9 @@ class CreateSurvey extends Component
     public function create()
     {
         $this->validateSurvey();
+
         if ($this->validateSectionAndQuestion()) {
+            // dd('ga masuk sini');
             $this->createSurvey();
             $this->createSectionAndQuestion();
             $this->reset();
@@ -439,8 +444,9 @@ class CreateSurvey extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        $roles = Role::whereNotIn('name', ['SuperAdmin', 'Admin', 'User'])->get();
         return view('livewire.survey.create-survey', [
-            'roles' => Role::all(),
+            'roles' => $roles,
             'dimensions' => Dimension::all(),
             'subdimensions' => Subdimension::all(),
             'answerOptions' => AnswerOption::all(),

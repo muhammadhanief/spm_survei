@@ -6,7 +6,13 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ["resources/css/app.css", "resources/js/app.js"],
-            refresh: [...refreshPaths, "app/Livewire/**"],
+            refresh: [
+                "app/Livewire/**",
+                "resources/routes/**",
+                "routes/**",
+                "resources/views/**",
+                "resources/views/**/*.blade.php",
+            ],
         }),
         // purge({
         //     templates: ["blade"],

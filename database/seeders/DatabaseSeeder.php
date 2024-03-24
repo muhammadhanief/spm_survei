@@ -26,13 +26,17 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Role::create(['name' => 'SuperAdmin']);
         Role::create(['name' => 'Admin']);
+        Role::create(['name' => 'User']);
         Role::create(['name' => 'Operator']);
         Role::create(['name' => 'Dosen']);
         Role::create(['name' => 'Mahasiswa']);
         Role::create(['name' => 'Tenaga kependidikan']);
         Role::create(['name' => 'Pengguna lulusan']);
         Role::create(['name' => 'Lulusan']);
+
+
 
         // seeder untuk question type
         QuestionType::create([

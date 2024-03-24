@@ -164,7 +164,6 @@ class DimensionsList extends Component
     public $subdimensionName = '';
     #[Validate('required')]
     public $subdimensionDescription = '';
-
     public function createSubdimension()
     {
         $rules = [
@@ -194,7 +193,6 @@ class DimensionsList extends Component
         ]);
         $this->reset('subdimensionName', 'subdimensionDescription', 'dimensionID');
         $this->dispatch('resetDimensionID');
-        // session()->flash('success', 'Subdimensi sukses ditambahkan.');
         $this->alert('success', 'Sukses!', [
             'position' => 'center',
             'timer' => 2000,

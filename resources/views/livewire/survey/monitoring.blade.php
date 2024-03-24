@@ -10,7 +10,7 @@
             <p class="text-sm text-gray-700 dark:text-gray-400">Terakhir diupdate {{ $lastUpdatedTime }}</p>
         </div>
         <div class="flex flex-col gap-6 mb-8 md:flex-row">
-            <div class="p-4 bg-white rounded-lg shadow-xs  dark:bg-gray-800">
+            <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
                     Progres Pengisian
                 </h4>
@@ -108,7 +108,7 @@
                             <span class="text-gray-700 dark:text-gray-400">Nama Akar Dimensi</span>
                             <input disabled value="{{ route('survey.fill', ['surveyID' => $surveyID]) }}" type="text"
                                 id="linkSurvey"
-                                class="w-full pr-20 my-1 text-sm text-black  dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
+                                class="w-full pr-20 my-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
                         <div class="flex flex-col gap-2">
@@ -144,6 +144,14 @@
                     }]
 
                 }
+
+                // Hitung total
+                const total = data.datasets[0].data.reduce((acc, curr) => acc + curr);
+
+                // Tetapkan persentase yang tepat
+                const percentage = Math.round((data.datasets[0].data[0] / total) * 100);
+                const text = `${percentage}% Telah Mengisi`;
+
                 // config
                 const config = {
                     type: 'doughnut',
@@ -158,7 +166,7 @@
                             },
                             title: {
                                 display: true,
-                                text: `${Math.round((data.datasets[0].data[0] / data.datasets[0].data.reduce((acc, curr) => acc + curr)) * 100)}% Telah Mengisi`,
+                                text,
                                 font: {
                                     size: 20,
                                 }

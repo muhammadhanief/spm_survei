@@ -70,6 +70,8 @@ class Survey extends Model
         return $this->hasMany(Entry::class);
     }
 
+
+
     /**
      * Check if survey accepts guest entries.
      *

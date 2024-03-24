@@ -109,7 +109,7 @@ class FillSurveyDetail extends Component
     public function addEntry()
     {
         $targetResponden = TargetResponden::where('unique_code', $this->uniqueCode)->first();
-        $targetRespondenID = $targetResponden->id;
+        $targetRespondenID = $targetResponden ? $targetResponden->id : null;
         // dd($targetRespondenRoleID);
         $entry = Entry::create([
             'survey_id' => $this->surveyID,

@@ -46,9 +46,16 @@ class Monitoring extends Component
         //     ->count();
         $totalRespondenIndividual = $this->expectedRespondents;
 
+        // Hitung jumlah yang belum mengisi
+        $belumMengisi = $totalRespondenIndividual - $submittedIndividual;
+
+        // Jika jumlah yang belum mengisi menjadi negatif, atur menjadi 0
+        $belumMengisi = max(0, $belumMengisi);
+
+        // Assign data ke dalam array
         $this->dataChartIndividual = [
             'Telah Mengisi' => $submittedIndividual,
-            'Belum Mengisi' => $totalRespondenIndividual - $submittedIndividual,
+            'Belum Mengisi' => $belumMengisi,
         ];
     }
 
@@ -106,7 +113,7 @@ class Monitoring extends Component
                 $join->on('target_respondens.id', '=', 'entries.target_responden_id')
                     ->where('entries.survey_id', '=', $this->surveyID);
             })
-            ->where('target_respondens.type', '=', 'individual')
+            // ->where('target_respondens.type', '=', 'individual')
             ->select(
                 'target_respondens.*',
                 DB::raw('CASE WHEN entries.target_responden_id IS NOT NULL THEN true ELSE false END as submitted')
@@ -118,7 +125,7 @@ class Monitoring extends Component
         $error = [];
 
         foreach ($targetRespondens as $targetResponden) {
-            if ($targetResponden->submitted == false) {
+            if ($targetResponden->submitted == false || $targetResponden->type == "group") {
                 try {
                     Mail::to($targetResponden->email)->send(new RespondenSurveyAnnounceFirst([
                         'email' => $targetResponden->email,
@@ -190,13 +197,13 @@ class Monitoring extends Component
     public function render()
     {
         $surveyID = $this->surveyID;
-        // $targetRespondens = TargetResponden::whereIn('role_id', json_decode(Survey::find($surveyID)->role_id))->paginate(20);
+        $targetRespondens = TargetResponden::whereIn('role_id', json_decode(Survey::find($surveyID)->role_id))->paginate(20);
         $targetRespondens = DB::table('target_respondens')
             ->leftJoin('entries', function ($join) {
                 $join->on('target_respondens.id', '=', 'entries.target_responden_id')
                     ->where('entries.survey_id', '=', $this->surveyID);
             })
-            ->where('target_respondens.type', '=', 'individual')
+            // ->where('target_respondens.type', '=', 'individual')
             ->where('name', 'like', "%{$this->search}%")
             ->select(
                 'target_respondens.*',

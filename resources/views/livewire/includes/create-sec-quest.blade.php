@@ -3,7 +3,6 @@
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <h3 class="text-sm text-gray-700 whitespace-pre-line dark:text-gray-400">
                 Blok {{ $key + 1 }} : {{ $section['name'] }}
-                {{-- Dimensi : {{ \App\Models\Dimension::find($section['DimensionType'])->name }} --}}
             </h3>
             @if (isset($section) && is_array($section))
                 @foreach ($section as $qKey => $question)
@@ -76,11 +75,9 @@
                     class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="" selected>Pilih Subdimensi</option>
                     @foreach ($subdimensions as $subdimension)
-                        {{-- <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option> --}}
                         @if ($subdimension->dimension_id == $DimensionType)
                             <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option>
                         @endif
-                        {{-- {{ $section['dimensionID'] }} --}}
                     @endforeach
                 </select>
                 <x-error-display name="sectionSubDimensionType" />
