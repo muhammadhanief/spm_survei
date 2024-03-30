@@ -148,7 +148,7 @@ class CreateSurvey extends Component
         $this->currentSection = count($this->sections) - 1;
         // $this->newSectionName = ''; // Reset nama bagian setelah menambahkan
         $this->showAddSectionForm = false; // Sembunyikan form setelah menambahkan bagian baru
-        $this->reset('sectionQuestionType', 'newSectionName',  'sectionAnswerOption');
+        $this->reset('sectionQuestionType', 'newSectionName',  'sectionAnswerOption', 'sectionSubDimensionType');
         session()->flash('successAddSection', 'Blok sukses ditambahkan.');
     }
 

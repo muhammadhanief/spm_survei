@@ -1,7 +1,7 @@
 <div class="pb-16 md:pb-32">
     <x-slot:title>Visualisasi</x-slot:title>
     @include('livewire.includes.offline-alert')
-    <x-button-small-0 color='red' wire:click='dd'>DD</x-button-small-0>
+    {{-- <x-button-small-0 color='red' wire:click='dd'>DD</x-button-small-0> --}}
 
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
@@ -237,7 +237,7 @@
                 ],
                 datasets: [{
                     label: 'Jumlah Responden',
-                    data: [100, 100, 100],
+                    data: [],
                     backgroundColor: [
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)',
@@ -277,7 +277,7 @@
                 ],
                 datasets: [{
                     label: 'Jumlah Responden',
-                    data: [300, 50, 100],
+                    data: [],
                     hoverOffset: 4
                 }]
             };
@@ -327,14 +327,18 @@
                 const data = Object.values(dataHarapanObject);
                 pieChartHarapan.data.labels = labels;
                 pieChartHarapan.data.datasets[0].data = data;
-                const generateRandomColor = () => {
-                    const r = Math.floor(Math.random() * 256);
-                    const g = Math.floor(Math.random() * 256);
-                    const b = Math.floor(Math.random() * 256);
-                    return `rgb(${r},${g},${b})`;
+                const generateBrighterGradientColor = (index, total) => {
+                    const hue = (index / total) * 120; // Hue range from 0 to 120 for green to red
+                    const saturation = 100; // Full saturation
+                    const lightness = 50 + (index / total) * 25; // Adjust lightness for brightness
+                    return `hsl(${hue},${saturation}%,${lightness}%)`;
                 };
-                const backgroundColors = labels.map(() => generateRandomColor());
+
+                const totalLabels = labels.length;
+                const backgroundColors = labels.map((label, index) => generateBrighterGradientColor(index,
+                    totalLabels));
                 pieChartKenyataan.data.datasets[0].backgroundColor = backgroundColors;
+
                 pieChartHarapan.update();
 
                 dataKenyataanObject = dataPie[0]['Kenyataan'];

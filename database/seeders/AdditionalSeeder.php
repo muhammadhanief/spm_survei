@@ -18,16 +18,23 @@ class AdditionalSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        foreach (range(1, 10) as $index) {
-            $user  = User::create([
-                'name' => $faker->name,
-                'email' => $faker->email,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-            ]);
-            $user->assignRole('User');
-        }
+        // foreach (range(1, 10) as $index) {
+        //     $user  = User::create([
+        //         'name' => $faker->name,
+        //         'email' => $faker->email,
+        //         'password' => bcrypt('password'),
+        //         'remember_token' => Str::random(10),
+        //     ]);
+        //     $user->assignRole('User');
+        // }
+        $user = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin'),
+            'remember_token' => Str::random(10),
+        ]);
+        $user->assignRole('Admin');
     }
 }
