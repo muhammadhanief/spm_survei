@@ -79,6 +79,7 @@ class VPage extends Component
         ];
 
 
+
         $noDimensiRekapitulasiKenyataan = round($answersKenyataan->avg('value'), 2);
         $noDimensiRekapitulasiHarapan = round($answersHarapan->avg('value'), 2);
         $gapTemp = round($noDimensiRekapitulasiKenyataan - $noDimensiRekapitulasiHarapan, 2);
@@ -101,6 +102,31 @@ class VPage extends Component
             $gap = abs($this->dataGap['radar']['datasets'][1]['data'][$key] - $this->dataGap['radar']['datasets'][0]['data'][$key]);
             $gapPerDimensi[$label] = $gap;
         }
+
+        // for quadrant
+        $newData = [];
+
+        foreach ($labels as $key => $label) {
+            $newData[] = [
+                'label' => $label,
+                'data' => [
+                    [
+                        'x' => $rekapitulasiHarapan[$key],
+                        'y' => $rekapitulasiKenyataan[$key],
+                    ],
+                ],
+            ];
+        }
+
+        $this->dataGap['quadrants']['data'] = [
+            'datasets' => $newData,
+        ];
+        $this->dataGap['quadrants']['axis'] = [
+            'midX' => $this->dataGap['stackedBarGap'][0][1],
+            'midY' => $this->dataGap['stackedBarGap'][0][0],
+        ];
+
+        // end of quadrant
 
         // getDataDeskripsi
         $survey = Survey::find($this->surveyID);
@@ -190,9 +216,13 @@ class VPage extends Component
         $answersGroupedHarapan = $answersHarapan->groupBy('value')->map(function ($answers) {
             return $answers->count();
         });
+
+
         $answersGroupedKenyataan = $answersKenyataan->groupBy('value')->map(function ($answers) {
             return $answers->count();
         });
+
+        // dd($answersGroupedHarapan, $answersGroupedHarapanPersentase, $answersGroupedKenyataan, $answersGroupedKenyataanPersentase);
 
         $QuestionPertama = Question::where('survey_id', $this->surveyID)->where('question_type_id', 2)->first();
 

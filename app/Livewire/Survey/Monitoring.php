@@ -102,7 +102,7 @@ class Monitoring extends Component
             'position' => 'center',
             'timer' => 2000,
             'toast' => true,
-            'text' => 'Jumlah target responden berhasil diupdate.',
+            'text' => 'Jumlah target responden berhasil diperbaharui.',
         ]);
     }
 
@@ -185,7 +185,7 @@ class Monitoring extends Component
     public function copyLink()
     {
         $this->dispatch('copyLink', 'google.com');
-        $this->alert('success', 'Link berhasil disalin!', [
+        $this->alert('success', 'Tautan berhasil disalin!', [
             'position' => 'center',
             'timer' => 2000,
             'toast' => true,

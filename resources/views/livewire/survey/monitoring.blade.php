@@ -6,8 +6,8 @@
             Monitoring Survei
         </h2>
         <div class="flex flex-row items-center gap-2 py-2">
-            <x-button-small-0 color='blue' wire:click='updateAll'>Klik untuk update</x-button-small-0>
-            <p class="text-sm text-gray-700 dark:text-gray-400">Terakhir diupdate {{ $lastUpdatedTime }}</p>
+            <x-button-small-0 color='blue' wire:click='updateAll'>Klik untuk perbarui</x-button-small-0>
+            <p class="text-sm text-gray-700 dark:text-gray-400">Terakhir diperbarui pukul {{ $lastUpdatedTime }}</p>
         </div>
         <div class="flex flex-col gap-6 mb-8 md:flex-row">
             <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
@@ -71,15 +71,24 @@
                     </div>
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Expected Total Responden
+                            Harapan Total Responden
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             <input wire:model.live='expectedRespondents'
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Masukkan angka" value={{ $expectedRespondents }} />
                             <x-error-display name="expectedRespondents" />
-                            <x-button-small-0 color='blue' class="my-2"
-                                wire:click='updateExpectedResponden'>Update</x-button-small-0>
+                        <div class="flex flex-col">
+                            <div>
+                                <x-button-small-0 color='blue' class="my-1 mt-2"
+                                    wire:click='updateExpectedResponden'>Perbarui</x-button-small-0>
+                            </div>
+                            <div>
+                                <x-button-small-0 color='green' class="my-1"
+                                    wire:click='updateExpectedResponden'>Unduh
+                                    Fail Respon</x-button-small-0>
+                            </div>
+                        </div>
                         </p>
                     </div>
                 </div>
@@ -95,7 +104,7 @@
                     </div>
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Link Survei
+                            Tautan Survei
                         </p>
                         {{-- <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             <a id="linkSurvey"
@@ -114,16 +123,16 @@
                         <div class="flex flex-col gap-2">
                             <div>
                                 <x-button-small-0 wire:click="copyLink" color='blue'>Salin
-                                    Link</x-button-small-0>
+                                    Tautan</x-button-small-0>
                             </div>
                             <div>
-                                <x-button-small-0 color='green' wire:click='sendEmailReminder'>Kirim email
-                                    reminder</x-button-small-0>
+                                <x-button-small-0 color='green' wire:click='sendEmailReminder'>Kirim surel
+                                    pengingat</x-button-small-0>
                             </div>
                         </div>
                         <div wire:loading wire:target="sendEmailReminder">
                             <div class="alert alert-info" id="progressAlert">
-                                Mengirim Email, mohon tunggu...
+                                Mengirim Surel, mohon tunggu...
                             </div>
                         </div>
                     </div>

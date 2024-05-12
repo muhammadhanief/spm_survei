@@ -58,7 +58,7 @@ class DimensionsList extends Component
             'position' => 'center',
             'timer' => 2000,
             'toast' => true,
-            'text' => 'Dimensi sukses ditambahkan.',
+            'text' => 'Kategori dimensi sukses ditambahkan.',
         ]);
     }
 

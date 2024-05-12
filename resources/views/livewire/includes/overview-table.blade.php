@@ -1,6 +1,6 @@
 <!-- With actions -->
 <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-    Overview Survei
+    Ringkasan Survei
 </h4>
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
     <div id="search-box" class="flex flex-col items-start justify-center px-2 my-4">

@@ -1,12 +1,12 @@
 <!-- Cari, Hapus, Edit Dimensi -->
-<h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-    Cari, Hapus, Edit Akar Dimensi
+<h4 class="mt-4 mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+    Cari, Hapus & Edit Kategori Dimensi
 </h4>
-<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800  ">
-    <div id="search-box" class="flex flex-col items-start px-2 my-4 justify-center">
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
+    <div id="search-box" class="flex flex-col items-start justify-center px-2 my-4">
         <!-- Search input -->
         <div id="kolom-pencarian" class="flex">
-            <div class="relative w-full max-w-xl  focus-within:text-purple-500 ">
+            <div class="relative w-full max-w-xl focus-within:text-purple-500 ">
                 <div class="absolute inset-y-0 flex items-center pl-2">
                     <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
@@ -17,17 +17,17 @@
                 </div>
                 <input
                     class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                    wire:model.live.debounce.500ms="search" type="text" placeholder="Cari Akar Dimensi.." />
+                    wire:model.live.debounce.500ms="search" type="text" placeholder="Cari Kategori Dimensi.." />
             </div>
         </div>
         <div>
             @if (session('gagalSearch'))
-                <div class="text-red-500 text-xs pt-2">{{ session('gagalSearch') }}</div>
+                <div class="pt-2 text-xs text-red-500">{{ session('gagalSearch') }}</div>
             @endif
             @if (session('successHapus'))
-                <div class="text-green-500 text-xs pt-2">{{ session('successHapus') }}</div>
+                <div class="pt-2 text-xs text-green-500">{{ session('successHapus') }}</div>
             @else
-                <div class="text-red-500 text-xs pt-2">{{ session('errorHapus') }}</div>
+                <div class="pt-2 text-xs text-red-500">{{ session('errorHapus') }}</div>
             @endif
         </div>
     </div>

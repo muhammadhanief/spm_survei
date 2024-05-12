@@ -28,7 +28,7 @@
         <div class="mt-4 mb-6">
             <!-- Modal title -->
             <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Subdimensi yang ada di dimensi "{{ $showingDimensionName }}"
+                Dimensi yang ada di kategori dimensi "{{ $showingDimensionName }}"
             </p>
             <!-- Modal description -->
             <div class="container grid mx-auto">
@@ -38,8 +38,8 @@
                             <thead>
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                    <th class="px-4 py-3">Nama Subdimensi</th>
-                                    <th class="px-4 py-3">Deskripsi Subdimensi</th>
+                                    <th class="px-4 py-3">Nama Dimensi</th>
+                                    <th class="px-4 py-3">Deskripsi Dimensi</th>
                                     {{-- <th class="px-4 py-3">Status</th> --}}
                                     <th class="px-4 py-3">Aksi</th>
                                 </tr>
@@ -67,7 +67,7 @@
                                                         class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                                         rows="3"></textarea>
                                                     @error('editingDimensionDescription')
-                                                        <span class="text-red-500 text-xs block">{{ $message }}</span>
+                                                        <span class="block text-xs text-red-500">{{ $message }}</span>
                                                     @enderror
                                                     <x-button-small color="green"
                                                         wire:click='update({{ $subdimension->id }})'>
@@ -76,13 +76,16 @@
                                                         Cancel</x-button-small>
                                                 @else
                                                     @php
-                                                        $truncatedDescription = Str::limit($subdimension->description, 15);
+                                                        $truncatedDescription = Str::limit(
+                                                            $subdimension->description,
+                                                            15,
+                                                        );
                                                     @endphp
                                                     <p class="font-semibold" title="{{ $subdimension->description }}">
                                                         {{ $truncatedDescription }}</p>
                                                 @endif
                                                 @if (session('successUpdate') && session('successUpdate')['dimensionID'] === $dimension->id)
-                                                    <div class="text-green-600 dark:text-green-400 text-xs mt-3">
+                                                    <div class="mt-3 text-xs text-green-600 dark:text-green-400">
                                                         {{ session('successUpdate')['message'] }}</div>
                                                 @endif
                                             </td>

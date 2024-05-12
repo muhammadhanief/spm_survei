@@ -23,10 +23,10 @@
             @include('livewire.includes.create-overview-survey')
             @include('livewire.includes.create-sec-quest')
             @if (session('successAdd'))
-                <span class="text-green-600 dark:text-green-400 text-xs mt-3">{{ session('successAdd') }}</span>
+                <span class="mt-3 text-xs text-green-600 dark:text-green-400">{{ session('successAdd') }}</span>
             @endif
             @if (session('failedAdd'))
-                <span class="text-red-600 dark:text-red-400 text-xs mt-3">{{ session('failedAdd') }}</span>
+                <span class="mt-3 text-xs text-red-600 dark:text-red-400">{{ session('failedAdd') }}</span>
             @endif
             <div>
                 <x-button-small wire:click.prevent='create'
@@ -42,10 +42,10 @@
         </form>
 
     </div>
-    {{-- <script>
+    <script>
         window.addEventListener('beforeunload', function(event) {
             event.preventDefault();
             event.returnValue = "Apakah Anda yakin ingin meninggalkan halaman ini?";
         });
-    </script> --}}
+    </script>
 </div>

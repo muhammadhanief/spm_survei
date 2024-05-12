@@ -69,11 +69,11 @@
             </label>
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">
-                    Tipe subdimensi di blok ini
+                    Tipe dimensi di blok ini
                 </span>
                 <select wire:model.live='sectionSubDimensionType'
                     class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                    <option value="" selected>Pilih Subdimensi</option>
+                    <option value="" selected>Pilih dimensi</option>
                     @foreach ($subdimensions as $subdimension)
                         @if ($subdimension->dimension_id == $DimensionType)
                             <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option>

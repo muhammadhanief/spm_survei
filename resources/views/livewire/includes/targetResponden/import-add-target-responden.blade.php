@@ -1,9 +1,9 @@
 <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-    Tambah Target Responden (via Import Excel)
+    Tambah Target Responden (via Impor Excel)
 </h4>
-<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800  ">
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
     <x-button-small color="blue" wire:click="import" @click="openModal('modal')">
-        Import Target Responden (Excel)
+        Impor Target Responden (Excel)
     </x-button-small>
 </div>
 <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
@@ -52,18 +52,20 @@
                 </select>
                 <x-error-display-mt1 name='roleId' />
             </div>
-            <label class="block  text-sm mt-2">
-                <span class="text-gray-700 dark:text-gray-400">
-                    Pilih Kategori Email
-                </span>
-                <select wire:model.live='importType'
-                    class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                    <option value="" selected>Pilih Kategori Email</option>
-                    <option value="individual">Email Individual</option>
-                    <option value="group">Email Grup</option>
-                </select>
-                <x-error-display name="importType" />
-            </label>
+            <div class="flex flex-col m-2">
+                <label class="block mt-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                        Pilih Kategori Surel
+                    </span>
+                    <select wire:model.live='importType'
+                        class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <option value="" selected>Pilih Kategori Surel</option>
+                        <option value="individual">Surel Individual</option>
+                        <option value="group">Surel Grup</option>
+                    </select>
+                    <x-error-display name="importType" />
+                </label>
+            </div>
             <div class="flex flex-col m-2">
                 <label class="text-sm text-gray-700 dark:text-gray-400" for="file_input">Upload
                     file</label>
