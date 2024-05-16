@@ -55,28 +55,32 @@
                             </h4>
                             <p class="text-justify text-gray-600 indent-8 dark:text-gray-400">
                                 Survei {{ $dataDeskripsi['surveyName'] }} dilakukan pada tahun
-                                {{ $dataDeskripsi['surveyYear'] }} dengan jumlah
+                                {{ number_format($dataDeskripsi['surveyYear'], 2, ',', '.') }} dengan jumlah
                                 responden
-                                {{ $dataDeskripsi['respondenCount'] }} orang dan target jumlah responden
-                                {{ $dataDeskripsi['expectedRespondents'] }} orang. Berikut
+                                {{ number_format($dataDeskripsi['respondenCount'], 2, ',', '.') }} orang dan target
+                                jumlah responden
+                                {{ number_format($dataDeskripsi['expectedRespondents'], 2, ',', '.') }} orang. Berikut
                                 adalah hasil analisis gap antara harapan dengan kinerja.
                             </p>
                             <p class="text-justify text-gray-600 indent-8 dark:text-gray-400">
                                 @foreach ($dataDeskripsi['dimensionData']['labels'] as $key => $labels)
                                     Untuk dimensi {{ $labels }} memiliki nilai harapan sebesar
-                                    {{ $dataDeskripsi['dimensionData']['datasets'][0]['data'][$key] }}
+                                    {{ number_format($dataDeskripsi['dimensionData']['datasets'][0]['data'][$key], 2, ',', '.') }}
                                     sedangkan kenyataan sebesar
-                                    {{ $dataDeskripsi['dimensionData']['datasets'][1]['data'][$key] }}.
+                                    {{ number_format($dataDeskripsi['dimensionData']['datasets'][1]['data'][$key], 2, ',', '.') }}.
                                 @endforeach
                             </p>
                             <p class="text-justify text-gray-600 indent-8 dark:text-gray-400">
                                 Gap tertinggi terdapat pada dimensi {{ $dataDeskripsi['maxGap']['label'] }} dengan nilai
-                                {{ $dataDeskripsi['maxGap']['value'] }}. Sedangkan gap terendah terdapat pada dimensi
+                                {{ number_format($dataDeskripsi['maxGap']['value'], 2, ',', '.') }}. Sedangkan gap
+                                terendah terdapat pada dimensi
                                 {{ $dataDeskripsi['minGap']['label'] }} dengan nilai
-                                {{ $dataDeskripsi['minGap']['value'] }}. Gap rata-rata sebesar
-                                {{ $dataDeskripsi['gapKeseluruhan'] }}.
+                                {{ number_format($dataDeskripsi['minGap']['value'], 2, ',', '.') }}. Gap rata-rata
+                                sebesar
+                                {{ number_format($dataDeskripsi['gapKeseluruhan'], 2, ',', '.') }}.
                             </p>
                         </div>
+
                     </div>
                 @endif
         </div>

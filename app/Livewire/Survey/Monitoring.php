@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Survey;
 
+use App\Exports\AnswersExport;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Models\Entry;
@@ -13,6 +14,7 @@ use App\Mail\RespondenSurveyAnnounceFirst;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Monitoring extends Component
 {
@@ -191,6 +193,13 @@ class Monitoring extends Component
             'toast' => true,
             // 'text' => 'Link berhasil disalin.',
         ]);
+    }
+
+    public function downloadAnswers()
+    {
+        $surveyName = Survey::find($this->surveyID)->name;
+        $date = now()->format('Y-m-d H:i:s');
+        return Excel::download(new AnswersExport($this->surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
     }
 
     #[Layout('layouts.app')]

@@ -3,7 +3,6 @@
 namespace App\Livewire\Visualization;
 
 use App\Models\Answer;
-use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Survey;
 use Jantinnerezo\LivewireAlert\LivewireAlert;

@@ -55,4 +55,10 @@ class Answer extends Model
     {
         return $this->belongsTo(QuestionType::class, 'question_type_id');
     }
+
+    public function getAnswerValueAttribute($value)
+    {
+        $data = $this->question->answeroption->answeroptionvalues->where('value', $value)->first()->name;
+        return $data;
+    }
 }

@@ -5,6 +5,20 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Monitoring Survei
         </h2>
+        <table class="pt-2 text-xl">
+            <tr>
+                <td class="align-top">
+                    Judul Survei
+                </td>
+                <td>
+                    :{{ $survey->name }}
+                </td>
+            </tr>
+            <tr>
+                <td class="align-top">Tahun </td>
+                <td>:{{ $survey->year }}</td>
+            </tr>
+        </table>
         <div class="flex flex-row items-center gap-2 py-2">
             <x-button-small-0 color='blue' wire:click='updateAll'>Klik untuk perbarui</x-button-small-0>
             <p class="text-sm text-gray-700 dark:text-gray-400">Terakhir diperbarui pukul {{ $lastUpdatedTime }}</p>
@@ -84,8 +98,7 @@
                                     wire:click='updateExpectedResponden'>Perbarui</x-button-small-0>
                             </div>
                             <div>
-                                <x-button-small-0 color='green' class="my-1"
-                                    wire:click='updateExpectedResponden'>Unduh
+                                <x-button-small-0 color='green' class="my-1" wire:click='downloadAnswers'>Unduh
                                     Fail Respon</x-button-small-0>
                             </div>
                         </div>
