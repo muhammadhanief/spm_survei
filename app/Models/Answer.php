@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Entry;
 use App\Models\QuestionType;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Answer extends Model
 {
+    use HasFactory;
     /**
      * Answer constructor.
      *

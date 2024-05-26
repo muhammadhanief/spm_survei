@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Question;
 use App\Models\Dimension;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
+    use HasFactory;
     /**
      * Section constructor.
      *

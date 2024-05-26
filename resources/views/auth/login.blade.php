@@ -4,7 +4,7 @@
             <x-authentication-card-logo class="justify-center" />
         </x-slot>
         <div class="justify-center text-center">
-            <p>SPM Survei</p>
+            <p>Survei Kepuasan</p>
         </div>
 
         <x-validation-errors class="mb-4" />

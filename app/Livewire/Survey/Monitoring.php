@@ -96,9 +96,9 @@ class Monitoring extends Component
         ]);
         $survey = Survey::find($this->surveyID);
         $survey->expectedRespondents = $this->expectedRespondents;
+        $survey->save();
         $this->getDataChart();
         $this->dispatch('chartUpdated', $this->dataChartIndividual);
-        $survey->save();
 
         $this->alert('success', 'Sukses!', [
             'position' => 'center',
@@ -198,8 +198,9 @@ class Monitoring extends Component
     public function downloadAnswers()
     {
         $surveyName = Survey::find($this->surveyID)->name;
+        $surveyID = $this->surveyID;
         $date = now()->format('Y-m-d H:i:s');
-        return Excel::download(new AnswersExport($this->surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
+        return Excel::download(new AnswersExport($surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
     }
 
     #[Layout('layouts.app')]

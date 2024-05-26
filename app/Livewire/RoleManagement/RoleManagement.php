@@ -3,7 +3,6 @@
 namespace App\Livewire\RoleManagement;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -19,15 +18,17 @@ class RoleManagement extends Component
     public function setAdmin($userID)
     {
         $user = User::find($userID);
-        $user->removeRole('User');
-        $user->removeRole('Operator');
-        $user->assignRole('Admin');
-        $this->alert('success', 'Berhasil!', [
-            'position' => 'center',
-            'timer' => 2000,
-            'toast' => true,
-            'text' => 'Role berhasil diubah menjadi admin',
-        ]);
+        if ($user) {
+            $user->removeRole('User');
+            $user->removeRole('Operator');
+            $user->assignRole('Admin');
+            $this->alert('success', 'Berhasil!', [
+                'position' => 'center',
+                'timer' => 2000,
+                'toast' => true,
+                'text' => 'Role berhasil diubah menjadi admin',
+            ]);
+        }
     }
 
     public function setUser($userID)
@@ -43,6 +44,7 @@ class RoleManagement extends Component
             'text' => 'Role berhasil diubah menjadi user',
         ]);
     }
+
 
     public function setOperator($userID)
     {

@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Entry;
 use App\Models\Question;
 use App\Models\Section;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Role;
 
 class Survey extends Model
 {
+    use HasFactory;
     /**
      * Survey constructor.
      *

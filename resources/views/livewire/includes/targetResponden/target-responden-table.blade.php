@@ -1,6 +1,6 @@
 <!-- Cari, Hapus, Edit Dimensi -->
 <h4 class="mt-4 mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-    Cari, Hapus, Target Responden
+    Cari atau Hapus Target Responden
 </h4>
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
     <div id="search-box" class="flex flex-col px-2 my-4 ">

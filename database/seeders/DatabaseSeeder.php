@@ -39,16 +39,16 @@ class DatabaseSeeder extends Seeder
 
 
         // seeder untuk question type
-        QuestionType::create([
-            'name' => 'Umum',
-        ]);
+        // QuestionType::create([
+        //     'name' => 'Umum',
+        // ]);
 
-        QuestionType::create([
-            'name' => 'Harapan',
-        ]);
-        QuestionType::create([
-            'name' => 'Kenyataan',
-        ]);
+        // QuestionType::create([
+        //     'name' => 'Harapan',
+        // ]);
+        // QuestionType::create([
+        //     'name' => 'Kenyataan',
+        // ]);
 
 
 
@@ -69,106 +69,106 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Transparan',
         // ]);
 
-        $a = Dimension::create([
-            'name' => 'Kualitas Layanan',
-        ]);
-        $a->assignRole('Admin');
+        // $a = Dimension::create([
+        //     'name' => 'Kualitas Layanan',
+        // ]);
+        // $a->assignRole('Admin');
 
-        $b = Subdimension::create([
-            'name' => 'Keandalan',
-            'dimension_id' => 1,
+        // $b = Subdimension::create([
+        //     'name' => 'Keandalan',
+        //     'dimension_id' => 1,
 
-        ]);
-        $b->assignRole('Admin');
-        Subdimension::create([
-            'name' => 'Daya Tangkap',
-            'dimension_id' => 1,
+        // ]);
+        // $b->assignRole('Admin');
+        // Subdimension::create([
+        //     'name' => 'Daya Tangkap',
+        //     'dimension_id' => 1,
 
-        ]);
-        Subdimension::create([
-            'name' => 'Kepastian',
-            'dimension_id' => 1,
+        // ]);
+        // Subdimension::create([
+        //     'name' => 'Kepastian',
+        //     'dimension_id' => 1,
 
-        ]);
-        Subdimension::create([
-            'name' => 'Empati',
-            'dimension_id' => 1,
+        // ]);
+        // Subdimension::create([
+        //     'name' => 'Empati',
+        //     'dimension_id' => 1,
 
-        ]);
+        // ]);
 
-        AnswerOption::create([
-            'name' => 'Jenis Kelamin',
-            'type' => 'radio',
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Laki-laki',
-            'answer_option_id' => 1,
-            'value' => 1,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Perempuan',
-            'answer_option_id' => 1,
-            'value' => 2,
-        ]);
+        // AnswerOption::create([
+        //     'name' => 'Jenis Kelamin',
+        //     'type' => 'radio',
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Laki-laki',
+        //     'answer_option_id' => 1,
+        //     'value' => 1,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Perempuan',
+        //     'answer_option_id' => 1,
+        //     'value' => 2,
+        // ]);
 
-        AnswerOption::create([
-            'name' => 'Pendidikan',
-            'type' => 'radio',
-        ]);
+        // AnswerOption::create([
+        //     'name' => 'Pendidikan',
+        //     'type' => 'radio',
+        // ]);
 
-        AnswerOptionValue::create([
-            'name' => 'SMA',
-            'answer_option_id' => 2,
-            'value' => 1,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'D3',
-            'answer_option_id' => 2,
-            'value' => 2,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'S1',
-            'answer_option_id' => 2,
-            'value' => 3,
-        ]);
-        AnswerOption::create([
-            'name' => 'Penliaian 4 Opsi',
-            'type' => 'radio'
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Sangat Baik',
-            'answer_option_id' => 3,
-            'value' => 1,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Baik',
-            'answer_option_id' => 3,
-            'value' => 2,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Cukup',
-            'answer_option_id' => 3,
-            'value' => 3,
-        ]);
-        AnswerOptionValue::create([
-            'name' => 'Kurang',
-            'answer_option_id' => 3,
-            'value' => 4,
-        ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'SMA',
+        //     'answer_option_id' => 2,
+        //     'value' => 1,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'D3',
+        //     'answer_option_id' => 2,
+        //     'value' => 2,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'S1',
+        //     'answer_option_id' => 2,
+        //     'value' => 3,
+        // ]);
+        // AnswerOption::create([
+        //     'name' => 'Penliaian 4 Opsi',
+        //     'type' => 'radio'
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Sangat Baik',
+        //     'answer_option_id' => 3,
+        //     'value' => 1,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Baik',
+        //     'answer_option_id' => 3,
+        //     'value' => 2,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Cukup',
+        //     'answer_option_id' => 3,
+        //     'value' => 3,
+        // ]);
+        // AnswerOptionValue::create([
+        //     'name' => 'Kurang',
+        //     'answer_option_id' => 3,
+        //     'value' => 4,
+        // ]);
 
-        TargetResponden::create([
-            'role_id' => 1,
-            'unique_code' => 'haniefm19D27',
-            'name' => 'Muhammad Hanief',
-            'email' => 'haniefm19@gmail.com',
-            'type' => 'individual'
-        ]);
-        TargetResponden::create([
-            'role_id' => 1,
-            'unique_code' => 'ladisaD27',
-            'name' => 'Ladisa Busaina',
-            'email' => 'ladisa@gmail.com',
-            'type' => 'group'
-        ]);
+        // TargetResponden::create([
+        //     'role_id' => 1,
+        //     'unique_code' => 'haniefm19D27',
+        //     'name' => 'Muhammad Hanief',
+        //     'email' => 'haniefm19@gmail.com',
+        //     'type' => 'individual'
+        // ]);
+        // TargetResponden::create([
+        //     'role_id' => 1,
+        //     'unique_code' => 'ladisaD27',
+        //     'name' => 'Ladisa Busaina',
+        //     'email' => 'ladisa@gmail.com',
+        //     'type' => 'group'
+        // ]);
     }
 }

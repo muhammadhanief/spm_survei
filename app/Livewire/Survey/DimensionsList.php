@@ -81,7 +81,7 @@ class DimensionsList extends Component
                     'position' => 'center',
                     'timer' => 3000,
                     'toast' => true,
-                    'text' => 'Akar Dimensi dan Subdimensi Berhasil Dihapus',
+                    'text' => 'Kategori Dimensi dan Dimensi Berhasil Dihapus',
                 ]);
             } else {
                 $this->alert('error', 'Gagal!', [
@@ -111,7 +111,7 @@ class DimensionsList extends Component
                 'position' => 'center',
                 'timer' => 3500,
                 'toast' => true,
-                'text' => 'Subdimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
+                'text' => 'Dimensi tidak dapat dihapus karena telah digunakan di pertanyaan.',
             ]);
         } else {
             $subdimensi->delete();
@@ -119,7 +119,7 @@ class DimensionsList extends Component
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => true,
-                'text' => 'Subdimensi Berhasil Dihapus',
+                'text' => 'Dimensi Berhasil Dihapus',
             ]);
         }
     }
@@ -153,7 +153,7 @@ class DimensionsList extends Component
             'position' => 'center',
             'timer' => 2000,
             'toast' => true,
-            'text' => 'Dimensi sukses diupdate.',
+            'text' => 'Kategori dimensi sukses diupdate.',
         ]);
     }
 
@@ -197,7 +197,7 @@ class DimensionsList extends Component
             'position' => 'center',
             'timer' => 2000,
             'toast' => true,
-            'text' => 'Subdimensi sukses ditambahkan.',
+            'text' => 'Dimensi sukses ditambahkan.',
         ]);
     }
 

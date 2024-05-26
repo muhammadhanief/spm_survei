@@ -30,8 +30,8 @@ class CreateSurvey extends Component
     public $year = '';
     #[Validate(['required', 'numeric'])]
     public $expectedRespondents = '';
-    #[Validate(['required', 'numeric', 'gt:0'])]
-    public $limitPerParticipant = '';
+    // #[Validate(['required', 'numeric', 'gt:0'])]
+    // public $limitPerParticipant = '';
     #[Validate(['required'], ['array'])]
     public $roleIdParticipant = [];
     #[Validate(['required'])]
@@ -95,11 +95,11 @@ class CreateSurvey extends Component
                 'required',
                 'numeric',
             ],
-            'limitPerParticipant' => [
-                'required',
-                'numeric',
-                'gt:0'
-            ],
+            // 'limitPerParticipant' => [
+            //     'required',
+            //     'numeric',
+            //     'gt:0'
+            // ],
             'roleIdParticipant' => [
                 'required',
                 'numeric',
@@ -208,11 +208,11 @@ class CreateSurvey extends Component
             'roleIdParticipant' => [
                 'required',
             ],
-            'limitPerParticipant' => [
-                'required',
-                'numeric',
-                'gt:0'
-            ],
+            // 'limitPerParticipant' => [
+            //     'required',
+            //     'numeric',
+            //     'gt:0'
+            // ],
             'startAt' => [
                 'required',
             ],
@@ -234,7 +234,7 @@ class CreateSurvey extends Component
             'year' => $this->year,
             'expectedRespondents' => $this->expectedRespondents,
             'role_id' => json_encode(array_keys($this->roleIdParticipant)),
-            'settings' => ['limit-per-participant' => $this->limitPerParticipant],
+            // 'settings' => ['limit-per-participant' => $this->limitPerParticipant],
             'started_at' => $this->startAt,
             'ended_at' => $this->endAt,
         ]);
@@ -364,19 +364,18 @@ class CreateSurvey extends Component
             $this->createSurvey();
             $this->createSectionAndQuestion();
             $this->reset();
-            // session()->flash('successAdd', 'Survey sukses ditambahkan.');
             $this->alert('success', 'Sukses!', [
                 'position' => 'center',
                 'timer' => 2000,
                 'toast' => true,
-                'text' => 'Survey sukses ditambahkan.',
+                'text' => 'Survei sukses ditambahkan.',
             ]);
         } else {
             $this->alert('error', 'Gagal!', [
                 'position' => 'center',
                 'timer' => 2000,
                 'toast' => true,
-                'text' => 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang',
+                'text' => 'Survei gagal ditambahkan karena question gada samsek. buat question lalu submit ulang',
             ]);
             // session()->flash('failedAdd', 'Survey gagal ditambahkan karena question gada samsek. buat question lalu submit ulang');
         }
@@ -396,7 +395,7 @@ class CreateSurvey extends Component
             $this->description = $oldSurvey->description;
             $this->year = $oldSurvey->year;
             $this->expectedRespondents = $oldSurvey->expectedRespondents;
-            $this->limitPerParticipant = $oldSurvey->settings['limit-per-participant'];
+            // $this->limitPerParticipant = $oldSurvey->settings['limit-per-participant'];
             // untuk dimensi di awal
             $oldSectiionFirst = Section::where('survey_id', $oldSurveyID)->first();
             $oldSubdimensionFirst = $oldSectiionFirst->questions[0]->subdimension;

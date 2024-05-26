@@ -84,11 +84,9 @@
                     @endif
                 </tbody>
             </table>
-            @if ($users)
-                <div class="p-2 ">
-                    {{ $users->links() }}
-                </div>
-            @endif
+            <div class="p-2 ">
+                {{ $users->links() }}
+            </div>
         </div>
     </div>
 </div>

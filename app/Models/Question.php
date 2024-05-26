@@ -9,9 +9,11 @@ use App\Models\Survey;
 use App\Models\QuestionType;
 use App\Models\Subdimension;
 use App\Models\AnswerOption;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Question extends Model
 {
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
