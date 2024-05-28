@@ -17,17 +17,8 @@
                         <tr wire:key='{{ $survey->id }}' class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
-                                    <div>
-                                        @php
-                                            $truncatedDescription = Str::limit($survey->name, 20);
-                                        @endphp
-                                        <p class="font-semibold">{{ $truncatedDescription }}</p>
-                                        <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            Digunakan di
-
-                                            {{-- {{ $dimension->subdimensions->flatMap->questions->count() }} --}}
-                                            pertanyaan
-                                        </p>
+                                    <div class="font-semibold break-words whitespace-normal">
+                                        {{ $survey->name }}
                                     </div>
                                 </div>
                             </td>

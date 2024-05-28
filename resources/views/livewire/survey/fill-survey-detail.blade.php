@@ -1,7 +1,6 @@
-<div class="pb-16 md:pb-32">
+<div id="targetDiv" class="pb-16 md:pb-32">
     <x-slot:title>Isi Survei</x-slot:title>
     <div class="container grid px-6 mx-auto">
-
         <div class="w-full max-w-3xl mx-auto" wire:key="{{ $currentSectionIndex }}">
             {{-- <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 <x-button-small wire:click.prevent='dd' color='red'>DD</x-button-small>
@@ -21,7 +20,7 @@
                         Kembali
                     </button>
                 </div>
-                <div wire:click="nextSection" style="cursor: pointer;"
+                <div @click="scrollTo('#targetDiv')" wire:click="nextSection" style="cursor: pointer;"
                     class="{{ $currentSectionIndex >= count($survey->sections) - 1 ? 'hidden' : '' }} px-6 py-2 bg-white rounded-lg shadow-md dark:bg-gray-800 text-purple-900 dark:text-purple-500 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <button>
                         Berikutnya
@@ -39,9 +38,19 @@
         </div>
     </div>
 </div>
+
 <script>
-    window.addEventListener('beforeunload', function(event) {
-        event.preventDefault();
-        event.returnValue = "Apakah Anda yakin ingin meninggalkan halaman ini?";
-    });
+    // window.addEventListener('beforeunload', function(event) {
+    //     event.preventDefault();
+    //     event.returnValue = "Apakah Anda yakin ingin meninggalkan halaman ini?";
+    // });
+
+    function scrollTo(targetSelector) {
+        const targetElement = document.querySelector(targetSelector);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
 </script>

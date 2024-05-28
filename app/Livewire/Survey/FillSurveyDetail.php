@@ -137,6 +137,7 @@ class FillSurveyDetail extends Component
                 'toast' => true,
                 'text' => 'Jawaban sukses dikumpulkan.',
             ]);
+            return redirect()->route('survey.visualize');
         } else {
             $this->alert('error', 'Gagal!', [
                 'position' => 'center',

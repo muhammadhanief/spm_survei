@@ -33,7 +33,13 @@ class GoogleLoginController extends Controller
             $emailUsername = $emailParts[0]; // Get username, which is before @
             $emailDomain = $emailParts[1]; // Get domain, which is after @
 
-            if ($newUser->email == '222011686@stis.ac.id') {
+            $emailAdmin = [
+                '222011686@stis.ac.id',
+                'rindang@stis.ac.id',
+                'nucke@stis.ac.id',
+                'efridiah@stis.ac.id',
+            ];
+            if (in_array($newUser->email, $emailAdmin)) {
                 $newUser->save(); // Log in the new user.
                 $newUser->assignRole('Admin');
                 auth()->login($newUser, true);
