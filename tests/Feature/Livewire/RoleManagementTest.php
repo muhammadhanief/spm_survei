@@ -25,7 +25,7 @@ class RoleManagementTest extends TestCase
         $this->assertTrue($user->hasRole('Operator'));
 
         // Panggil metode setAdmin pada komponen RoleManagement
-        Livewire::test(RoleManagement::class)
+        Livewire::test(RoleManagement::class) // Jika RoleManagement menggunakan namespace, pastikan untuk menyesuaikan string ini.
             // ->skipRender() // Menghindari rendering view
             ->call('setAdmin', $user->id);
 

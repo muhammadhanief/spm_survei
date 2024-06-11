@@ -3,6 +3,7 @@
 namespace App\Livewire\RoleManagement;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -19,6 +20,7 @@ class RoleManagement extends Component
     {
         $user = User::find($userID);
         if ($user) {
+            Log::info('User found: ' . $user->id);
             $user->removeRole('User');
             $user->removeRole('Operator');
             $user->assignRole('Admin');
@@ -27,6 +29,14 @@ class RoleManagement extends Component
                 'timer' => 2000,
                 'toast' => true,
                 'text' => 'Role berhasil diubah menjadi admin',
+            ]);
+        } else {
+            Log::error('User not found with ID: ' . $userID);
+            $this->alert('error', 'Gagal!', [
+                'position' => 'center',
+                'timer' => 2000,
+                'toast' => true,
+                'text' => 'Pengguna tidak ditemukan',
             ]);
         }
     }
