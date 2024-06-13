@@ -52,6 +52,7 @@
     <script src="{{ asset('js/charts-bars.js') }}" defer></script> --}}
 
     <!-- Styles -->
+    {{-- cobain --}}
     @livewireStyles
 
 </head>
