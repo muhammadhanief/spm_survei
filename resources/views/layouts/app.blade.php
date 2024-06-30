@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
+    <link rel="icon" href="{{ asset('img/logostis.png') }}" type="image/png">
     <title>{{ $title ?? config('app.name') }}</title>
 
     <!-- Fonts -->

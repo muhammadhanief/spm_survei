@@ -29,6 +29,7 @@ return [
                 'exclude' => [
                     base_path('vendor'),
                     base_path('node_modules'),
+                    storage_path('app/backups'),
                 ],
 
                 /*
@@ -100,7 +101,7 @@ return [
         /*
          * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
          */
-        'database_dump_file_timestamp_format' => null,
+        'database_dump_file_timestamp_format' => 'Y-m-d-H-i-s',
 
         /*
          * The base of the dump filename, either 'database' or 'connection'
@@ -154,7 +155,8 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
+                // 'local',
+                'backup',
             ],
         ],
 
@@ -215,7 +217,8 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            // 'to' => 'your@example.com',
+            'to' => 'haniefm19@gmail.com',
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
