@@ -15,7 +15,15 @@
                 <span class="text-gray-700 dark:text-gray-400">
                     Pilih Survei
                 </span>
-                <div>
+                <select wire:model.live='surveyID'
+                    class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="" selected>Pilih Survei</option>
+                    @foreach ($surveys as $survey)
+                        <option value="{{ $survey->id }}">{{ $survey->name }}</option>
+                    @endforeach
+                </select>
+                <x-error-display name="surveyID" />
+                {{-- <div>
                     <div class="py-2" wire:ignore>
                         <select wire:model.live='surveyID' id="surveyID"
                             class="block w-full mt-1 text-sm text-black select2 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -28,24 +36,26 @@
                     <x-error-display name="surveyID" />
                     <x-button-small-0 class="mt-2" color='green'
                         wire:click='generateChart'>Generate</x-button-small-0>
-                </div>
-
-                <div class="flex flex-col justify-around py-2 my-2 md:flex-row gap-y-6">
-                    <div class="border-2 rounded-lg border-slate-200 chart-container md:w-2/5">
-                        <canvas wire:ignore id="monitoringChart"></canvas>
+                </div> --}}
+                <div class="{{ $surveyID ? '' : 'hidden' }}">
+                    <div class="flex flex-col justify-around py-2 my-2 md:flex-row gap-y-6">
+                        <div class="border-2 rounded-lg border-slate-200 chart-container md:w-2/5">
+                            <canvas wire:ignore id="monitoringChart"></canvas>
+                        </div>
+                        <div class="border-2 rounded-lg border-slate-200 md:w-2/5 " wire:ignore id="chartContainer">
+                            <canvas id="chart3"></canvas>
+                        </div>
                     </div>
-                    <div class="border-2 rounded-lg border-slate-200 md:w-2/5 " wire:ignore id="chartContainer">
-                        <canvas id="chart3"></canvas>
-                    </div>
-                </div>
-                <div class="flex flex-col justify-around py-2 my-2 md:px-14 md:flex-row">
-                    {{-- <div class="chart-container md:w-2/5">
+                    <div class="flex flex-col justify-around py-2 my-2 md:px-14 md:flex-row">
+                        {{-- <div class="chart-container md:w-2/5">
                         <canvas wire:ignore id="monitoringChart"></canvas>
                     </div> --}}
-                    <div class="border-2 rounded-lg border-slate-200 md:w-full" wire:ignore id="quadrantsContainer">
-                        <canvas id="quadrantsChart"></canvas>
+                        <div class="border-2 rounded-lg border-slate-200 md:w-full" wire:ignore id="quadrantsContainer">
+                            <canvas id="quadrantsChart"></canvas>
+                        </div>
                     </div>
                 </div>
+
                 @if ($dataDeskripsi != null)
                     <div class="flex justify-center text-md">
                         <div
@@ -92,11 +102,14 @@
                 @endif
         </div>
 
+
         <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
             Analisis Harapan dan Kepuasan pada masing-masing dimensi
         </h4>
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <div>
+
+            <div class="{{ $surveyID ? '' : 'hidden' }}">
+
                 @if ($dimensionofSurvei != null)
                     <span class="text-gray-700 dark:text-gray-400">
                         Pilih dimensi
@@ -111,29 +124,30 @@
                         @endforeach
                     </select>
                     <x-error-display name="subDimension" />
-                    <x-button-small-0 class="mt-2" color='green'
-                        wire:click='generatePieChartDimension'>Generate</x-button-small-0>
+                    {{-- <x-button-small-0 class="mt-2" color='green'
+                        wire:click='generatePieChartDimension'>Generate</x-button-small-0> --}}
                 @endif
             </div>
-            <div class="text-center">
-                <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                    Dimensi
-                    @if ($judulsubDimension != null)
-                        {{ $judulsubDimension }}
-                    @endif
-                </h4>
-            </div>
-
-            <div class="flex flex-col justify-around py-2 my-2 md:flex-row">
-                <div class="chart-container md:w-2/5">
-                    <canvas wire:ignore id="pieChartHarapan"></canvas>
+            <div class="{{ $subDimension && $surveyID ? '' : 'hidden' }}">
+                <div class="text-center">
+                    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                        Dimensi
+                        @if ($judulsubDimension != null)
+                            {{ $judulsubDimension }}
+                        @endif
+                    </h4>
                 </div>
-                <div class="md:w-2/5" wire:ignore id="chartContainer">
-                    <canvas id="pieChartKenyataan"></canvas>
+
+                <div class="flex flex-col justify-around py-2 my-2 md:flex-row">
+                    <div class="chart-container md:w-2/5">
+                        <canvas wire:ignore id="pieChartHarapan"></canvas>
+                    </div>
+                    <div class="md:w-2/5" wire:ignore id="chartContainer">
+                        <canvas id="pieChartKenyataan"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-
 
     </div>
 
@@ -147,6 +161,7 @@
                     $wire.surveyID = data;
                 });
             });
+
 
             // BEGINNING radar chart
             const data = {

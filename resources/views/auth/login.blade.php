@@ -122,8 +122,8 @@
                 {{ session('status') }}
             </div>
         @endif
-
-        {{-- <form method="POST" action="{{ route('login') }}">
+        {{-- buat login manual --}}
+        <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div>
@@ -163,7 +163,7 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
-        </form> --}}
+        </form>
         <div class="block mt-4">
             <div class="flex items-center justify-center mt-4">
                 <a href="{{ url('login/google') }}">

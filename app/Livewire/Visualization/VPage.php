@@ -24,12 +24,22 @@ class VPage extends Component
     public $dataGap = [];
     public $dataDeskripsi = [];
 
-    // untuk pie chart
+    // untuk pie chart1 
     public $dimensionofSurvei;
     #[Validate('required|not_in:')]
     public $subDimension;
     public $dataChartPieDimension = [];
     public $judulsubDimension;
+
+    public function updatedsurveyID()
+    {
+        $this->generateChart();
+    }
+
+    public function updatedsubDimension()
+    {
+        $this->generatePieChartDimension();
+    }
 
     public function getDataChart()
     {
@@ -271,9 +281,15 @@ class VPage extends Component
     public function render()
     {
         // $surveysWithEntries = Survey::has('entries')->get();
+        $surveyHaveHarapanDanKenyataan = Survey::whereHas('questions', function ($query) {
+            $query->where('question_type_id', 2);
+        })->whereHas('questions', function ($query) {
+            $query->where('question_type_id', 3);
+        })->get();
         return view('livewire.visualization.v-page', [
             // 'surveys' => $surveysWithEntries,
-            'surveys' => Survey::all(),
+            // 'surveys' => Survey::all(),
+            'surveys' => $surveyHaveHarapanDanKenyataan,
             'lastUpdatedTime' => $this->lastUpdatedTime,
             'subdimensions' => Subdimension::all(),
         ]);
