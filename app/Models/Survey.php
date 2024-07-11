@@ -27,24 +27,23 @@ class Survey extends Model
         parent::__construct($attributes);
     }
 
-    // Tidak perlu menetapkan $incrementing = false; dan $keyType = 'string';
+    protected static function boot()
+    {
+        parent::boot();
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     // Generate UUID when creating a new Survey
-    //     static::creating(function ($model) {
-    //         $model->id = (string) \Illuminate\Support\Str::uuid();
-    //     });
-    // }composer require simplesoftwareio/simple-qrcode
+        static::creating(function ($survey) {
+            if (empty($survey->uuid)) {
+                $survey->uuid = Str::uuid();
+            }
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description', 'expectedRespondents', 'mailer_narration'];
+    protected $fillable = ['uuid', 'name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description', 'expectedRespondents', 'mailer_narration'];
 
     /**
      * The attributes that should be casted.

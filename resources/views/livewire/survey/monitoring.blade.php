@@ -142,7 +142,7 @@
                         </p> --}}
                         <label class="block text-sm">
 
-                            <input disabled value="{{ route('survey.fill', ['surveyID' => $surveyID]) }}" type="text"
+                            <input disabled value="{{ route('survey.fill', ['uuid' => $uuid]) }}" type="text"
                                 id="linkSurvey"
                                 class="w-full pr-20 my-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>

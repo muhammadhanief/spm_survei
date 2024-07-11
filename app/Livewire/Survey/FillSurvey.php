@@ -37,6 +37,7 @@ class FillSurvey extends Component
     public function fillSurvey($surveyID)
     {
         $survey = Survey::find($surveyID);
+        $uuid = $survey->uuid;
         $started_at_parsed = \Carbon\Carbon::parse($survey->started_at);
         $ended_at_parsed = \Carbon\Carbon::parse($survey->ended_at);
         if (!$started_at_parsed->isPast() || $ended_at_parsed->isPast()) {
@@ -48,7 +49,7 @@ class FillSurvey extends Component
                 'text' => 'Survey tidak dapat diisi karena belum dimulai/telah selesai',
             ]);
         } else {
-            $this->redirectRoute('survey.fill', ['surveyID' => $surveyID]);
+            $this->redirectRoute('survey.fill', ['uuid' => $uuid]);
         }
     }
     public $test = '';

@@ -2,20 +2,20 @@
     # Yth. {{ $name }}
 
     @if ($mailer_narration == null || $mailer_narration == '')
-Untuk meningkatkan pelayanan Politeknik Statistika STIS, Bapak/Ibu/Saudara dimohon mengisi survei kepuasan berikut ini
+        Untuk meningkatkan pelayanan Politeknik Statistika STIS, Bapak/Ibu/Saudara dimohon mengisi survei kepuasan
+        berikut ini
     @else
-{{ $mailer_narration }}
+        {{ $mailer_narration }}
     @endif
 
-    <x-mail::button :url="route('survey.fill', ['surveyID' => $survey_id, 'uniqueCode' => $unique_code])">
+    <x-mail::button :url="route('survey.fill', ['uuid' => $uuid, 'uniqueCode' => $unique_code])">
         Isi survei
     </x-mail::button>
 
     Jika tombol tidak berfungsi, klik pada laman berikut
-    ({{ route('survey.fill', ['surveyID' => $survey_id, 'uniqueCode' => $unique_code]) }})
+    ({{ route('survey.fill', ['uuid' => $uuid, 'uniqueCode' => $unique_code]) }})
 
-    Batas pengisian survei: {{ \Carbon\Carbon::parse($end_at)->translatedFormat('j F Y') }} Pukul
-    {{ \Carbon\Carbon::parse($end_at)->format('H:i') }}
+    Batas pengisian survei: {{ \Carbon\Carbon::parse($end_at)->translatedFormat('j F Y') }} Pukul {{ \Carbon\Carbon::parse($end_at)->format('H:i') }}
 
     Terima kasih,
     Satuan Penjaminan Mutu (SPM)

@@ -36,6 +36,7 @@ class Monitoring extends Component
     public $surveyName;
     public $survey;
     public $mailer_narration;
+    public $uuid;
 
     // untuk modal mailer
 
@@ -202,7 +203,8 @@ class Monitoring extends Component
                         'email' => $targetResponden->email,
                         'name' => $targetResponden->name,
                         'unique_code' => $targetResponden->unique_code,
-                        'survey_id' => $this->surveyID,
+                        'uuid' => $this->uuid,
+                        // 'survey_id' => $this->surveyID,
                         'end_at' => $this->endAt,
                         'survey_title' => Survey::find($this->surveyID)->name,
                         'mailer_narration' => $this->mailer_narration,
@@ -244,6 +246,7 @@ class Monitoring extends Component
     public function mount($surveyID)
     {
         $this->surveyID = $surveyID;
+        $this->uuid = Survey::find($surveyID)->uuid;
         $this->surveyName = Survey::find($surveyID)->name;
         $this->survey = Survey::find($surveyID);
         $this->mailer_narration = Survey::find($surveyID)->mailer_narration;

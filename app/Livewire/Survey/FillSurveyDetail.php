@@ -20,12 +20,14 @@ class FillSurveyDetail extends Component
     public $isKuota = false;
     public $answers = [];
     public $tester = [];
+    public $uuid;
 
 
     // Fungsi mount digunakan untuk menginisialisasi komponen dengan parameter rute.
-    public function mount($surveyID, $uniqueCode = null)
+    public function mount($uuid, $uniqueCode = null)
     {
-        $this->surveyID = $surveyID;
+        $this->uuid = $uuid;
+        $this->surveyID = Survey::where('uuid', $uuid)->first()->id;
         $this->uniqueCode = $uniqueCode;
         $questions = Question::where('survey_id', $this->surveyID)->get();
         foreach ($questions as $question) {
@@ -43,7 +45,7 @@ class FillSurveyDetail extends Component
             if ($targetResponden->type == 'group') {
                 $this->isKuota = true;
             } else {
-                $entry = Entry::where('survey_id', $surveyID)->where('target_responden_id', $targetRespondenID)->first();
+                $entry = Entry::where('survey_id', $this->surveyID)->where('target_responden_id', $targetRespondenID)->first();
                 if ($entry == null) {
                     $this->isKuota = true;
                 }
@@ -91,7 +93,7 @@ class FillSurveyDetail extends Component
 
     public function save()
     {
-        // dd($this->answers);
+        // dd('dia udah masuk sini');
         foreach ($this->answers as $key => $answer) {
             if (is_array($answer['value'])) {
                 $arrayValue = array_keys($answer['value']);
@@ -130,7 +132,7 @@ class FillSurveyDetail extends Component
             $this->reset();
             $this->surveyID = $tempSurveyID;
             $this->uniqueCode = $tempUniqueCode;
-            $this->mount($this->surveyID, $this->uniqueCode);
+            // $this->mount($this->surveyID, $this->uniqueCode);
             $this->alert('success', 'Sukses!', [
                 'position' => 'center',
                 'timer' => 2000,

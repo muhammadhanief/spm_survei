@@ -42,7 +42,7 @@
                     <div class="flex items-center justify-center w-full overflow-x-auto">
                         <div class="relative">
                             <!-- QR Code -->
-                            {!! QrCode::size(256)->generate(route('survey.fill', ['surveyID' => $surveyID])) !!}
+                            {!! QrCode::size(256)->generate(route('survey.fill', ['uuid' => $uuid])) !!}
 
                             <!-- Logo STIS -->
                             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">

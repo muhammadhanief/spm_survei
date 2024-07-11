@@ -68,7 +68,8 @@ Route::get('/dashboard', DashBoard::class)->name('dashboard');
 Route::get('survei/visualisasi', VPage::class)->name('survey.visualize');
 // untuk mengisi survei
 Route::get('/survei/isi', FillSurvey::class)->name('survey.fill.overview');
-Route::get('/survei/isi/{surveyID}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
+Route::get('/survei/isi/{uuid}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
+// Route::get('/survei/isi/{surveyID}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
 
 
 Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:SuperAdmin|Admin|Operator']], function () {
