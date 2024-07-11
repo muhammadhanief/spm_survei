@@ -218,7 +218,8 @@ return [
 
         'mail' => [
             // 'to' => 'your@example.com',
-            'to' => 'haniefm19@gmail.com',
+            'to' => ['haniefm19@gmail.com', 'haniefm807@gmail.com'],
+
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),

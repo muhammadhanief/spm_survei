@@ -16,6 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('survey_id')->nullable();
+            // $table->uuid('survey_id')->nullable();
             $table->foreign('survey_id')->references('id')->on('surveys');
             $table->unsignedInteger('section_id')->nullable();
             $table->foreign('section_id')->references('id')->on('sections');

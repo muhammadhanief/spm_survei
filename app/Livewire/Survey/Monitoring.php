@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Maatwebsite\Excel\Facades\Excel;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Monitoring extends Component
 {
@@ -27,6 +28,66 @@ class Monitoring extends Component
     public $lastUpdatedTime;
     #[Validate]
     public $expectedRespondents;
+    #[Validate(['required'])]
+    public $startAt;
+    #[Validate(['required'])]
+    public $endAt;
+    public $qrCodeUrl;
+    public $surveyName;
+    public $survey;
+    public $mailer_narration;
+
+    // untuk modal mailer
+
+    // public $roleRespondentOnSurvei;
+    // public $targetRespondens;
+
+    // public function qrCode()
+    // {
+    //     // dd($this->surveyID);
+    //     $url = route('survey.fill', ['surveyID' => $this->surveyID]);
+
+    //     // Generate QR code
+    //     $qrCode = QrCode::size(200)
+    //         ->backgroundColor(255, 255, 0)
+    //         ->color(0, 0, 255)
+    //         ->margin(1)
+    //         ->generate($url);
+    //     // Simpan URL QR code untuk ditampilkan di view
+    //     $this->qrCodeUrl = 'data:image/png;base64,' . base64_encode($qrCode);
+    // }
+
+    public function updateStartAt()
+    {
+        $this->validate([
+            'startAt' => 'required',
+        ]);
+        $survey = Survey::find($this->surveyID);
+        $survey->started_at = $this->startAt;
+        $survey->save();
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Waktu mulai survei berhasil diperbaharui.',
+        ]);
+    }
+
+    public function updateEndAt()
+    {
+        $this->validate([
+            'endAt' => 'required',
+        ]);
+        $survey = Survey::find($this->surveyID);
+        $survey->ended_at = $this->endAt;
+        $survey->save();
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Waktu berakhir survei berhasil diperbaharui.',
+        ]);
+    }
 
     public function rules()
     {
@@ -87,7 +148,7 @@ class Monitoring extends Component
     public $errorCount = 0;
     public $errorMessage = '';
 
-    // ...
+    // Pro
 
     public function updateExpectedResponden()
     {
@@ -110,17 +171,25 @@ class Monitoring extends Component
 
     public function sendEmailReminder()
     {
-        $targetRespondens = DB::table('target_respondens')
+        $survey = Survey::find($this->surveyID);
+        $roleIds = json_decode($survey->role_id, true);
+
+        $survey->mailer_narration = $this->mailer_narration;
+        $survey->save();
+
+        $targetRespondens = TargetResponden::whereIn('role_id', $roleIds)
             ->leftJoin('entries', function ($join) {
                 $join->on('target_respondens.id', '=', 'entries.target_responden_id')
                     ->where('entries.survey_id', '=', $this->surveyID);
             })
-            // ->where('target_respondens.type', '=', 'individual')
+            ->where('name', 'like', "%{$this->search}%")
             ->select(
                 'target_respondens.*',
                 DB::raw('CASE WHEN entries.target_responden_id IS NOT NULL THEN true ELSE false END as submitted')
             )
             ->orderBy('name')->get();
+
+        // dd($targetRespondens);
 
         $this->totalEmails = count($targetRespondens);
 
@@ -134,7 +203,9 @@ class Monitoring extends Component
                         'name' => $targetResponden->name,
                         'unique_code' => $targetResponden->unique_code,
                         'survey_id' => $this->surveyID,
+                        'end_at' => $this->endAt,
                         'survey_title' => Survey::find($this->surveyID)->name,
+                        'mailer_narration' => $this->mailer_narration,
                     ]));
 
                     // Update progres
@@ -173,12 +244,20 @@ class Monitoring extends Component
     public function mount($surveyID)
     {
         $this->surveyID = $surveyID;
+        $this->surveyName = Survey::find($surveyID)->name;
+        $this->survey = Survey::find($surveyID);
+        $this->mailer_narration = Survey::find($surveyID)->mailer_narration;
         $expectedRespondentsTemp = Survey::find($surveyID)->expectedRespondents;
+        // $role_id = json_decode(Survey::find($surveyID)->role_id, true);
+        // $this->targetRespondens = TargetResponden::whereIn('role_id', $role_id)->get();
+        // dd($targetRespondens);
         if ($expectedRespondentsTemp == null) {
             $this->expectedRespondents = 0;
         } else {
             $this->expectedRespondents = $expectedRespondentsTemp;
         }
+        $this->startAt = Survey::find($surveyID)->started_at;
+        $this->endAt = Survey::find($surveyID)->ended_at;
         $this->getDataChart();
         $this->lastUpdatedTime = now()->format('H:i:s');
     }
@@ -206,27 +285,42 @@ class Monitoring extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $surveyID = $this->surveyID;
-        $targetRespondens = TargetResponden::whereIn('role_id', json_decode(Survey::find($surveyID)->role_id))->paginate(20);
-        $targetRespondens = DB::table('target_respondens')
+        // $surveyID = $this->surveyID;
+
+        $survey = Survey::find($this->surveyID);
+        $roleIds = json_decode($survey->role_id, true);
+
+        $targetRespondens = TargetResponden::whereIn('role_id', $roleIds)
             ->leftJoin('entries', function ($join) {
                 $join->on('target_respondens.id', '=', 'entries.target_responden_id')
                     ->where('entries.survey_id', '=', $this->surveyID);
             })
-            // ->where('target_respondens.type', '=', 'individual')
             ->where('name', 'like', "%{$this->search}%")
             ->select(
                 'target_respondens.*',
                 DB::raw('CASE WHEN entries.target_responden_id IS NOT NULL THEN true ELSE false END as submitted')
             )
-            ->orderBy('name')
-            ->paginate(10);
+            ->orderBy('name')->paginate(20);
+
+        // $targetRespondens = DB::table('target_respondens')
+        //     ->leftJoin('entries', function ($join) {
+        //         $join->on('target_respondens.id', '=', 'entries.target_responden_id')
+        //             ->where('entries.survey_id', '=', $this->surveyID);
+        //     })
+        //     // ->where('target_respondens.type', '=', 'individual')
+        //     ->where('name', 'like', "%{$this->search}%")
+        //     ->select(
+        //         'target_respondens.*',
+        //         DB::raw('CASE WHEN entries.target_responden_id IS NOT NULL THEN true ELSE false END as submitted')
+        //     )
+        //     ->orderBy('name')
+        //     ->paginate(10);
         return view('livewire.survey.monitoring', [
-            'surveyID' => $surveyID,
+            'surveyID' => $this->surveyID,
             'targetRespondens' => $targetRespondens,
             'lastUpdatedTime' => $this->lastUpdatedTime,
             'expectedRespondents' => $this->expectedRespondents,
-            'survey' => Survey::find($surveyID),
+            'survey' => Survey::find($this->surveyID),
         ]);
     }
 }

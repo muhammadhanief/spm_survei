@@ -39,27 +39,39 @@
                 </div> --}}
                 <div class="{{ $surveyID ? '' : 'hidden' }}">
                     <div class="flex flex-col justify-around py-2 my-2 md:flex-row gap-y-6">
-                        <div class="border-2 rounded-lg border-slate-200 chart-container md:w-2/5">
-                            <canvas wire:ignore id="monitoringChart"></canvas>
+                        <div wire:ignore class="border-2 rounded-lg border-slate-200 chart-container md:w-2/5">
+                            <canvas id="monitoringChart"></canvas>
                         </div>
                         <div class="border-2 rounded-lg border-slate-200 md:w-2/5 " wire:ignore id="chartContainer">
                             <canvas id="chart3"></canvas>
                         </div>
                     </div>
+                    {{-- <p>odading</p> --}}
                     <div class="flex flex-col justify-around py-2 my-2 md:px-14 md:flex-row">
-                        {{-- <div class="chart-container md:w-2/5">
-                        <canvas wire:ignore id="monitoringChart"></canvas>
-                    </div> --}}
                         <div class="border-2 rounded-lg border-slate-200 md:w-full" wire:ignore id="quadrantsContainer">
                             <canvas id="quadrantsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 pb-4 sm:flex-row md:px-14">
+                        <div>
+                            <x-button-small-0 class="mt-2" id="radar-download" color='green'>Download Diagram
+                                Radar</x-button-small-0>
+                        </div>
+                        <div>
+                            <x-button-small-0 class="mt-2" id="stacked-download" color='green'>Download Diagram
+                                Batang</x-button-small-0>
+                        </div>
+                        <div>
+                            <x-button-small-0 class="mt-2" id="ipa-download" color='green'>Download Grafik
+                                IPA</x-button-small-0>
                         </div>
                     </div>
                 </div>
 
                 @if ($dataDeskripsi != null)
-                    <div class="flex justify-center text-md">
+                    <div class="flex justify-center md:px-14 text-md">
                         <div
-                            class="min-w-0 p-4 bg-white border-2 rounded-lg border-slate-200 xl:w-2/3 dark:bg-gray-800">
+                            class="min-w-0 p-4 py-2 my-2 bg-white border-2 rounded-lg border-slate-200 md:w-full dark:bg-gray-800">
                             <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
                                 Deskripsi
                             </h4>
@@ -129,7 +141,7 @@
                 @endif
             </div>
             <div class="{{ $subDimension && $surveyID ? '' : 'hidden' }}">
-                <div class="text-center">
+                <div class="pt-4 text-center">
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                         Dimensi
                         @if ($judulsubDimension != null)
@@ -141,9 +153,17 @@
                 <div class="flex flex-col justify-around py-2 my-2 md:flex-row">
                     <div class="chart-container md:w-2/5">
                         <canvas wire:ignore id="pieChartHarapan"></canvas>
+                        <div class="flex items-center justify-center">
+                            <x-button-small-0 class="mt-2" id="harapan-download" color='green'>Download Diagram
+                                Harapan</x-button-small-0>
+                        </div>
                     </div>
                     <div class="md:w-2/5" wire:ignore id="chartContainer">
                         <canvas id="pieChartKenyataan"></canvas>
+                        <div class="flex items-center justify-center">
+                            <x-button-small-0 class="mt-2" id="kenyataan-download" color='green'>Download Diagram
+                                Kenyataan</x-button-small-0>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,7 +173,6 @@
 
     @script
         <script>
-            {{-- untuk select2 --}}
             $(document).ready(function() {
                 $("#surveyID").select2();
                 $("#surveyID").on("change", function() {
@@ -161,6 +180,8 @@
                     $wire.surveyID = data;
                 });
             });
+
+
 
 
             // BEGINNING radar chart
@@ -211,6 +232,8 @@
             var radarChart = new Chart(ctx, config);
             var canvas = radarChart.canvas;
             // END of radar chart
+
+
 
             // BEGINING  stacKed bar chart
             const labels2 = ["Harapan", "Kenyataan"];
@@ -646,6 +669,46 @@
                 pieChartKenyataan.data.datasets[0].data = data2;
                 pieChartKenyataan.update();
             });
+
+            document.getElementById('radar-download').onclick = function() {
+                // Trigger the download
+                var a = document.createElement('a');
+                a.href = radarChart.toBase64Image();
+                a.download = 'diagram_radar.png';
+                a.click();
+            }
+
+            document.getElementById('stacked-download').onclick = function() {
+                // Trigger the download
+                var a = document.createElement('a');
+                a.href = stackedGapChart.toBase64Image();
+                a.download = 'diagram_batang_gap.png';
+                a.click();
+            }
+
+            document.getElementById('ipa-download').onclick = function() {
+                // Trigger the download
+                var a = document.createElement('a');
+                a.href = quadrantsChart.toBase64Image();
+                a.download = 'grafik_ipa.png';
+                a.click();
+            }
+
+            document.getElementById('harapan-download').onclick = function() {
+                // Trigger the download
+                var a = document.createElement('a');
+                a.href = pieChartHarapan.toBase64Image();
+                a.download = 'grafik_harapan.png';
+                a.click();
+            }
+
+            document.getElementById('kenyataan-download').onclick = function() {
+                // Trigger the download
+                var a = document.createElement('a');
+                a.href = pieChartKenyataan.toBase64Image();
+                a.download = 'grafik_kenyataan.png';
+                a.click();
+            }
         </script>
     @endscript
 </div>

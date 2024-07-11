@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\Section;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class Survey extends Model
 {
@@ -26,12 +27,24 @@ class Survey extends Model
         parent::__construct($attributes);
     }
 
+    // Tidak perlu menetapkan $incrementing = false; dan $keyType = 'string';
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     // Generate UUID when creating a new Survey
+    //     static::creating(function ($model) {
+    //         $model->id = (string) \Illuminate\Support\Str::uuid();
+    //     });
+    // }composer require simplesoftwareio/simple-qrcode
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description', 'expectedRespondents'];
+    protected $fillable = ['name', 'year', 'settings', 'started_at', 'ended_at', 'role_id', 'description', 'expectedRespondents', 'mailer_narration'];
 
     /**
      * The attributes that should be casted.

@@ -15,6 +15,7 @@ class CreateSurveysTable extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->increments('id');
+            // $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('year')->nullable();
@@ -25,6 +26,7 @@ class CreateSurveysTable extends Migration
             $table->json('settings')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
+            $table->text('mailer_narration')->nullable();
             $table->timestamps();
         });
     }

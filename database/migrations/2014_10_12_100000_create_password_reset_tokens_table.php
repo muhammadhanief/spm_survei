@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
+        // Schema::create('password_reset_tokens', function (Blueprint $table) {
+        //     $table->string('email', 191)->primary();
+        //     $table->string('token', 255);
+        //     $table->timestamp('created_at')->nullable();
+        // });
     }
 
     /**

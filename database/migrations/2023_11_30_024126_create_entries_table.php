@@ -16,6 +16,7 @@ class CreateEntriesTable extends Migration
         Schema::create('entries', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('survey_id');
+            // $table->uuid('survey_id');
             $table->foreign('survey_id')->references('id')->on('surveys');
             $table->unsignedBigInteger('target_responden_id')->nullable();
             $table->foreign('target_responden_id')->references('id')->on('target_respondens');

@@ -20,6 +20,7 @@ use App\Livewire\Survey\CopySurvey\PageCopySurvey;
 use App\Livewire\Survey\CopySurvey\EditingCopySurvey;
 use App\Livewire\Visualization\VPage;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Csp\AddCspHeaders;
 
 
 /*
@@ -33,14 +34,18 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect('/dashboard');
-    } else {
-        // return view('auth.login'); // Halaman login
-        return redirect('/dashboard');
-    }
-});
+
+// Route::get('/', function () {
+//     if (Auth::check()) {
+//         return redirect('/dashboard');
+//     } else {
+//         // return view('auth.login'); // Halaman login
+//         return redirect('/dashboard');
+//     }
+// });
+
+Route::get('/', DashBoard::class)->name('dashboard');
+Route::get('test', fn () => phpinfo());
 
 Route::middleware([
     'auth:sanctum',

@@ -67,11 +67,11 @@
                         stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M9.75 3.104v5.714a2.25 2.25 0 0
-                                                                                                                                                                                                                            1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0
-                                                                                                                                                                                                                            0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8
-                                                                                                                                                                                                                            15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402
-                                                                                                                                                                                                                            1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773
-                                                                                                                                                                                                                            0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5">
+                                                                                                                                                                                                                                1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0
+                                                                                                                                                                                                                                0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8
+                                                                                                                                                                                                                                15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402
+                                                                                                                                                                                                                                1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773
+                                                                                                                                                                                                                                0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5">
                     </svg>
                     </path>
                     </svg>
@@ -166,24 +166,25 @@
                 <span class="ml-4">{{ __('Dashboard') }}</span>
             </a>
         </li>
-        <li class="relative px-6 py-3">
-            {!! request()->routeIs('survey.fill.overview')
-                ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
-                : '' !!}
-            <a data-turbolinks-action="replace"
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                href="{{ route('survey.fill.overview') }}">
-                <svg class="w-5 h-5" ari a-hidden="true" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                </svg>
-                </path>
-                </svg>
-                <span class="ml-4">{{ __('Isi Survei') }}</span>
-            </a>
-        </li>
-
+        @role('Admin|Operator|Superadmin')
+            <li class="relative px-6 py-3">
+                {!! request()->routeIs('survey.fill.overview')
+                    ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
+                    : '' !!}
+                <a data-turbolinks-action="replace"
+                    class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                    href="{{ route('survey.fill.overview') }}">
+                    <svg class="w-5 h-5" ari a-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                    </svg>
+                    </path>
+                    </svg>
+                    <span class="ml-4">{{ __('Isi Survei') }}</span>
+                </a>
+            </li>
+        @endrole
         <li class="relative px-6 py-3">
             {!! request()->routeIs('survey.visualize')
                 ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'

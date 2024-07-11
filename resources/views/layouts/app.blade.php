@@ -8,7 +8,7 @@
 
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
     <link rel="icon" href="{{ asset('img/logostis.png') }}" type="image/png">
-    <title>{{ $title ?? config('app.name') }}</title>
+    <title>{{ $title ?? config('app.name') }} - {{ config('app.name') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -23,34 +23,19 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
-
     <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" /> --}}
-    {{-- for select2 --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/select2manual.css') }}" /> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     @vite('resources/js/app.js')
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     {{-- alpine js --}}
     {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
-    <script src="{{ asset('js/init-alpine.js') }}" defer></script>
+    <script src="{{ asset('js/init-alpine.js') }}"></script>
 
     {{-- chart js --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
         integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"
-        integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" /> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-    {{-- <script src="{{ asset('js/charts-lines.js') }}" defer></script>
-    <script src="{{ asset('js/charts-pie.js') }}" defer></script>
-    <script src="{{ asset('js/charts-bars.js') }}" defer></script> --}}
 
     <!-- Styles -->
 

@@ -22,4 +22,13 @@
             @include('livewire.includes.search-box')
         </div>
     </div>
+    @script
+        <script>
+            $wire.on("reloadDimension", (dataPie) => {
+                setTimeout(function() {
+                    window.location.href = "{{ route('dimensi') }}";
+                }, 1500); // Timer harus sama dengan waktu yang digunakan di SweetAlert
+            });
+        </script>
+    @endscript
 </div>

@@ -112,7 +112,7 @@
             <x-authentication-card-logo class="justify-center" />
         </x-slot>
         <div class="justify-center text-center">
-            <p>Survei Kepuasan</p>
+            <p>Survei Polstat STIS</p>
         </div>
 
         <x-validation-errors class="mb-4" />
@@ -123,7 +123,7 @@
             </div>
         @endif
         {{-- buat login manual --}}
-        <form method="POST" action="{{ route('login') }}">
+        {{-- <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div>
@@ -163,7 +163,7 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
-        </form>
+        </form> --}}
         <div class="block mt-4">
             <div class="flex items-center justify-center mt-4">
                 <a href="{{ url('login/google') }}">

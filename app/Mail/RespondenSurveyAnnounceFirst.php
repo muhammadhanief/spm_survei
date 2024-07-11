@@ -43,10 +43,13 @@ class RespondenSurveyAnnounceFirst extends Mailable
         return new Content(
             markdown: 'emails.responden.survey-announce-first',
             with: [
-                'name' => $this->data["name"],
                 'email' => $this->data["email"],
+                'name' => $this->data["name"],
                 'unique_code' => $this->data["unique_code"],
                 'survey_id' => $this->data["survey_id"],
+                'end_at' => $this->data["end_at"],
+                'mailer_narration' => $this->data["mailer_narration"],
+                // 'survey_title' => $this->data["survey_title"],
             ],
         );
     }

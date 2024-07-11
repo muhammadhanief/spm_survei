@@ -40,6 +40,7 @@
                             <th class="px-4 py-3">Nama</th>
                             <th class="px-4 py-3">Surel</th>
                             <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Role</th>
                             <th class="px-4 py-3">Tipe</th>
                         </tr>
                     </thead>
@@ -64,7 +65,9 @@
                                             <span
                                                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                 Minimal 1x Mengisi
-                                        </span>@else<span
+                                            </span>
+                                        @else
+                                            <span
                                                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                 Telah Mengisi
                                             </span>
@@ -77,9 +80,14 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-sm">
+                                    {{ $targetResponden->role->name }}
+                                </td>
+
+                                <td class="px-4 py-3 text-sm">
                                     {{ $targetResponden->type }}
 
                                 </td>
+
 
                             </tr>
                         @endforeach

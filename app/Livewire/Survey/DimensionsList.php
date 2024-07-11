@@ -60,6 +60,8 @@ class DimensionsList extends Component
             'toast' => true,
             'text' => 'Kategori dimensi sukses ditambahkan.',
         ]);
+        $this->dispatch('reloadDimension');
+        // return redirect()->route('dimensi');
     }
 
     public function delete($dimensionID)
@@ -149,6 +151,7 @@ class DimensionsList extends Component
         //     'message' => 'Deskripsi Dimensi berhasil diubah.',
         //     'dimensionID' => $dimensionID
         // ]);
+
         $this->alert('success', 'Sukses!', [
             'position' => 'center',
             'timer' => 2000,
@@ -226,16 +229,18 @@ class DimensionsList extends Component
             ->orderByDesc('questions_count')
             ->latest()
             ->paginate(5);
+        $dimensionsNotPaginate = Dimension::all();
         if ($dimensions->isNotEmpty()) {
             return view('livewire.survey.dimensions-list', [
                 'dimensions' => $dimensions,
+                'dimensionsNotPaginate' => $dimensionsNotPaginate,
                 'subdimensions' => Subdimension::all(),
             ]);
         } else {
             session()->flash('gagalSearch', 'Dimensi tidak dapat ditemukan');
             return view('livewire.survey.dimensions-list', [
                 'dimensions' => $dimensions,
-
+                'dimensionsNotPaginate' => $dimensionsNotPaginate,
                 'subdimensions' => Subdimension::all(),
             ]);
         }

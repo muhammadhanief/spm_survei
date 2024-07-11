@@ -14,7 +14,7 @@
                         <select wire:model.live='dimensionID' id="dimensionID"
                             class="block w-full mt-1 text-sm text-black select2 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                             <option value="" selected>Pilih Kategori Dimensi</option>
-                            @foreach ($dimensions as $dimension)
+                            @foreach ($dimensionsNotPaginate as $dimension)
                                 <option value="{{ $dimension->id }}">{{ $dimension->name }}</option>
                             @endforeach
                         </select>

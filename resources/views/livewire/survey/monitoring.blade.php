@@ -49,9 +49,17 @@
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Tanggal Dimulai
                         </p>
-                        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                        {{-- <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             {{ \Carbon\Carbon::parse($survey->started_at)->translatedFormat('d F Y H:i') }}
-                        </p>
+                        </p> --}}
+                        <input wire:model.live='startAt'
+                            class="block mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="datetime-local">
+                        <x-error-display name="startAt" />
+                        <div>
+                            <x-button-small-0 color='blue' class="my-1 mt-2"
+                                wire:click='updateStartAt'>Perbarui</x-button-small-0>
+                        </div>
                     </div>
                 </div>
                 <!-- Card -->
@@ -68,9 +76,15 @@
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Tanggal Berakhir
                         </p>
-                        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                        {{-- <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             {{ \Carbon\Carbon::parse($survey->ended_at)->translatedFormat('d F Y H:i') }}
-                        </p>
+                        </p> --}}
+                        <input wire:model.live='endAt'
+                            class="block mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="datetime-local">
+                        <x-error-display name="endAt" />
+                        <x-button-small-0 color='blue' class="my-1 mt-2"
+                            wire:click='updateEndAt'>Perbarui</x-button-small-0>
                     </div>
                 </div>
                 <!-- Card -->
@@ -127,7 +141,7 @@
                             <input type="text" value="Hello World" id="myInput">
                         </p> --}}
                         <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Nama Akar Dimensi</span>
+
                             <input disabled value="{{ route('survey.fill', ['surveyID' => $surveyID]) }}" type="text"
                                 id="linkSurvey"
                                 class="w-full pr-20 my-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
@@ -138,19 +152,21 @@
                                 <x-button-small-0 wire:click="copyLink" color='blue'>Salin
                                     Tautan</x-button-small-0>
                             </div>
-                            <div>
-                                <x-button-small-0 color='green' wire:click='sendEmailReminder'>Kirim surel
+
+                            <div @click="openModal('reminderModal')">
+                                <x-button-small-0 color='green'>Kirim Email
                                     pengingat</x-button-small-0>
                             </div>
-                        </div>
-                        <div wire:loading wire:target="sendEmailReminder">
-                            <div class="alert alert-info" id="progressAlert">
-                                Mengirim Surel, mohon tunggu...
+                            <!-- Tampilkan QR Code jika sudah di-generate -->
+                            <div @click="openModal('qrModal')">
+                                <x-button-small-0 color='green'>Qr-Code</x-button-small-0>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+
         </div>
         @include('livewire.includes.monitoring.table')
         @script
@@ -237,4 +253,6 @@
             {{-- @endpush --}}
         @endscript
     </div>
+    @include('livewire.includes.qr-code-modal')
+    @include('livewire.includes.send-email-modal')
 </div>
