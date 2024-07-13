@@ -279,11 +279,18 @@ class Monitoring extends Component
 
     public function downloadAnswers()
     {
-        $surveyName = Survey::find($this->surveyID)->name;
+        $survey = Survey::find($this->surveyID);
+        $surveyName = $survey ? $survey->name : 'unknown';
         $surveyID = $this->surveyID;
         $date = now()->format('Y-m-d H:i:s');
+
+        // Sanitasi nama survey dan tanggal untuk menghilangkan karakter yang tidak valid
+        $surveyName = str_replace(['/', '\\'], '-', $surveyName);
+        $date = str_replace(['/', '\\', ':'], '-', $date);
+
         return Excel::download(new AnswersExport($surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
     }
+
 
     #[Layout('layouts.app')]
     public function render()

@@ -24,29 +24,26 @@ class DataSheet implements FromArray, WithHeadings, WithTitle
     public function getDataArray()
     {
         $array = [];
-        $entries = Survey::find($this->surveyID)->entries;
-        foreach ($entries as $entry) {
-            $answers = $entry->answers;
-            $answerEntry = [];
-            foreach ($answers as $answer) {
-                if ($answer->questionType->name == 'Harapan' || $answer->questionType->name == 'Kenyataan') {
-                    $answerValue = $answer->value;
-                    $answerKalimat = $answer->getAnswerValueAttribute($answerValue);
-                    // if ($answer->questionType->name == 'Harapan') {
-                    //     $answerKalimat = $answerKalimatBelum . ' (Harapan)';
-                    // } else {
-                    //     $answerKalimat = $answerKalimatBelum . ' (Kenyataan)';
-                    // }
-                } else {
-                    $answerKalimat = $answer->value;
-                    // $answerKalimat = $answerKalimatBelum . '(Umum)';
+
+        Survey::find($this->surveyID)->entries()->chunk(50, function ($entries) use (&$array) {
+            foreach ($entries as $entry) {
+                $answerEntry = [];
+                foreach ($entry->answers as $answer) {
+                    if ($answer->questionType->name == 'Harapan' || $answer->questionType->name == 'Kenyataan') {
+                        $answerValue = $answer->value;
+                        $answerKalimat = $answer->getAnswerValueAttribute($answerValue);
+                    } else {
+                        $answerKalimat = $answer->value;
+                    }
+                    $answerEntry[] = $answerKalimat;
                 }
-                $answerEntry[] = $answerKalimat;
+                $array[] = $answerEntry;
             }
-            $array[] = $answerEntry;
-        }
+        });
+
         $this->dataArray = $array;
     }
+
 
     public function array(): array
     {

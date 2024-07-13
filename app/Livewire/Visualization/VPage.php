@@ -31,6 +31,8 @@ class VPage extends Component
     public $dataChartPieDimension = [];
     public $judulsubDimension;
 
+    public $uuid;
+
     public function updatedsurveyID()
     {
         $this->generateChart();
@@ -187,7 +189,6 @@ class VPage extends Component
             'surveyID' => 'Survei',
         ];
         $this->validate($rules, $messages, $attributes);
-
         $this->getDataChart();
         $this->dispatch('chartUpdated', $this->dataGap);
     }
@@ -275,6 +276,8 @@ class VPage extends Component
 
     public function mount()
     {
+        // $this->uuid = session('uuid');
+        // dd($this->uuid);
     }
 
     #[Layout('layouts.app')]

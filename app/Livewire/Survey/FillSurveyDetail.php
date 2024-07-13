@@ -133,11 +133,18 @@ class FillSurveyDetail extends Component
             $this->surveyID = $tempSurveyID;
             $this->uniqueCode = $tempUniqueCode;
             // $this->mount($this->surveyID, $this->uniqueCode);
-            $this->alert('success', 'Sukses!', [
-                'position' => 'center',
-                'timer' => 2000,
-                'toast' => true,
-                'text' => 'Jawaban sukses dikumpulkan.',
+            // $this->alert('success', 'Sukses!', [
+            //     'position' => 'center',
+            //     'timer' => 2000,
+            //     'toast' => true,
+            //     'text' => 'Jawaban sukses dikumpulkan.',
+            // ]);
+            // dd('op');
+            session()->flash('status', [
+                'title' => 'Perubahan peringkat',
+                'text' => 'Perubahan peringkat',
+                'rankBeforeEdited' => 'Perubahan peringkat',
+                'rankAfterEdited' => 'Perubahan peringkat',
             ]);
             return redirect()->route('survey.visualize');
         } else {

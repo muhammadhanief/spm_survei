@@ -114,6 +114,13 @@
                             <div>
                                 <x-button-small-0 color='green' class="my-1" wire:click='downloadAnswers'>Unduh
                                     Fail Respon</x-button-small-0>
+                                <div wire:loading role="status"
+                                    class="flex items-center justify-center pt-2 text-blue-500">
+                                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                                        role="alert">
+                                        <span class="font-medium">Sedang memuat data!</span> Mohon tunggu beberapa saat.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         </p>

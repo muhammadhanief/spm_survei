@@ -16,7 +16,7 @@ class DashBoard extends Component
     {
         $surveys = Survey::all();
         $countSurvey = $surveys->count();
-        $canFilledSurvey = $surveys->where('ended_at', '<', now())->count();
+        $canFilledSurvey = $surveys->where('ended_at', '>', now())->count();
         $totalEntry  = Entry::all()->count();
         $totalUser = User::all()->count();
         return view('livewire.dash-board', [

@@ -23,6 +23,12 @@
                     @endforeach
                 </select>
                 <x-error-display name="surveyID" />
+                <div wire:loading role="status" class="flex items-center justify-center pt-2 text-blue-500">
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                        role="alert">
+                        <span class="font-medium">Sedang memuat data!</span> Mohon tunggu beberapa saat.
+                    </div>
+                </div>
                 {{-- <div>
                     <div class="py-2" wire:ignore>
                         <select wire:model.live='surveyID' id="surveyID"
@@ -131,7 +137,10 @@
                         <option value="" selected>Pilih Dimensi</option>
                         @foreach ($subdimensions as $subdimension)
                             @if ($subdimension->dimension_id == $dimensionofSurvei->id)
-                                <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option>
+                                @if ($subdimension->name == 'Umum')
+                                @else
+                                    <option value="{{ $subdimension->id }}">{{ $subdimension->name }}</option>
+                                @endif
                             @endif
                         @endforeach
                     </select>
@@ -170,6 +179,21 @@
         </div>
 
     </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let status = @json(session('status'));
+            if (status) {
+                Swal.fire({
+                    title: `Jawaban anda telah dikumpulkan`,
+                    text: `Terima kasih telah mengisi survei`,
+                    icon: 'info',
+                    confirmButtonText: 'OK',
+                });
+            }
+        });
+    </script>
 
     @script
         <script>
@@ -180,9 +204,6 @@
                     $wire.surveyID = data;
                 });
             });
-
-
-
 
             // BEGINNING radar chart
             const data = {
