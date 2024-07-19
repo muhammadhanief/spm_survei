@@ -18,6 +18,7 @@ use App\Livewire\Survey\CopySurvey;
 use App\Livewire\Survey\PageCreateSurvey;
 use App\Livewire\Survey\CopySurvey\PageCopySurvey;
 use App\Livewire\Survey\CopySurvey\EditingCopySurvey;
+use App\Livewire\Survey\Resampling;
 use App\Livewire\Visualization\VPage;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Csp\AddCspHeaders;
@@ -71,6 +72,9 @@ Route::get('/survei/isi', FillSurvey::class)->name('survey.fill.overview');
 Route::get('/survei/isi/{uuid}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
 // Route::get('/survei/isi/{surveyID}/{uniqueCode?}', FillSurveyDetail::class)->name('survey.fill');
 
+Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:SuperAdmin|Admin|Operator']], function () {
+    Route::get('/resampling', Resampling::class)->name('resampling');
+});
 
 Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:SuperAdmin|Admin|Operator']], function () {
     Route::get('/dimensi', DimensionsList::class)->name('dimensi');

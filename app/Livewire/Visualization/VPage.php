@@ -3,6 +3,7 @@
 namespace App\Livewire\Visualization;
 
 use App\Models\Answer;
+use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Survey;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -24,19 +25,68 @@ class VPage extends Component
     public $dataGap = [];
     public $dataDeskripsi = [];
 
+
     // untuk pie chart1 
+    #ini mau nyimpan id saja
     public $dimensionofSurvei;
+    #ini baru model
+    public $modelDimensionofSurvei;
     #[Validate('required|not_in:')]
     public $subDimension;
     public $dataChartPieDimension = [];
     public $judulsubDimension;
+    public $dateUpdatedSurveyData = null;
 
     public $uuid;
 
+
     public function updatedsurveyID()
     {
-        $this->generateChart();
+        $this->dateUpdatedSurveyData = null;
+        $this->getdataChartFromDatabase();
+        // $this->updatedsurveyIDLive();
+        $this->modelDimensionofSurvei = Dimension::find($this->dimensionofSurvei);
+        $this->dateUpdatedSurveyData = Survey::find($this->surveyID)->updated_at;
+        // dd($this->dateUpdatedSurveyData);
     }
+
+    // yang livew
+    public function perbaruisurveyIDLive()
+    {
+        $this->dateUpdatedSurveyData = null;
+        $this->generateChart();
+        $this->modelDimensionofSurvei = Dimension::find($this->dimensionofSurvei);
+        $this->dateUpdatedSurveyData = now();
+    }
+
+    // yang dari database   
+    public function getDataChartFromDatabase()
+    {
+        $rules = [
+            'surveyID' => 'required|not_in:',
+        ];
+        $messages = [
+            'required' => ':attribute wajib diisi.',
+            'min' => ':attribute minimal wajib :min karakter.',
+            'not_in' => ':attribute wajib memiliki nilai yang valid.',
+        ];
+        $attributes = [
+            'surveyID' => 'Survei',
+        ];
+        $this->validate($rules, $messages, $attributes);
+
+        $survey = Survey::find($this->surveyID);
+        $data_gap = $survey->data_gap;
+        $data_gap_array = json_decode($data_gap, true);
+        // dd($data_gap_array);
+        // $this->dataGap = $data_gap_array;
+        $this->dataDeskripsi = $data_gap_array['dataDeskripsi'];
+        $this->dimensionofSurvei = $data_gap_array['dimensionofSurvei'];
+        $this->dispatch('chartUpdated', $data_gap_array);
+        // dd($data_gap);
+    }
+
+
 
     public function updatedsubDimension()
     {
@@ -45,6 +95,8 @@ class VPage extends Component
 
     public function getDataChart()
     {
+        ini_set('memory_limit', '1G');
+        set_time_limit(60);
         $questionHarapan = Question::where('survey_id', $this->surveyID)->where('question_type_id', 2)->get();
         $answersHarapan = Answer::whereIn('question_id', $questionHarapan->pluck('id'))->get();
 
@@ -142,11 +194,10 @@ class VPage extends Component
         // getDataDeskripsi
         $survey = Survey::find($this->surveyID);
         $this->dataDeskripsi = [
-            'submitted' => Entry::where('survey_id', $this->surveyID)->count(),
+            'respondenCount' => Entry::where('survey_id', $this->surveyID)->count(),
             'expectedRespondents' => $survey->expected_respondents,
             'surveyName' => $survey->name,
             'surveyYear' => $survey->year,
-            'respondenCount' => Entry::where('survey_id', $this->surveyID)->count(),
             'expectedRespondents' => $survey->expectedRespondents,
             'dimensionData' => [
                 'labels' => $labels,
@@ -171,24 +222,25 @@ class VPage extends Component
         // ngambil 1 nilai subdimensi aja
         $subdimensionofSurveiID = $questions->pluck('subdimension_id')->unique()->first();
         $subdimensionofSurvei = Subdimension::find($subdimensionofSurveiID);
-        $dimensionofSurvei = $subdimensionofSurvei->dimension;
+        $dimensionofSurvei = $subdimensionofSurvei->dimension->id;
+        // dd($dimensionofSurvei);
         $this->dimensionofSurvei = $dimensionofSurvei;
     }
 
     public function generateChart()
     {
-        $rules = [
-            'surveyID' => 'required|not_in:',
-        ];
-        $messages = [
-            'required' => ':attribute wajib diisi.',
-            'min' => ':attribute minimal wajib :min karakter.',
-            'not_in' => ':attribute wajib memiliki nilai yang valid.',
-        ];
-        $attributes = [
-            'surveyID' => 'Survei',
-        ];
-        $this->validate($rules, $messages, $attributes);
+        // $rules = [
+        //     'surveyID' => 'required|not_in:',
+        // ];
+        // $messages = [
+        //     'required' => ':attribute wajib diisi.',
+        //     'min' => ':attribute minimal wajib :min karakter.',
+        //     'not_in' => ':attribute wajib memiliki nilai yang valid.',
+        // ];
+        // $attributes = [
+        //     'surveyID' => 'Survei',
+        // ];
+        // $this->validate($rules, $messages, $attributes);
         $this->getDataChart();
         $this->dispatch('chartUpdated', $this->dataGap);
     }

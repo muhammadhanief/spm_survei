@@ -67,11 +67,11 @@
                         stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M9.75 3.104v5.714a2.25 2.25 0 0
-                                                                                                                                                                                                                                1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0
-                                                                                                                                                                                                                                0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8
-                                                                                                                                                                                                                                15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402
-                                                                                                                                                                                                                                1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773
-                                                                                                                                                                                                                                0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5">
+                                                                                                                                                                                                                                                        1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0
+                                                                                                                                                                                                                                                        0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8
+                                                                                                                                                                                                                                                        15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402
+                                                                                                                                                                                                                                                        1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773
+                                                                                                                                                                                                                                                        0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5">
                     </svg>
                     </path>
                     </svg>
@@ -138,6 +138,26 @@
                 </a>
             </li>
         @endrole
+        {{-- @role('Admin|Superadmin')
+            <li class="relative px-6 py-3">
+                {!! request()->routeIs('resampling')
+                    ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>'
+                    : '' !!}
+                <a data-turbolinks-action="replace"
+                    class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                    href="{{ route('resampling') }}">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                    </svg>
+
+                    </path>
+                    </svg>
+                    <span class="ml-4">{{ __('Resampling') }}</span>
+                </a>
+            </li>
+        @endrole --}}
         @role('Admin|Operator|Superadmin')
             <li class="relative px-6 py-3">
                 <a data-turbolinks-action="replace"

@@ -16,6 +16,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Auth\Events\Validated;
 
 class Monitoring extends Component
 {
@@ -121,6 +122,11 @@ class Monitoring extends Component
             'Telah Mengisi' => $submittedIndividual,
             'Belum Mengisi' => $belumMengisi,
         ];
+
+        $this->currentRespondentsPercent = $totalRespondenIndividual == 0 ? 0 : round($submittedIndividual / $totalRespondenIndividual * 100);
+        $this->afterRespondentsPercent = $this->currentRespondentsPercent;
+        $this->currentRespondentsCount = $submittedIndividual;
+        $this->fullyData = $this->expectedRespondents - $submittedIndividual;
     }
 
     public function getUpdatedDataChart()
@@ -170,78 +176,65 @@ class Monitoring extends Component
         ]);
     }
 
-    public function sendEmailReminder()
-    {
-        $survey = Survey::find($this->surveyID);
-        $roleIds = json_decode($survey->role_id, true);
+    // public function sendEmailReminder()
+    // {
+    // $survey = Survey::find($this->surveyID);
+    // $roleIds = json_decode($survey->role_id, true);
 
-        $survey->mailer_narration = $this->mailer_narration;
-        $survey->save();
+    // $survey->mailer_narration = $this->mailer_narration;
+    // $survey->save();
 
-        $targetRespondens = TargetResponden::whereIn('role_id', $roleIds)
-            ->leftJoin('entries', function ($join) {
-                $join->on('target_respondens.id', '=', 'entries.target_responden_id')
-                    ->where('entries.survey_id', '=', $this->surveyID);
-            })
-            ->where('name', 'like', "%{$this->search}%")
-            ->select(
-                'target_respondens.*',
-                DB::raw('CASE WHEN entries.target_responden_id IS NOT NULL THEN true ELSE false END as submitted')
-            )
-            ->orderBy('name')->get();
 
-        // dd($targetRespondens);
+    // $this->totalEmails = count($targetRespondens);
 
-        $this->totalEmails = count($targetRespondens);
+    // $error = [];
 
-        $error = [];
+    // foreach ($targetRespondens as $targetResponden) {
+    //     if ($targetResponden->submitted == false || $targetResponden->type == "group") {
+    //         try {
+    //             Mail::to($targetResponden->email)->send(new RespondenSurveyAnnounceFirst([
+    //                 'email' => $targetResponden->email,
+    //                 'name' => $targetResponden->name,
+    //                 'unique_code' => $targetResponden->unique_code,
+    //                 'uuid' => $this->uuid,
+    //                 // 'survey_id' => $this->surveyID,
+    //                 'end_at' => $this->endAt,
+    //                 'survey_title' => Survey::find($this->surveyID)->name,
+    //                 'mailer_narration' => $this->mailer_narration,
+    //             ]));
 
-        foreach ($targetRespondens as $targetResponden) {
-            if ($targetResponden->submitted == false || $targetResponden->type == "group") {
-                try {
-                    Mail::to($targetResponden->email)->send(new RespondenSurveyAnnounceFirst([
-                        'email' => $targetResponden->email,
-                        'name' => $targetResponden->name,
-                        'unique_code' => $targetResponden->unique_code,
-                        'uuid' => $this->uuid,
-                        // 'survey_id' => $this->surveyID,
-                        'end_at' => $this->endAt,
-                        'survey_title' => Survey::find($this->surveyID)->name,
-                        'mailer_narration' => $this->mailer_narration,
-                    ]));
+    //             // Update progres
+    //             $this->successCount++;
+    //         } catch (\Exception $e) {
+    //             $error[] = $e->getMessage();
+    //             // Update progres
+    //             $this->errorCount++;
+    //             $this->errorMessage = $e->getMessage();
+    //         }
 
-                    // Update progres
-                    $this->successCount++;
-                } catch (\Exception $e) {
-                    $error[] = $e->getMessage();
-                    // Update progres
-                    $this->errorCount++;
-                    $this->errorMessage = $e->getMessage();
-                }
+    //         // Update progres
+    //         $this->sendingProgress = ($this->successCount + $this->errorCount) / $this->totalEmails * 100;
+    //     }
+    // }
 
-                // Update progres
-                $this->sendingProgress = ($this->successCount + $this->errorCount) / $this->totalEmails * 100;
-            }
-        }
-
-        // Setelah selesai, tampilkan alert berdasarkan hasil
-        if (count($error) == 0) {
-            $this->alert('success', 'Sukses!', [
-                'position' => 'center',
-                'timer' => 2000,
-                'toast' => true,
-                'text' => 'Email sukses dikirim.',
-            ]);
-            $this->reset('sendingProgress', 'totalEmails', 'successCount', 'errorCount', 'errorMessage');
-        } else {
-            $this->alert('error', 'Gagal!', [
-                'position' => 'center',
-                'timer' => 2000,
-                'toast' => true,
-                'text' => 'Gagal mengirim email: ' . $this->errorMessage,
-            ]);
-        }
-    }
+    // // Setelah selesai, tampilkan alert berdasarkan hasil
+    // if (count($error) == 0) {
+    //     $this->alert('success', 'Sukses!', [
+    //         'position' => 'center',
+    //         'timer' => 2000,
+    //         'toast' => true,
+    //         'text' => 'Email sukses dikirim.',
+    //     ]);
+    //     $this->reset('sendingProgress', 'totalEmails', 'successCount', 'errorCount', 'errorMessage');
+    // } else {
+    //     $this->alert('error', 'Gagal!', [
+    //         'position' => 'center',
+    //         'timer' => 2000,
+    //         'toast' => true,
+    //         'text' => 'Gagal mengirim email: ' . $this->errorMessage,
+    //     ]);
+    // }
+    // }
 
     public function mount($surveyID)
     {
@@ -289,6 +282,41 @@ class Monitoring extends Component
         $date = str_replace(['/', '\\', ':'], '-', $date);
 
         return Excel::download(new AnswersExport($surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
+    }
+
+
+
+    // fitur resampling
+    public $currentRespondentsPercent;
+    public $currentRespondentsCount;
+    public $afterRespondentsPercent;
+    #[Validate('required|not_in:|numeric|min:0')]
+    public $resamplingData;
+    public $fullyData;
+
+    public function updatedResamplingData()
+    {
+        $this->validate([
+            'resamplingData' => 'required|numeric|min:0',
+        ]);
+        $this->afterRespondentsPercent = ($this->currentRespondentsCount + $this->resamplingData) / $this->expectedRespondents * 100;
+    }
+
+    public function generateResampling()
+    {
+        $this->validate([
+            'resamplingData' => 'required|numeric|min:0',
+        ]);
+
+        $survey = Survey::find($this->surveyID);
+
+
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Resampling berhasil dilakukan.',
+        ]);
     }
 
 

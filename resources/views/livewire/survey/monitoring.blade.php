@@ -160,10 +160,10 @@
                                     Tautan</x-button-small-0>
                             </div>
 
-                            <div @click="openModal('reminderModal')">
+                            {{-- <div @click="openModal('reminderModal')">
                                 <x-button-small-0 color='green'>Kirim Email
                                     pengingat</x-button-small-0>
-                            </div>
+                            </div> --}}
                             <!-- Tampilkan QR Code jika sudah di-generate -->
                             <div @click="openModal('qrModal')">
                                 <x-button-small-0 color='green'>Qr-Code</x-button-small-0>
@@ -173,9 +173,43 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        @include('livewire.includes.monitoring.table')
+        {{-- <div class="gap-6 mb-8 ">
+            <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                    Resampling
+                </h4>
+                <label class="block pb-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Progress Pengisian Saat ini</span>
+                    <p
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                        {{ $currentRespondentsPercent }}%</p>
+                </label>
+                <label class="block pb-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Perkiraan Progress Pengisian Setelah data
+                        dibangkitkan</span>
+                    <p
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                        {{ $afterRespondentsPercent }}%</p>
+                </label>
+                <label class="block pb-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Jumlah data yang akan dibangkitkan. Saran agar data
+                        menjadi 100% : {{ $fullyData }}</span>
+                    <input wire:model.live='resamplingData'
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        placeholder="Masukkan angka banyak data" />
+                    <x-error-display-mt1 name="resamplingData" />
+                </label>
+                <x-button-small class=""
+                    wire:confirm='Anda yakin ingin resampling? tindakan ini tidak bisa diurungkan'
+                    wire:click='generateResampling' type="submit" color="red">Bangkitkan
+                    data
+                </x-button-small>
+
+            </div>
+        </div> --}}
+
+        {{-- @include('livewire.includes.monitoring.table') --}}
         @script
             {{-- @push('js') --}}
             <script>

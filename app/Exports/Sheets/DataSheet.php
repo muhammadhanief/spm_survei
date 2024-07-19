@@ -23,27 +23,26 @@ class DataSheet implements FromArray, WithHeadings, WithTitle
 
     public function getDataArray()
     {
+        ini_set('memory_limit', '256M');
+        set_time_limit(60);
         $array = [];
-
-        Survey::find($this->surveyID)->entries()->chunk(50, function ($entries) use (&$array) {
-            foreach ($entries as $entry) {
-                $answerEntry = [];
-                foreach ($entry->answers as $answer) {
-                    if ($answer->questionType->name == 'Harapan' || $answer->questionType->name == 'Kenyataan') {
-                        $answerValue = $answer->value;
-                        $answerKalimat = $answer->getAnswerValueAttribute($answerValue);
-                    } else {
-                        $answerKalimat = $answer->value;
-                    }
-                    $answerEntry[] = $answerKalimat;
+        $entries = Survey::find($this->surveyID)->entries;
+        foreach ($entries as $key => $entry) {
+            $answers = $entry->answers;
+            $answerEntry = [];
+            foreach ($answers as $answer) {
+                if ($answer->questionType->name == 'Harapan' || $answer->questionType->name == 'Kenyataan') {
+                    $answerValue = $answer->value;
+                    $answerKalimat = $answer->getAnswerValueAttribute($answerValue);
+                } else {
+                    $answerKalimat = $answer->value;
                 }
-                $array[] = $answerEntry;
+                $answerEntry[] = $answerKalimat;
             }
-        });
-
+            $array[] = $answerEntry;
+        }
         $this->dataArray = $array;
     }
-
 
     public function array(): array
     {
