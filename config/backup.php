@@ -218,7 +218,7 @@ return [
 
         'mail' => [
             // 'to' => 'your@example.com',
-            'to' => ['haniefm19@gmail.com', 'haniefm807@gmail.com'],
+            'to' => 'haniefm19@gmail.com',
 
 
             'from' => [

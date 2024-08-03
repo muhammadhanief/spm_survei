@@ -558,7 +558,7 @@
             const dataPieHarapan = {
                 labels: ["Label 1", "Label 2", "Label 3"],
                 datasets: [{
-                    label: "Jumlah Responden",
+                    label: "Banyak yang mengisi",
                     data: [],
                     backgroundColor: [
                         "rgb(255, 99, 132)",
@@ -620,7 +620,7 @@
             const dataPieKenyataan = {
                 labels: ["Label 1", "Label 2", "Label 3"],
                 datasets: [{
-                    label: "Jumlah Responden",
+                    label: "Banyak yang mengisi",
                     data: [],
                     hoverOffset: 4,
                 }, ],

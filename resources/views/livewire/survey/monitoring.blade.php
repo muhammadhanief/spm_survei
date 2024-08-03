@@ -8,7 +8,7 @@
         <table class="pt-2 text-xl">
             <tr>
                 <td class="align-top">
-                    Judul Survei
+                    Judul Surveii
                 </td>
                 <td>
                     :{{ $survey->name }}
@@ -111,7 +111,7 @@
                                 <x-button-small-0 color='blue' class="my-1 mt-2"
                                     wire:click='updateExpectedResponden'>Perbarui</x-button-small-0>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-button-small-0 color='green' class="my-1" wire:click='downloadAnswers'>Unduh
                                     Fail Respon</x-button-small-0>
                                 <div wire:loading role="status"
@@ -121,7 +121,7 @@
                                         <span class="font-medium">Sedang memuat data!</span> Mohon tunggu beberapa saat.
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         </p>
                     </div>
@@ -172,6 +172,102 @@
 
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="gap-6 mb-8 ">
+            <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                    Unduh fail respon
+                </h4>
+
+                <div wire:loading wire:target='downloadAnswers' role="status"
+                    class="flex items-center justify-center pt-2 text-blue-500">
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                        role="alert">
+                        <span class="font-medium">Sedang memuat data!</span> Mohon tunggu beberapa saat.
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 sm:flex-row">
+                    @php
+                        $partitionSize = 250;
+                        $numberOfPartitions = ceil($totalEntry / $partitionSize);
+                    @endphp
+                    @foreach (range(1, $numberOfPartitions) as $partition)
+                        <div class="inline-flex">
+                            @if ($partition == $numberOfPartitions)
+                                <x-button-small-0 class="mb-2" wire:click='downloadAnswers({{ $partition }})'
+                                    color='blue'> Unduh partisi {{ $partition }}
+                                    ({{ $partitionSize * $partition - 250 + 1 }} -
+                                    {{ $totalEntry }})
+                                </x-button-small-0>
+                            @else
+                                <x-button-small-0 class="mb-2" wire:click='downloadAnswers({{ $partition }})'
+                                    color='blue'>Unduh partisi {{ $partition }}
+                                    ({{ $partitionSize * $partition - 250 + 1 }} -
+                                    {{ $partitionSize * $partition }})</x-button-small-0>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
+        <div class="gap-6 mb-8 ">
+            <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                    Hapus Duplikasi
+                </h4>
+                <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                        Pilih acuan pertanyaan yang akan dicek
+                        duplikasinya
+                    </span>
+                    <select wire:model.live='selectedQuestionDuplicateID'
+                        class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <option value="" selected>Pilih soal</option>
+                        @foreach ($questions as $question)
+                            <option value="{{ $question->id }}">{{ $question->content }}</option>
+                        @endforeach
+                    </select>
+                    <x-error-display-mt1 name="selectedQuestionDuplicateID" />
+                </label>
+                <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Toleransi banyak duplikat yang diabaikan</span>
+                    <br>
+                    <span class="text-xs text-green-700 dark:text-green-400">Contoh: jika budi mengisi 100 kali, maka
+                        dengan toleransi 3, jawaban budi akan diambil 97 saja</span>
+
+
+                    <input wire:model.live='amountKeepNotDeleted' type="text" id="amountKeepNotDeleted"
+                        class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        placeholder="Banyak isian yang ditinggalkan" />
+                    <x-error-display-mt1 name="amountKeepNotDeleted" />
+                </label>
+
+                @if ($totalDuplicate != false)
+                    <label class="block mt-4 text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Akan ada {{ $totalDuplicate }} data duplikat
+                            yang
+                            berasal dari {{ $personDuplicate }} responden yang akan
+                            dihapus jika anda memilih opsi ini</span>
+                        {{-- <input wire:model.live='amountKeepNotDeleted' type="text" id="amountKeepNotDeleted"
+                        class="block w-full mt-1 text-sm text-black dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        placeholder="Banyak isian yang ditinggalkan" />
+                    <x-error-display-mt1 name="amountKeepNotDeleted" /> --}}
+                    </label>
+                @endif
+                <div wire:loading wire:target='deleteDuplicate' role="status"
+                    class="flex items-center justify-center pt-2 text-blue-500">
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                        role="alert">
+                        <span class="font-medium">Sedang memuat data!</span> Mohon tunggu beberapa saat.
+                    </div>
+                </div>
+                <x-button-small class=""
+                    wire:confirm='Anda yakin ingin resampling? tindakan ini tidak bisa diurungkan. jangan sampai salah memilih variabelnya'
+                    wire:click='deleteDuplicate' type="submit" color="red">Hapus duplikasi
+                </x-button-small>
+
             </div>
         </div>
         {{-- <div class="gap-6 mb-8 ">

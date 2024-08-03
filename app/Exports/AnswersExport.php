@@ -24,16 +24,18 @@ class AnswersExport implements WithMultipleSheets
     protected $surveyID;
     public $dataArray = [];
     public $headingArray = [];
+    public $batchNumber;
 
-    public function __construct($surveyID)
+    public function __construct($surveyID, $batchNumber)
     {
         $this->surveyID = $surveyID;
+        $this->batchNumber = $batchNumber;
     }
 
     public function sheets(): array
     {
         $sheets = [
-            new DataSheet($this->surveyID),
+            new DataSheet($this->surveyID, $this->batchNumber),
             new DictionarySheet($this->surveyID),
         ];
         return $sheets;

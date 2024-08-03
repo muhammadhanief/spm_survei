@@ -15,19 +15,33 @@ class DataSheet implements FromArray, WithHeadings, WithTitle
     public $dataArray = [];
     public $headingArray = [];
     public $headingCodeArray = [];
+    public $batchNumber;
 
-    public function __construct(int $surveyID)
+    public function __construct(int $surveyID, $batchNumber)
     {
         $this->surveyID = $surveyID;
+        $this->batchNumber = $batchNumber;
     }
 
     public function getDataArray()
     {
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '1G');
         set_time_limit(60);
+        // Tentukan ukuran batch
+        $batchSize = 250;
+
+        // Tentukan posisi batch
+        $batchNumber = $this->batchNumber;
+
+        // Hitung offset berdasarkan posisi batch
+        $offset = ($batchNumber - 1) * $batchSize;
+
+        // Ambil entri berdasarkan offset dan ukuran batch
+        $entries = Survey::find($this->surveyID)->entries()->skip($offset)->take($batchSize)->get();
+
         $array = [];
-        $entries = Survey::find($this->surveyID)->entries;
-        foreach ($entries as $key => $entry) {
+
+        foreach ($entries as $entry) {
             $answers = $entry->answers;
             $answerEntry = [];
             foreach ($answers as $answer) {
@@ -41,8 +55,11 @@ class DataSheet implements FromArray, WithHeadings, WithTitle
             }
             $array[] = $answerEntry;
         }
+
         $this->dataArray = $array;
     }
+
+
 
     public function array(): array
     {

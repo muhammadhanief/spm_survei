@@ -11,6 +11,7 @@ use App\Models\Survey;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 use App\Mail\RespondenSurveyAnnounceFirst;
+use App\Models\Answer;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
@@ -38,6 +39,10 @@ class Monitoring extends Component
     public $survey;
     public $mailer_narration;
     public $uuid;
+
+    public $totalEntry;
+
+
 
     // untuk modal mailer
 
@@ -244,6 +249,8 @@ class Monitoring extends Component
         $this->survey = Survey::find($surveyID);
         $this->mailer_narration = Survey::find($surveyID)->mailer_narration;
         $expectedRespondentsTemp = Survey::find($surveyID)->expectedRespondents;
+        $this->totalEntry = Entry::where('survey_id', $surveyID)->count();
+        $this->questions = $this->survey->questions;
         // $role_id = json_decode(Survey::find($surveyID)->role_id, true);
         // $this->targetRespondens = TargetResponden::whereIn('role_id', $role_id)->get();
         // dd($targetRespondens);
@@ -270,18 +277,114 @@ class Monitoring extends Component
         ]);
     }
 
-    public function downloadAnswers()
+    public function downloadAnswers($batchNumber)
     {
         $survey = Survey::find($this->surveyID);
         $surveyName = $survey ? $survey->name : 'unknown';
         $surveyID = $this->surveyID;
         $date = now()->format('Y-m-d H:i:s');
 
+        // $batchNumber = 9;
+        $partition = 250;
+
         // Sanitasi nama survey dan tanggal untuk menghilangkan karakter yang tidak valid
         $surveyName = str_replace(['/', '\\'], '-', $surveyName);
         $date = str_replace(['/', '\\', ':'], '-', $date);
 
-        return Excel::download(new AnswersExport($surveyID), '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
+        return Excel::download(new AnswersExport($surveyID, $batchNumber), $batchNumber . '(' . $partition * $batchNumber - 250 + 1 . '-' . $partition * $batchNumber . ')' . '[Jawaban] ' . $surveyName . ' ' . $date . '.xlsx');
+    }
+
+    // fitur delete duplicate
+    public $selectedQuestionDuplicateID;
+    public $questions = [];
+    public $amountKeepNotDeleted;
+    public $totalDuplicate = false;
+    public $personDuplicate = false;
+
+    public function updatedSelectedQuestionDuplicateID()
+    {
+        $this->validate([
+            'selectedQuestionDuplicateID' => 'required|not_in:',
+            'amountKeepNotDeleted' => 'required|numeric|min:1',
+        ]);
+        $duplicateAnswers = Answer::where('question_id', $this->selectedQuestionDuplicateID)
+            ->select('value', DB::raw('COUNT(*) as count'))
+            ->groupBy('value')
+            ->having('count', '>', $this->amountKeepNotDeleted)
+            ->orderBy('count', 'desc')
+            ->get();
+
+        $this->personDuplicate = $duplicateAnswers->count();
+
+        // Menghitung total dari semua count setelah mengurangi dengan $this->amountKeepNotDeleted
+        $this->totalDuplicate = $duplicateAnswers->sum(function ($answer) {
+            // Hitung jumlah yang lebih dari $this->amountKeepNotDeleted
+            return max($answer->count - $this->amountKeepNotDeleted, 0);
+        });
+    }
+
+    public function updatedAmountKeepNotDeleted()
+    {
+        $this->validate([
+            'selectedQuestionDuplicateID' => 'required|not_in:',
+            'amountKeepNotDeleted' => 'required|numeric|min:1',
+        ]);
+        $duplicateAnswers = Answer::where('question_id', $this->selectedQuestionDuplicateID)
+            ->select('value', DB::raw('COUNT(*) as count'))
+            ->groupBy('value')
+            ->having('count', '>', $this->amountKeepNotDeleted)
+            ->orderBy('count', 'desc')
+            ->get();
+        $this->personDuplicate = $duplicateAnswers->count();
+        // Menghitung total dari semua count setelah mengurangi dengan $this->amountKeepNotDeleted
+        $this->totalDuplicate = $duplicateAnswers->sum(function ($answer) {
+            // Hitung jumlah yang lebih dari $this->amountKeepNotDeleted
+            return max($answer->count - $this->amountKeepNotDeleted, 0);
+        });
+    }
+
+    public function deleteDuplicate()
+    {
+        $this->validate([
+            'selectedQuestionDuplicateID' => 'required|not_in:',
+            'amountKeepNotDeleted' => 'required|numeric|min:1',
+        ]);
+        // dd($this->selectedQuestionDuplicateID);
+        $duplicateAnswers = Answer::where('question_id', $this->selectedQuestionDuplicateID)
+            ->select('value', DB::raw('COUNT(*) as count'))
+            ->groupBy('value')
+            ->having('count', '>', $this->amountKeepNotDeleted)
+            ->orderBy('count', 'desc')
+            ->get();
+        // dd($duplicateAnswers);
+
+        // Menghapus data duplikat
+        foreach ($duplicateAnswers as $answer) {
+            $valueSameAnswer = $answer->value;
+
+            $sameAnswers = Answer::where('question_id', $this->selectedQuestionDuplicateID)
+                ->where('value', $valueSameAnswer)
+                ->orderBy('id')
+                ->skip($this->amountKeepNotDeleted) // skip jumlah data yang sudah diatur
+                ->take(PHP_INT_MAX) // atau ambil semua data yang tersisa
+                ->get();
+
+            foreach ($sameAnswers as $sameAnswer) {
+                $entry = $sameAnswer->entry;
+                // dd($entry);
+                $entry->delete();
+            }
+        }
+
+
+        $this->alert('success', 'Sukses!', [
+            'position' => 'center',
+            'timer' => 2000,
+            'toast' => true,
+            'text' => 'Data duplikat berhasil dihapus.',
+        ]);
+        $this->reset('selectedQuestionDuplicateID', 'amountKeepNotDeleted', 'totalDuplicate', 'personDuplicate');
+        $this->mount($this->surveyID);
     }
 
 

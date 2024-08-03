@@ -24,6 +24,17 @@ class Entry extends Model
         return $this->belongsTo(TargetResponden::class, 'target_responden_id');
     }
 
+    // Model Event for deleting
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($entry) {
+            // Delete related answers when an entry is being deleted
+            $entry->answers()->delete();
+        });
+    }
+
 
     /**
      * Boot the entry.
